@@ -69,8 +69,8 @@ public class AppListFragment extends AbstractListFragment {
 		Cursor cursor = (Cursor) mAdapter.getItem(position);
 		if (cursor != null) {
 			String packageName = cursor.getString(cursor.getColumnIndex(Permissions.PACKAGE_NAME));
-			Intent i = new Intent(getActivity(), AppInfoActivity.class);
-			i.putExtra(AppInfoActivity.PACKAGE_NAME_EXTRA, packageName);
+			Intent i = new Intent(getActivity(), AppDetailActivity.class);
+			i.putExtra(AppDetailActivity.PACKAGE_NAME_EXTRA, packageName);
 			startActivity(i);
 		}
 	}

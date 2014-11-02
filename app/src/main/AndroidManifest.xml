@@ -24,7 +24,7 @@
 		</activity>
 
 		<activity
-			android:name="com.emetophobe.permissionlist.AppInfoActivity"
+			android:name=".AppDetailActivity"
 			android:parentActivityName="com.emetophobe.permissionlist.MainActivity">
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data
@@ -34,7 +34,7 @@
 
 
 		<activity
-			android:name="com.emetophobe.permissionlist.PermissionInfoActivity"
+			android:name=".PermissionDetailActivity"
 			android:parentActivityName="com.emetophobe.permissionlist.MainActivity">
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data

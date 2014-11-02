@@ -32,7 +32,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-public class PermissionInfoActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class PermissionDetailActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	public static final String PERMISSION_NAME_EXTRA = "permission_name";
 
 	private static final int APPLICATION_LIST = 0;

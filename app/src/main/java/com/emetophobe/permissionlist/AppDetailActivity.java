@@ -31,11 +31,13 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.List;
+
 
 /**
  * Displays the info for a single application.
  */
-public class AppInfoActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AppDetailActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	public static final String PACKAGE_NAME_EXTRA = "package_name";
 
 	private static final int PERMISSION_LIST = 0;
@@ -45,7 +47,6 @@ public class AppInfoActivity extends ActionBarActivity implements LoaderManager.
 
 	private TextView mPackageView;
 	private TextView mCountView;
-	private ListView mPermissionList;
 
 	private SimpleCursorAdapter mAdapter;
 
@@ -62,7 +63,7 @@ public class AppInfoActivity extends ActionBarActivity implements LoaderManager.
 
 		mPackageView = (TextView) findViewById(R.id.app_package);
 		mCountView = (TextView) findViewById(R.id.app_count);
-		mPermissionList = (ListView) findViewById(R.id.permission_list);
+		ListView permissionList = (ListView) findViewById(R.id.permission_list);
 
 		// Get the package name from the intent extras
 		Bundle extras = getIntent().getExtras();
@@ -74,7 +75,7 @@ public class AppInfoActivity extends ActionBarActivity implements LoaderManager.
 		// Create the permission list adapter
 		mAdapter = new SimpleCursorAdapter(this, R.layout.adapter_simple_list_item, null,
 				new String[]{Permissions.PERMISSION_NAME}, new int[]{android.R.id.text1}, 0);
-		mPermissionList.setAdapter(mAdapter);
+		permissionList.setAdapter(mAdapter);
 
 		// Load the application data and the permission list
 		getSupportLoaderManager().initLoader(APP_DATA, null, this);

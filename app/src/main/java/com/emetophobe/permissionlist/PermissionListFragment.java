@@ -68,8 +68,8 @@ public class PermissionListFragment extends AbstractListFragment {
 		Cursor cursor = (Cursor) mAdapter.getItem(position);
 		if (cursor != null) {
 			String permissionName = cursor.getString(cursor.getColumnIndex(Permissions.PERMISSION_NAME));
-			Intent i = new Intent(getActivity(), PermissionInfoActivity.class);
-			i.putExtra(PermissionInfoActivity.PERMISSION_NAME_EXTRA, permissionName);
+			Intent i = new Intent(getActivity(), PermissionDetailActivity.class);
+			i.putExtra(PermissionDetailActivity.PERMISSION_NAME_EXTRA, permissionName);
 			startActivity(i);
 		}
 	}

@@ -35,9 +35,9 @@ public class PermissionListAdapter extends CursorAdapter {
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		View view = LayoutInflater.from(context).inflate(R.layout.adapter_permissionlist_item, parent, false);
+		View view = LayoutInflater.from(context).inflate(R.layout.adapter_simple_list_item, parent, false);
 		ViewHolder holder = new ViewHolder();
-		holder.permission = (TextView) view.findViewById(R.id.permission);
+		holder.permission = (TextView) view.findViewById(android.R.id.text1);
 		view.setTag(holder);
 		return view;
 	}
