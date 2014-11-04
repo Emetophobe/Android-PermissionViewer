@@ -29,13 +29,12 @@ import java.util.List;
 
 public class PermissionScanner extends Thread {
 	private static final String TAG = "PermissionScanner";
-	public static final int MESSAGE_SCAN_COMPLETE = 0;
 
 	private Context mContext;
 
 	public PermissionScanner(Context context) {
 		super("Permission Scanner");
-		mContext = context;
+		mContext = context.getApplicationContext();
 	}
 
 	@Override
@@ -60,7 +59,7 @@ public class PermissionScanner extends Thread {
 			}
 
 			// Get the system flag
-			system = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0 ? true : false;
+			system = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
 
 			// Get the list of permissions
 			try {

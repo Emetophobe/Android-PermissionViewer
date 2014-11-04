@@ -42,7 +42,6 @@ public class PermissionDetailActivity extends ActionBarActivity implements Loade
 
 	private TextView mDescriptionView;
 	private TextView mAppCountView;
-	private ListView mAppList;
 
 	private SimpleCursorAdapter mAdapter;
 
@@ -59,7 +58,7 @@ public class PermissionDetailActivity extends ActionBarActivity implements Loade
 
 		mDescriptionView = (TextView) findViewById(R.id.permission_description);
 		mAppCountView = (TextView) findViewById(R.id.permission_count);
-		mAppList = (ListView) findViewById(R.id.app_list);
+		ListView appList = (ListView) findViewById(R.id.app_list);
 
 		// Get the permission name from the intent extras
 		Bundle extras = getIntent().getExtras();
@@ -71,7 +70,7 @@ public class PermissionDetailActivity extends ActionBarActivity implements Loade
 		// Create the permission list adapter
 		mAdapter = new SimpleCursorAdapter(this, R.layout.adapter_simple_list_item, null,
 				new String[]{Permissions.APP_NAME}, new int[]{android.R.id.text1}, 0);
-		mAppList.setAdapter(mAdapter);
+		appList.setAdapter(mAdapter);
 
 		// Load the permission data and the application list
 		getSupportLoaderManager().initLoader(PERMISSION_DATA, null, this);

@@ -48,7 +48,6 @@ public class AppListFragment extends AbstractListFragment {
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		// Get the show system apps preference
-		int system = getSystemAppsPreference();
 		String selection = getSystemAppsPreference() == 0 ? Permissions.IS_SYSTEM + "= 0" : null;
 
 		// Get the application sort order preference
@@ -75,7 +74,7 @@ public class AppListFragment extends AbstractListFragment {
 		}
 	}
 
-	protected int getAppSortOrder() {
+	private int getAppSortOrder() {
 		return mSharedPrefs.getBoolean("pref_app_sort_order", true) ? 1 : 0;
 	}
 }

@@ -16,8 +16,6 @@
 
 package com.emetophobe.permissionlist;
 
-import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
-
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -31,7 +29,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.List;
+import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
 /**

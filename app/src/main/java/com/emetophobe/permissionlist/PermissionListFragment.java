@@ -74,7 +74,7 @@ public class PermissionListFragment extends AbstractListFragment {
 		}
 	}
 
-	protected int getPermissionSortOrder() {
+	private int getPermissionSortOrder() {
 		return mSharedPrefs.getBoolean("pref_perm_sort_order", false) ? 1 : 0;
 	}
 }
