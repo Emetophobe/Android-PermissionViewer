@@ -31,13 +31,11 @@ import android.view.ViewGroup;
 
 public abstract class AbstractListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-	protected SharedPreferences mSharedPrefs;
 	protected CursorAdapter mAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	}
 
 	@Override
@@ -53,12 +51,5 @@ public abstract class AbstractListFragment extends ListFragment implements Loade
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		mAdapter.swapCursor(null);
-	}
-
-	/**
-	 * Returns the show system apps preference.
-	 */
-	protected int getSystemAppsPreference() {
-		return mSharedPrefs.getBoolean("pref_show_system_apps", true) ? 1 : 0;
 	}
 }

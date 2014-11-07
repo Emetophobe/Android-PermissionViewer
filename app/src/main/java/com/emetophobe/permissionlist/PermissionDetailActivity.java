@@ -34,13 +34,11 @@ import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 public class PermissionDetailActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	public static final String PERMISSION_NAME_EXTRA = "permission_name";
-	public static final String PERMISSION_SHOW_SYSTEM = "permission_show_system";
 
 	private static final int APPLICATION_LIST = 0;
 	private static final int PERMISSION_DATA = 1;
 
 	private String mPermissionName;
-	private int mShowSystem;
 
 	private TextView mDescriptionView;
 	private TextView mAppCountView;
@@ -68,7 +66,6 @@ public class PermissionDetailActivity extends ActionBarActivity implements Loade
 		if (mPermissionName == null) {
 			throw new IllegalArgumentException("Missing intent extra PERMISSION_NAME_EXTRA");
 		}
-		mShowSystem = extras != null ? extras.getInt(PERMISSION_SHOW_SYSTEM) : 0;
 
 		// Create the permission list adapter
 		mAdapter = new SimpleCursorAdapter(this, R.layout.adapter_simple_list_item, null,
@@ -94,7 +91,7 @@ public class PermissionDetailActivity extends ActionBarActivity implements Loade
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		// Create the selection statement
 		String selection = Permissions.PERMISSION_NAME + "=?";
-		if (mShowSystem == 0) {
+		if (!SettingsHelper.getShowSystemApps(this)) {
 			selection += " AND " + Permissions.IS_SYSTEM + "=0";
 		}
 

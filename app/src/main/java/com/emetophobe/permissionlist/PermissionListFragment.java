@@ -48,10 +48,10 @@ public class PermissionListFragment extends AbstractListFragment {
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		// Get the show system apps preference
-		String selection = getSystemAppsPreference() == 0 ? Permissions.IS_SYSTEM + "= 0" : null;
+		String selection = !SettingsHelper.getShowSystemApps(getActivity()) ? Permissions.IS_SYSTEM + "= 0" : null;
 
 		// Get the permission sort order preference
-		String sortOrder = getPermissionSortOrder() == 1 ? Permissions.PERMISSION_NAME + " ASC" : "count DESC";
+		String sortOrder = SettingsHelper.getPermissionSortOrder(getActivity()) ? Permissions.PERMISSION_NAME + " ASC" : "count DESC";
 
 		return new CursorLoader(getActivity(), Permissions.PERMISSIONS_URI, new String[]{Permissions._ID,
 				Permissions.PERMISSION_NAME, Permissions.APP_NAME, "Count(app_name) AS count"}, selection, null,
@@ -68,14 +68,9 @@ public class PermissionListFragment extends AbstractListFragment {
 		Cursor cursor = (Cursor) mAdapter.getItem(position);
 		if (cursor != null) {
 			String permissionName = cursor.getString(cursor.getColumnIndex(Permissions.PERMISSION_NAME));
-			Intent i = new Intent(getActivity(), PermissionDetailActivity.class);
-			i.putExtra(PermissionDetailActivity.PERMISSION_NAME_EXTRA, permissionName);
-			i.putExtra(PermissionDetailActivity.PERMISSION_SHOW_SYSTEM, getSystemAppsPreference());
-			startActivity(i);
+			Intent intent = new Intent(getActivity(), PermissionDetailActivity.class);
+			intent.putExtra(PermissionDetailActivity.PERMISSION_NAME_EXTRA, permissionName);
+			startActivity(intent);
 		}
-	}
-
-	private int getPermissionSortOrder() {
-		return mSharedPrefs.getBoolean("pref_perm_sort_order", false) ? 1 : 0;
 	}
 }
