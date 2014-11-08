@@ -22,7 +22,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -43,7 +42,7 @@ public class PermissionDetailActivity extends ActionBarActivity implements Loade
 	private TextView mDescriptionView;
 	private TextView mAppCountView;
 
-	private SimpleCursorAdapter mAdapter;
+	private AppListAdapter mAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +66,8 @@ public class PermissionDetailActivity extends ActionBarActivity implements Loade
 			throw new IllegalArgumentException("Missing intent extra PERMISSION_NAME_EXTRA");
 		}
 
-		// Create the permission list adapter
-		mAdapter = new SimpleCursorAdapter(this, R.layout.adapter_simple_list_item, null,
-				new String[]{Permissions.APP_NAME}, new int[]{android.R.id.text1}, 0);
+		// Create the app list adapter
+		mAdapter = new AppListAdapter(this);
 		appList.setAdapter(mAdapter);
 
 		// Load the permission data and the application list
@@ -98,7 +96,7 @@ public class PermissionDetailActivity extends ActionBarActivity implements Loade
 		if (id == APPLICATION_LIST) {
 			// Get the list of applications
 			return new CursorLoader(this, Permissions.CONTENT_URI, new String[]{Permissions._ID, Permissions.APP_NAME,
-					Permissions.IS_SYSTEM}, selection, new String[]{mPermissionName}, Permissions.APP_NAME + " ASC");
+					Permissions.IS_SYSTEM, Permissions.PACKAGE_NAME}, selection, new String[]{mPermissionName}, Permissions.APP_NAME + " ASC");
 		} else {
 			// Get the permission name and application count
 			return new CursorLoader(this, Permissions.CONTENT_URI, new String[]{Permissions._ID, Permissions.APP_NAME,

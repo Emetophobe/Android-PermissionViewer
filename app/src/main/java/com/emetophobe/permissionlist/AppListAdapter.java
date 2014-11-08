@@ -53,9 +53,15 @@ public class AppListAdapter extends CursorAdapter {
 	public void bindView(View view, Context context, Cursor cursor) {
 		ViewHolder holder = (ViewHolder) view.getTag();
 
-		String count = cursor.getString(cursor.getColumnIndex("count"));
-		holder.name.setText(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)) + " (" + count + ")");
+		// Set the app name (with optional permission count)
+		try {
+			String count = cursor.getString(cursor.getColumnIndexOrThrow("count"));
+			holder.name.setText(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)) + " (" + count + ")");
+		} catch(IllegalArgumentException e) {
+			holder.name.setText(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)));
+		}
 
+		// Set the app icon
 		// TODO: Should we load the app icon in a separate thread?
 		Drawable drawable;
 		try {
