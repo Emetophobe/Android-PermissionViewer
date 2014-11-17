@@ -25,16 +25,16 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
-/**
- * Displays the info for a single application.
- */
 public class AppDetailActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	public static final String PACKAGE_NAME_EXTRA = "package_name";
 
@@ -46,22 +46,27 @@ public class AppDetailActivity extends ActionBarActivity implements LoaderManage
 	private TextView mPackageView;
 	private TextView mCountView;
 
-	private SimpleCursorAdapter mAdapter;
+	private PermissionListAdapter mAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_app_info);
 
-		// Setup the toolbar
+		// Set up the toolbar
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		mPackageView = (TextView) findViewById(R.id.app_package);
-		mCountView = (TextView) findViewById(R.id.app_count);
+		// Set up the header view
+		View headerView = LayoutInflater.from(this).inflate(R.layout.widget_app_info, null);
+		mPackageView = (TextView) headerView.findViewById(R.id.app_package);
+		mCountView = (TextView) headerView.findViewById(R.id.app_count);
+
+		// Attach the header view to the listview
 		ListView permissionList = (ListView) findViewById(R.id.permission_list);
+		permissionList.addHeaderView(headerView);
 
 		// Get the package name from the intent extras
 		Bundle extras = getIntent().getExtras();
@@ -70,9 +75,8 @@ public class AppDetailActivity extends ActionBarActivity implements LoaderManage
 			throw new IllegalArgumentException("Missing intent extra PACKAGE_NAME_EXTRA.");
 		}
 
-		// Create the permission list adapter
-		mAdapter = new SimpleCursorAdapter(this, R.layout.adapter_simple_list_item, null,
-				new String[]{Permissions.PERMISSION_NAME}, new int[]{android.R.id.text1}, 0);
+		// Set up the permission list adapter
+		mAdapter = new PermissionListAdapter(this);
 		permissionList.setAdapter(mAdapter);
 
 		// Load the application data and the permission list

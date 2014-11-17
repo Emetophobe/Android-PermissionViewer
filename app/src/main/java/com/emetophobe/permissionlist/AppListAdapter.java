@@ -31,7 +31,6 @@ import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
 public class AppListAdapter extends CursorAdapter {
-
 	private PackageManager mPackageManager;
 
 	public AppListAdapter(Context context) {
@@ -61,8 +60,7 @@ public class AppListAdapter extends CursorAdapter {
 			holder.name.setText(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)));
 		}
 
-		// Set the app icon
-		// TODO: Should we load the app icon in a separate thread?
+		// Set the app icon (TODO: Should we load/cache the app icons in a separate thread?)
 		Drawable drawable;
 		try {
 			drawable = mPackageManager.getApplicationIcon(cursor.getString(cursor.getColumnIndex(Permissions.PACKAGE_NAME)));

@@ -16,10 +16,8 @@
 
 package com.emetophobe.permissionlist;
 
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -30,7 +28,6 @@ import android.view.ViewGroup;
 
 
 public abstract class AbstractListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-
 	protected CursorAdapter mAdapter;
 
 	@Override

@@ -29,6 +29,7 @@ import android.view.MenuItem;
 
 import java.util.Locale;
 
+
 public class MainActivity extends ActionBarActivity {
 	private static final String VIEW_PAGER_POSITION = "view_pager_position";
 
@@ -78,7 +79,9 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	/** Listen for view pager changes. */
+	/**
+	 * Listen for view pager changes.
+	 */
 	private ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener() {
 		@Override
 		public void onPageScrolled(int i, float v, int i2) {
@@ -96,7 +99,9 @@ public class MainActivity extends ActionBarActivity {
 		}
 	};
 
-	/** Custom FragmentPagerAdapter for handling the fragment tabs/pages. */
+	/**
+	 * Custom FragmentPagerAdapter for handling the fragment tabs/pages.
+	 */
 	public class PagerAdapter extends FragmentPagerAdapter {
 
 		public PagerAdapter(FragmentManager fm) {

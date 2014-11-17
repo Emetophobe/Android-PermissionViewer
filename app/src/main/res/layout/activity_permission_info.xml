@@ -4,39 +4,12 @@
 			  android:layout_height="match_parent"
 			  android:orientation="vertical">
 
-	<include layout="@layout/toolbar_layout"/>
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:background="@color/colorPrimary"
-		android:elevation="2dp">
-
-		<TextView
-			android:id="@+id/permission_description"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:paddingLeft="24dp"
-			android:textColor="#ffffff"
-			tools:text="Description"/>
-
-		<TextView
-			android:id="@+id/permission_count"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:paddingLeft="24dp"
-			android:paddingTop="8dp"
-			android:paddingBottom="8dp"
-			android:textColor="#ffffff"
-			tools:text="Count"/>
-	</LinearLayout>
+	<include layout="@layout/widget_toolbar"/>
 
 	<ListView
 		android:id="@+id/app_list"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_marginTop="8dp"
 		android:divider="@android:color/transparent"
 		android:dividerHeight="0dp"/>
 

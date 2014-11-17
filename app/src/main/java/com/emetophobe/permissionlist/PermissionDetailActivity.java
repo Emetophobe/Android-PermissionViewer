@@ -24,7 +24,9 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -49,15 +51,20 @@ public class PermissionDetailActivity extends ActionBarActivity implements Loade
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_permission_info);
 
-		// Setup the toolbar
+		// Set up the toolbar
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		mDescriptionView = (TextView) findViewById(R.id.permission_description);
-		mAppCountView = (TextView) findViewById(R.id.permission_count);
+		// Set up the header view
+		View headerView = LayoutInflater.from(this).inflate(R.layout.widget_permission_info, null);
+		mDescriptionView = (TextView) headerView.findViewById(R.id.permission_description);
+		mAppCountView = (TextView) headerView.findViewById(R.id.permission_count);
+
+		// Attach the header view
 		ListView appList = (ListView) findViewById(R.id.app_list);
+		appList.addHeaderView(headerView);
 
 		// Get the permission name from the intent extras
 		Bundle extras = getIntent().getExtras();
@@ -66,7 +73,7 @@ public class PermissionDetailActivity extends ActionBarActivity implements Loade
 			throw new IllegalArgumentException("Missing intent extra PERMISSION_NAME_EXTRA");
 		}
 
-		// Create the app list adapter
+		// Set up the app list adapter
 		mAdapter = new AppListAdapter(this);
 		appList.setAdapter(mAdapter);
 
