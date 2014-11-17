@@ -58,9 +58,9 @@ public class PermissionDetailActivity extends ActionBarActivity implements Loade
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// Set up the header view
-		View headerView = LayoutInflater.from(this).inflate(R.layout.widget_permission_info, null);
-		mDescriptionView = (TextView) headerView.findViewById(R.id.permission_description);
-		mAppCountView = (TextView) headerView.findViewById(R.id.permission_count);
+		View headerView = LayoutInflater.from(this).inflate(R.layout.widget_list_header, null);
+		mDescriptionView = (TextView) headerView.findViewById(R.id.description);
+		mAppCountView = (TextView) headerView.findViewById(R.id.count);
 
 		// Attach the header view
 		ListView appList = (ListView) findViewById(R.id.app_list);

@@ -22,10 +22,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,9 +58,9 @@ public class AppDetailActivity extends ActionBarActivity implements LoaderManage
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// Set up the header view
-		View headerView = LayoutInflater.from(this).inflate(R.layout.widget_app_info, null);
-		mPackageView = (TextView) headerView.findViewById(R.id.app_package);
-		mCountView = (TextView) headerView.findViewById(R.id.app_count);
+		View headerView = LayoutInflater.from(this).inflate(R.layout.widget_list_header, null);
+		mPackageView = (TextView) headerView.findViewById(R.id.description);
+		mCountView = (TextView) headerView.findViewById(R.id.count);
 
 		// Attach the header view to the listview
 		ListView permissionList = (ListView) findViewById(R.id.permission_list);
