@@ -22,49 +22,23 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
-public class AppDetailActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AppDetailActivity extends AbstractDetailActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	public static final String PACKAGE_NAME_EXTRA = "package_name";
 
 	private static final int PERMISSION_LIST = 0;
 	private static final int APP_DATA = 1;
 
-	private String mPackageName;
-
-	private TextView mPackageView;
-	private TextView mCountView;
-
 	private PermissionListAdapter mAdapter;
+	private String mPackageName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_app_info);
-
-		// Set up the toolbar
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
-		getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-		// Set up the header view
-		View headerView = LayoutInflater.from(this).inflate(R.layout.widget_list_header, null);
-		mPackageView = (TextView) headerView.findViewById(R.id.description);
-		mCountView = (TextView) headerView.findViewById(R.id.count);
-
-		// Attach the header view to the listview
-		ListView permissionList = (ListView) findViewById(R.id.permission_list);
-		permissionList.addHeaderView(headerView);
 
 		// Get the package name from the intent extras
 		Bundle extras = getIntent().getExtras();
@@ -75,7 +49,7 @@ public class AppDetailActivity extends ActionBarActivity implements LoaderManage
 
 		// Set up the permission list adapter
 		mAdapter = new PermissionListAdapter(this);
-		permissionList.setAdapter(mAdapter);
+		mListView.setAdapter(mAdapter);
 
 		// Load the application data and the permission list
 		getSupportLoaderManager().initLoader(APP_DATA, null, this);
@@ -114,7 +88,7 @@ public class AppDetailActivity extends ActionBarActivity implements LoaderManage
 			setTitle(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)));
 
 			// Set the package namd and permission count
-			mPackageView.setText(cursor.getString(cursor.getColumnIndex(Permissions.PACKAGE_NAME)));
+			mDescriptionView.setText(cursor.getString(cursor.getColumnIndex(Permissions.PACKAGE_NAME)));
 			String count = cursor.getString(cursor.getColumnIndex("count"));
 			mCountView.setText(String.format(getString(R.string.permission_count), count));
 		}
