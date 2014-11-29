@@ -16,9 +16,6 @@
 
 package com.emetophobe.permissionlist.providers;
 
-import com.emetophobe.permissionlist.PermissionScanner;
-import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
-
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -33,6 +30,10 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.emetophobe.permissionlist.PermissionScanner;
+import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
+
+
 public class PermissionProvider extends ContentProvider {
 	private static final String PERMISSION_TABLE = "permissions";
 
@@ -44,7 +45,7 @@ public class PermissionProvider extends ContentProvider {
 	private static final UriMatcher sUriMatcher;
 	private DatabaseHelper mDbHelper;
 
-	/** Internal database helper class. */
+	// Internal database helper class.
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 		private static final String DATABASE_NAME = "permissions.db";
 		private static final int DATABASE_VERSION = 6;
@@ -92,14 +93,14 @@ public class PermissionProvider extends ContentProvider {
 		return (mDbHelper != null);
 	}
 
-    @Override
-    public String getType(Uri uri) {
-        // TODO: Implement this to handle requests for the MIME type of the data at the given URI.
-        throw new UnsupportedOperationException("Unsupported operation");
-    }
+	@Override
+	public String getType(Uri uri) {
+		// TODO: Implement this to handle requests for the MIME type of the data at the given URI.
+		throw new UnsupportedOperationException("Unsupported operation");
+	}
 
-    @Override
-    public Uri insert(Uri uri, ContentValues values) {
+	@Override
+	public Uri insert(Uri uri, ContentValues values) {
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
 		Uri contentUri = null;
 		long rowId = -1;
@@ -122,10 +123,10 @@ public class PermissionProvider extends ContentProvider {
 		}
 
 		throw new SQLException("Failed to insert row into " + uri);
-    }
+	}
 
-    @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+	@Override
+	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder sqlBuilder = new SQLiteQueryBuilder();
 		sqlBuilder.setTables(PERMISSION_TABLE);
 		String groupBy = null;
@@ -155,10 +156,10 @@ public class PermissionProvider extends ContentProvider {
 		Cursor cursor = sqlBuilder.query(db, projection, selection, selectionArgs, groupBy, null, sortOrder, null);
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return cursor;
-    }
+	}
 
-    @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+	@Override
+	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
 		int count = 0;
 
@@ -182,7 +183,7 @@ public class PermissionProvider extends ContentProvider {
 			getContext().getContentResolver().notifyChange(uri, null);
 		}
 		return count;
-    }
+	}
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {

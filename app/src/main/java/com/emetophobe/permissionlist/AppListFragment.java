@@ -16,8 +16,6 @@
 
 package com.emetophobe.permissionlist;
 
-import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -26,10 +24,9 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 
+import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
-/**
- * Displays the list of installed applications.
- */
+
 public class AppListFragment extends AbstractListFragment {
 
 	@Override
@@ -42,9 +39,6 @@ public class AppListFragment extends AbstractListFragment {
 		getLoaderManager().initLoader(0, null, this);
 	}
 
-	/**
-	 * Load the application list.
-	 */
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		// Get the show system apps preference
@@ -58,9 +52,6 @@ public class AppListFragment extends AbstractListFragment {
 				"Count(permission) AS count"}, selection, null, sortOrder);
 	}
 
-	/**
-	 * Start the application info activity when a list item is clicked.
-	 */
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);

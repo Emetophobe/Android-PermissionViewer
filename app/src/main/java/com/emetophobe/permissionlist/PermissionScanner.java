@@ -16,8 +16,6 @@
 
 package com.emetophobe.permissionlist;
 
-import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -25,7 +23,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
+
 import java.util.List;
+
 
 public class PermissionScanner extends Thread {
 	private static final String TAG = "PermissionScanner";

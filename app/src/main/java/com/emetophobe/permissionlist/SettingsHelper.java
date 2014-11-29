@@ -16,7 +16,6 @@
 
 package com.emetophobe.permissionlist;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -27,7 +26,8 @@ public class SettingsHelper {
 	private static final String APP_SORT_ORDER = "pref_app_sort_order";
 	private static final String PERM_SORT_ORDER = "pref_perm_sort_order";
 
-	private SettingsHelper() {}
+	private SettingsHelper() {
+	}
 
 	public static boolean getShowSystemApps(Context context) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

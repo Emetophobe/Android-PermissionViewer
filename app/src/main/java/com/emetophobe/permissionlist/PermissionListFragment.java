@@ -27,9 +27,6 @@ import android.widget.ListView;
 import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
-/**
- * Displays the list of permissions.
- */
 public class PermissionListFragment extends AbstractListFragment {
 
 	@Override
@@ -42,9 +39,6 @@ public class PermissionListFragment extends AbstractListFragment {
 		getLoaderManager().initLoader(0, null, this);
 	}
 
-	/**
-	 * Load the permission list.
-	 */
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		// Get the show system apps preference
@@ -58,9 +52,6 @@ public class PermissionListFragment extends AbstractListFragment {
 				sortOrder);
 	}
 
-	/**
-	 * Show the permission info activity.
-	 */
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);

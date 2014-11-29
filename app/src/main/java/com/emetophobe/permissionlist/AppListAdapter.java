@@ -56,7 +56,7 @@ public class AppListAdapter extends CursorAdapter {
 		try {
 			String count = cursor.getString(cursor.getColumnIndexOrThrow("count"));
 			holder.name.setText(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)) + " (" + count + ")");
-		} catch(IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			holder.name.setText(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)));
 		}
 

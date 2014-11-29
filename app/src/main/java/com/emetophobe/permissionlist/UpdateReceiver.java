@@ -16,8 +16,6 @@
 
 package com.emetophobe.permissionlist;
 
-import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
-
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -30,10 +28,9 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
-/**
- * Receiver that handles PACKAGE_ADDED, PACKAGE_REMOVED, and PACKAGE_REPLACED events.
- */
+
 public class UpdateReceiver extends BroadcastReceiver {
 	private static final String TAG = "UpdateReceiver";
 

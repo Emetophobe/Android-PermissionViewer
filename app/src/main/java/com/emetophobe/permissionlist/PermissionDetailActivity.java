@@ -108,9 +108,6 @@ public class PermissionDetailActivity extends AbstractDetailActivity implements 
 		}
 	}
 
-	/**
-	 * Get the permission description.
-	 */
 	private String getDescription() {
 		int resId = getResources().getIdentifier("permission_" + mPermissionName, "string", getPackageName());
 		return resId != 0 ? getString(resId) : getString(R.string.permission_unknown);
