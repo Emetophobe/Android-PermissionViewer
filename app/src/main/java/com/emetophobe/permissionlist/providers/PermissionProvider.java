@@ -30,7 +30,6 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.emetophobe.permissionlist.PermissionScanner;
 import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
@@ -84,7 +83,7 @@ public class PermissionProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 		mDbHelper = new DatabaseHelper(getContext());
-		return (mDbHelper != null);
+		return true;
 	}
 
 	@Override
@@ -96,8 +95,8 @@ public class PermissionProvider extends ContentProvider {
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
-		Uri contentUri = null;
-		long rowId = -1;
+		Uri contentUri;
+		long rowId;
 
 		switch (sUriMatcher.match(uri)) {
 			case PERMISSIONS:
@@ -155,7 +154,7 @@ public class PermissionProvider extends ContentProvider {
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
-		int count = 0;
+		int count;
 
 		switch (sUriMatcher.match(uri)) {
 			case PERMISSIONS:
@@ -182,7 +181,7 @@ public class PermissionProvider extends ContentProvider {
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
-		int count = 0;
+		int count;
 
 		switch (sUriMatcher.match(uri)) {
 			case PERMISSIONS:

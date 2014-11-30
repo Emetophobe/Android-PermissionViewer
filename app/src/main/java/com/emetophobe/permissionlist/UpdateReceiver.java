@@ -47,7 +47,7 @@ public class UpdateReceiver extends BroadcastReceiver {
 		PackageManager pm = context.getPackageManager();
 
 		// Get the application info
-		ApplicationInfo appInfo = null;
+		ApplicationInfo appInfo;
 		try {
 			appInfo = pm.getApplicationInfo(packageName, 0);
 		} catch (NameNotFoundException e) {
@@ -57,7 +57,7 @@ public class UpdateReceiver extends BroadcastReceiver {
 		}
 
 		// Get the application name
-		String appName = null;
+		String appName;
 		try {
 			appName = pm.getApplicationLabel(appInfo).toString();
 		} catch (Exception ex) { // application not found

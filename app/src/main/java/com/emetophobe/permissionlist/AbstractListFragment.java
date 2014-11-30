@@ -33,11 +33,6 @@ public abstract class AbstractListFragment extends ListFragment implements Loade
 	protected CursorAdapter mAdapter;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_abstractlist, container, false);
 		mFlipper = (ViewFlipper) view.findViewById(R.id.flipper);

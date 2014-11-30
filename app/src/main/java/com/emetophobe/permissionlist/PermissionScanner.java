@@ -55,7 +55,6 @@ public class PermissionScanner extends Thread {
 		// Initialize the progress dialog
 		sendMessage(MESSAGE_PROGRESS_INIT, packages.size());
 
-		ContentValues values;
 		String packageName, appName, permissionName;
 		PackageInfo packageInfo;
 		boolean system;
