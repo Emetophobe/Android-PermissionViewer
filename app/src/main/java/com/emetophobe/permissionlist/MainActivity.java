@@ -17,7 +17,9 @@
 package com.emetophobe.permissionlist;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -31,6 +33,7 @@ import java.util.Locale;
 
 
 public class MainActivity extends ActionBarActivity {
+	private static final String PREF_FIRST_RUN = "pref_first_run";
 	private static final String VIEW_PAGER_POSITION = "view_pager_position";
 
 	private int mCurrentlySelectedIndex = 0;
@@ -39,6 +42,12 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		// Make sure default preferences are initialized
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+		// Create the permission list the first time the app is run
+		createPermissionList();
 
 		// Set up the toolbar
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -134,6 +143,14 @@ public class MainActivity extends ActionBarActivity {
 					return getString(R.string.action_permissions).toUpperCase(l);
 			}
 			return null;
+		}
+	}
+
+	private void createPermissionList() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		if (prefs.getBoolean(PREF_FIRST_RUN, true)) {
+			new PermissionScanner(this).start();
+			prefs.edit().putBoolean(PREF_FIRST_RUN, false).apply();
 		}
 	}
 }

@@ -41,11 +41,17 @@ public class PermissionListFragment extends AbstractListFragment {
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		// Get the show system apps preference
-		String selection = !SettingsHelper.getShowSystemApps(getActivity()) ? Permissions.IS_SYSTEM + "= 0" : null;
+		setLoading(true);
+
+		// Set up the selection clause
+		String selection = Permissions.PERMISSION_NAME + " IS NOT NULL";
+		if (!SettingsHelper.getShowSystemApps(getActivity())) {
+			selection += " AND " + Permissions.IS_SYSTEM + " = 0";
+		}
 
 		// Get the permission sort order preference
-		String sortOrder = SettingsHelper.getPermissionSortOrder(getActivity()) ? Permissions.PERMISSION_NAME + " ASC" : "count DESC";
+		String sortOrder = SettingsHelper.getPermissionSortOrder(getActivity())
+				? Permissions.PERMISSION_NAME + " ASC" : "count DESC";
 
 		return new CursorLoader(getActivity(), Permissions.PERMISSIONS_URI, new String[]{Permissions._ID,
 				Permissions.PERMISSION_NAME, Permissions.APP_NAME, "Count(app_name) AS count"}, selection, null,

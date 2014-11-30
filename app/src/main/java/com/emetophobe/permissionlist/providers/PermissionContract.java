@@ -25,13 +25,16 @@ public class PermissionContract {
 
 	public static final class Permissions implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/permissions");
-
 		public static final Uri APPLICATIONS_URI = Uri.parse("content://" + AUTHORITY + "/app_list");
 		public static final Uri PERMISSIONS_URI = Uri.parse("content://" + AUTHORITY + "/permission_list");
 
+		/** The application label. */
 		public static final String APP_NAME = "app_name";
+		/** The package name. */
 		public static final String PACKAGE_NAME = "package_name";
+		/** The permission name (optional). */
 		public static final String PERMISSION_NAME = "permission";
+		/** Whether or not the application is a system app. */
 		public static final String IS_SYSTEM = "is_system";
 	}
 }

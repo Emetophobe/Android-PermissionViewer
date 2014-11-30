@@ -41,6 +41,8 @@ public class AppListFragment extends AbstractListFragment {
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		setLoading(true);
+
 		// Get the show system apps preference
 		String selection = !SettingsHelper.getShowSystemApps(getActivity())
 				? Permissions.IS_SYSTEM + "= 0" : null;

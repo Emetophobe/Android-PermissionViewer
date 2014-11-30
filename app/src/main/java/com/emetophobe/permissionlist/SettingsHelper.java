@@ -36,7 +36,7 @@ public class SettingsHelper {
 
 	public static boolean getAppSortOrder(Context context) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		return prefs.getBoolean(APP_SORT_ORDER, true);
+		return prefs.getBoolean(APP_SORT_ORDER, false);
 	}
 
 	public static boolean getPermissionSortOrder(Context context) {
