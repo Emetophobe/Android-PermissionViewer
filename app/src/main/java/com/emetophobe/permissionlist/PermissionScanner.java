@@ -23,6 +23,8 @@ import android.content.OperationApplicationException;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -34,13 +36,19 @@ import java.util.List;
 
 
 public class PermissionScanner extends Thread {
+	public static final int MESSAGE_PROGRESS_INIT = 0;
+	public static final int MESSAGE_PROGRESS_UPDATE = 1;
+	public static final int MESSAGE_PROGRESS_COMPLETE = 2;
+
 	private static final String TAG = "PermissionScanner";
 
 	private Context mContext;
+	private final Handler mHandler;
 
-	public PermissionScanner(Context context) {
-		super("Permission Scanner");
+	public PermissionScanner(Context context, Handler handler) {
+		super(TAG);
 		mContext = context.getApplicationContext();
+		mHandler = handler;
 	}
 
 	@Override
@@ -49,12 +57,14 @@ public class PermissionScanner extends Thread {
 		PackageManager pm = mContext.getPackageManager();
 		List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
 
+		// Initialize the progress dialog
+		sendMessage(MESSAGE_PROGRESS_INIT, packages.size());
+
 		ContentValues values;
 		String packageName, appName, permissionName;
 		PackageInfo packageInfo;
 		boolean system;
-
-		ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>();
+		int count = 0;
 
 		// Iterate over each package in the list
 		for (ApplicationInfo appInfo : packages) {
@@ -78,24 +88,30 @@ public class PermissionScanner extends Thread {
 							permissionName = packageInfo.requestedPermissions[i].substring("android.permission.".length());
 
 							// Add a separate package entry for each permission that it has
-							operations.add(addPackage(appName, packageName, permissionName, system));
+							addPackage(appName, packageName, permissionName, system);
 						}
 					}
 				} else {
 					// Package contains no permission, just add a single package entry
-					operations.add(addPackage(appName, packageName, null, system));
+					addPackage(appName, packageName, null, system);
 				}
 			} catch (Exception e) {
 				Log.e(TAG, e.toString());
 			}
+
+			// Update the progress dialog
+			sendMessage(MESSAGE_PROGRESS_UPDATE, ++count);
 		}
 
 		// Run the batch insert
-		applyBatch(operations);
+		//applyBatch(operations);
+
+		// Finish the progress dialog
+		sendMessage(MESSAGE_PROGRESS_COMPLETE, 0);
 	}
 
 	// Create an insert operation
-	private ContentProviderOperation addPackage(String appName, String packageName, String permission, boolean isSystemApp) {
+	private void addPackage(String appName, String packageName, String permission, boolean isSystemApp) {
 		ContentValues values = new ContentValues();
 		values.put(Permissions.APP_NAME, appName);
 		values.put(Permissions.PACKAGE_NAME, packageName);
@@ -105,11 +121,12 @@ public class PermissionScanner extends Thread {
 			values.put(Permissions.PERMISSION_NAME, permission);
 		}
 
-		return ContentProviderOperation.newInsert(Permissions.CONTENT_URI).withValues(values).build();
+		mContext.getContentResolver().insert(Permissions.CONTENT_URI, values);
+		//return ContentProviderOperation.newInsert(Permissions.CONTENT_URI).withValues(values).build();
 	}
 
-	// Apply the batch insert operations
-	public void applyBatch(ArrayList<ContentProviderOperation> operations) {
+	// Apply the content provider batch insert operations.
+	private void applyBatch(ArrayList<ContentProviderOperation> operations) {
 		try {
 			mContext.getContentResolver().applyBatch(PermissionContract.AUTHORITY, operations);
 		} catch (RemoteException e) {
@@ -117,5 +134,12 @@ public class PermissionScanner extends Thread {
 		} catch (OperationApplicationException e) {
 			e.printStackTrace();
 		}
+	}
+
+	// Send a message to the main thread using the handler.
+	private void sendMessage(int message, int arg1) {
+		Message msg = mHandler.obtainMessage(message);
+		msg.arg1 = arg1;
+		msg.sendToTarget();
 	}
 }

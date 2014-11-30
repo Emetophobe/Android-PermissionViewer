@@ -16,9 +16,12 @@
 
 package com.emetophobe.permissionlist;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -35,6 +38,8 @@ import java.util.Locale;
 public class MainActivity extends ActionBarActivity {
 	private static final String PREF_FIRST_RUN = "pref_first_run";
 	private static final String VIEW_PAGER_POSITION = "view_pager_position";
+
+	private ProgressDialog mDialog;
 
 	private int mCurrentlySelectedIndex = 0;
 
@@ -57,8 +62,10 @@ public class MainActivity extends ActionBarActivity {
 		if (savedInstanceState != null) {
 			mCurrentlySelectedIndex = savedInstanceState.getInt(VIEW_PAGER_POSITION, 0);
 		}
+	}
 
-		// Set up the ViewPager with the pager adapter
+	// Set up the ViewPager with the pager adapter
+	private void initViewPager() {
 		ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
 		viewPager.setCurrentItem(mCurrentlySelectedIndex);
@@ -88,9 +95,7 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * Listen for view pager changes.
-	 */
+	// Listen for view pager changes.
 	private ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener() {
 		@Override
 		public void onPageScrolled(int i, float v, int i2) {
@@ -108,11 +113,8 @@ public class MainActivity extends ActionBarActivity {
 		}
 	};
 
-	/**
-	 * Custom FragmentPagerAdapter for handling the fragment tabs/pages.
-	 */
+	// Custom FragmentPagerAdapter for handling the fragment tabs/pages.
 	public class PagerAdapter extends FragmentPagerAdapter {
-
 		public PagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
@@ -146,11 +148,47 @@ public class MainActivity extends ActionBarActivity {
 		}
 	}
 
+	// Run the permission scanner thread the first time the app is run.
 	private void createPermissionList() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		if (prefs.getBoolean(PREF_FIRST_RUN, true)) {
-			new PermissionScanner(this).start();
+			new PermissionScanner(this, mHandler).start();
 			prefs.edit().putBoolean(PREF_FIRST_RUN, false).apply();
+		} else {
+			initViewPager();
 		}
 	}
+
+	// Handler that is used by the PermissionScanner to display a progress dialog.
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case PermissionScanner.MESSAGE_PROGRESS_INIT:
+					// Display the progress dialog
+					mDialog = new ProgressDialog(MainActivity.this);
+					mDialog.setTitle(getString(R.string.progress_title));
+					mDialog.setMessage(getString(R.string.progress_message));
+					mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+					mDialog.setIndeterminate(false);
+					mDialog.setCancelable(false);
+					mDialog.setMax(msg.arg1);
+					mDialog.show();
+					break;
+
+				case PermissionScanner.MESSAGE_PROGRESS_UPDATE:
+					// Increment the progress dialog
+					mDialog.setProgress(msg.arg1);
+					break;
+
+				case PermissionScanner.MESSAGE_PROGRESS_COMPLETE:
+					// Finish the dialog
+					mDialog.cancel();
+
+					// Initialize the view pager once the thread is finished
+					initViewPager();
+					break;
+			}
+		}
+	};
 }
