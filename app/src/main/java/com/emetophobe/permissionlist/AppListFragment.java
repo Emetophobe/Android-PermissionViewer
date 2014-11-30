@@ -42,10 +42,12 @@ public class AppListFragment extends AbstractListFragment {
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		// Get the show system apps preference
-		String selection = !SettingsHelper.getShowSystemApps(getActivity()) ? Permissions.IS_SYSTEM + "= 0" : null;
+		String selection = !SettingsHelper.getShowSystemApps(getActivity())
+				? Permissions.IS_SYSTEM + "= 0" : null;
 
 		// Get the application sort order preference
-		String sortOrder = SettingsHelper.getAppSortOrder(getActivity()) ? Permissions.APP_NAME + " ASC" : "count DESC";
+		String sortOrder = SettingsHelper.getAppSortOrder(getActivity())
+				? Permissions.APP_NAME + " COLLATE NOCASE ASC" : "count DESC";
 
 		return new CursorLoader(getActivity(), Permissions.APPLICATIONS_URI, new String[]{Permissions._ID,
 				Permissions.APP_NAME, Permissions.PACKAGE_NAME, Permissions.PERMISSION_NAME,
