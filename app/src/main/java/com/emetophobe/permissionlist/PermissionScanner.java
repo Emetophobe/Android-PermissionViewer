@@ -16,22 +16,17 @@
 
 package com.emetophobe.permissionlist;
 
-import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.OperationApplicationException;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
-import android.os.RemoteException;
 import android.util.Log;
 
-import com.emetophobe.permissionlist.providers.PermissionContract;
 import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -72,7 +67,7 @@ public class PermissionScanner extends Thread {
 			packageName = appInfo.packageName;
 			try {
 				appName = pm.getApplicationLabel(appInfo).toString();
-			} catch (Exception ex) { // application not found
+			} catch (Exception e) { // application not found
 				appName = packageName;
 			}
 
@@ -103,14 +98,11 @@ public class PermissionScanner extends Thread {
 			sendMessage(MESSAGE_PROGRESS_UPDATE, ++count);
 		}
 
-		// Run the batch insert
-		//applyBatch(operations);
-
 		// Finish the progress dialog
 		sendMessage(MESSAGE_PROGRESS_COMPLETE, 0);
 	}
 
-	// Create an insert operation
+	// Add the package to the content provider
 	private void addPackage(String appName, String packageName, String permission, boolean isSystemApp) {
 		ContentValues values = new ContentValues();
 		values.put(Permissions.APP_NAME, appName);
@@ -122,18 +114,6 @@ public class PermissionScanner extends Thread {
 		}
 
 		mContext.getContentResolver().insert(Permissions.CONTENT_URI, values);
-		//return ContentProviderOperation.newInsert(Permissions.CONTENT_URI).withValues(values).build();
-	}
-
-	// Apply the content provider batch insert operations.
-	private void applyBatch(ArrayList<ContentProviderOperation> operations) {
-		try {
-			mContext.getContentResolver().applyBatch(PermissionContract.AUTHORITY, operations);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (OperationApplicationException e) {
-			e.printStackTrace();
-		}
 	}
 
 	// Send a message to the main thread using the handler.
