@@ -37,7 +37,8 @@ import java.util.Locale;
 
 public class MainActivity extends ActionBarActivity {
 	private static final String PREF_FIRST_RUN = "pref_first_run";
-	private static final String VIEW_PAGER_POSITION = "view_pager_position";
+
+	private static int sViewPagerPosition = 0;
 
 	private ProgressDialog mDialog;
 
@@ -61,7 +62,18 @@ public class MainActivity extends ActionBarActivity {
 	private void initViewPager() {
 		ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
+		viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageSelected(int position) {
+				// Remember the view pager position
+				sViewPagerPosition = position;
+			}
+		});
+
+		// Restore the pager position
+		viewPager.setCurrentItem(sViewPagerPosition);
 	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
