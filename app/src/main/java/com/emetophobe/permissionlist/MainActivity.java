@@ -41,8 +41,6 @@ public class MainActivity extends ActionBarActivity {
 
 	private ProgressDialog mDialog;
 
-	private int mCurrentlySelectedIndex = 0;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,25 +55,12 @@ public class MainActivity extends ActionBarActivity {
 		// Set up the toolbar
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-
-		// Restore the previous tab position
-		if (savedInstanceState != null) {
-			mCurrentlySelectedIndex = savedInstanceState.getInt(VIEW_PAGER_POSITION, 0);
-		}
 	}
 
-	// Set up the ViewPager with the pager adapter
+	// Set up the view pager.
 	private void initViewPager() {
 		ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
-		viewPager.setCurrentItem(mCurrentlySelectedIndex);
-		viewPager.setOnPageChangeListener(mPageChangeListener);
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		outState.putInt(VIEW_PAGER_POSITION, mCurrentlySelectedIndex);
-		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -93,59 +78,6 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
-	}
-
-	// Listen for view pager changes.
-	private ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener() {
-		@Override
-		public void onPageScrolled(int i, float v, int i2) {
-
-		}
-
-		@Override
-		public void onPageSelected(int i) {
-			mCurrentlySelectedIndex = i;
-		}
-
-		@Override
-		public void onPageScrollStateChanged(int i) {
-
-		}
-	};
-
-	// Custom FragmentPagerAdapter for handling the fragment tabs/pages.
-	public class PagerAdapter extends FragmentPagerAdapter {
-		public PagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		@Override
-		public int getCount() {
-			return 2;
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			switch (position) {
-				case 0:
-					return new AppListFragment();
-				case 1:
-					return new PermissionListFragment();
-			}
-			return null;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
-			switch (position) {
-				case 0:
-					return getString(R.string.action_applications).toUpperCase(l);
-				case 1:
-					return getString(R.string.action_permissions).toUpperCase(l);
-			}
-			return null;
-		}
 	}
 
 	// Run the permission scanner thread the first time the app is run.
@@ -191,4 +123,39 @@ public class MainActivity extends ActionBarActivity {
 			}
 		}
 	};
+
+	// Custom FragmentPagerAdapter for handling the fragment tabs/pages.
+	private class PagerAdapter extends FragmentPagerAdapter {
+		public PagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public int getCount() {
+			return 2;
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			switch (position) {
+				case 0:
+					return new AppListFragment();
+				case 1:
+					return new PermissionListFragment();
+			}
+			return null;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			Locale l = Locale.getDefault();
+			switch (position) {
+				case 0:
+					return getString(R.string.action_applications).toUpperCase(l);
+				case 1:
+					return getString(R.string.action_permissions).toUpperCase(l);
+			}
+			return null;
+		}
+	}
 }
