@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Mike Cunningham
+ * Copyright (C) 2013-2015 Mike Cunningham
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,7 @@ public class SettingsHelper {
 	private static final String APP_SORT_ORDER = "pref_app_sort_order";
 	private static final String PERM_SORT_ORDER = "pref_perm_sort_order";
 
-	private SettingsHelper() {
-	}
+	private SettingsHelper() {}
 
 	public static boolean getShowSystemApps(Context context) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

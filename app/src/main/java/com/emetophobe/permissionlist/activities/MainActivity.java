@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Mike Cunningham
+ * Copyright (C) 2013-2015 Mike Cunningham
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionlist;
+package com.emetophobe.permissionlist.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -31,6 +31,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.emetophobe.permissionlist.PermissionScanner;
+import com.emetophobe.permissionlist.R;
+import com.emetophobe.permissionlist.fragments.AppListFragment;
+import com.emetophobe.permissionlist.fragments.PermissionListFragment;
 
 import java.util.Locale;
 

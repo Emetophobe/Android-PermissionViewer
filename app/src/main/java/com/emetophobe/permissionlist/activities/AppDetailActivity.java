@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Mike Cunningham
+ * Copyright (C) 2013-2015 Mike Cunningham
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionlist;
+
+package com.emetophobe.permissionlist.activities;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.MenuItem;
 
+import com.emetophobe.permissionlist.adapters.PermissionListAdapter;
+import com.emetophobe.permissionlist.R;
 import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
