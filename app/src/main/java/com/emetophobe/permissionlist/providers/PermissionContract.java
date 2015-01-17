@@ -23,6 +23,8 @@ import android.provider.BaseColumns;
 public class PermissionContract {
 	public static final String AUTHORITY = "com.emetophobe.permissionlist.providers.PermissionProvider";
 
+	private PermissionContract() {}
+
 	public static final class Permissions implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/permissions");
 		public static final Uri APPLICATIONS_URI = Uri.parse("content://" + AUTHORITY + "/app_list");
@@ -36,5 +38,7 @@ public class PermissionContract {
 		public static final String PERMISSION_NAME = "permission";
 		/** Whether or not the application is a system app. */
 		public static final String IS_SYSTEM = "is_system";
+
+		private Permissions() {}
 	}
 }
