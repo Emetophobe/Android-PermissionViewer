@@ -35,13 +35,13 @@ public abstract class AbstractDetailActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_abstractdetail);
 
-		// Set up the toolbar
+		// Set up the toolbar.
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		// Get the views
+		// Find the views.
 		mListView = (ListView) findViewById(R.id.list);
 		mDescriptionView = (TextView) findViewById(R.id.description);
 		mCountView = (TextView) findViewById(R.id.count);

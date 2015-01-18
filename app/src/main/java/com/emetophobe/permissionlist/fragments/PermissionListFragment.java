@@ -36,10 +36,11 @@ public class PermissionListFragment extends AbstractListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		// Set up the permission adapter
+		// Set up the adapter.
 		mAdapter = new PermissionListAdapter(getActivity());
 		setListAdapter(mAdapter);
 
+		// Load the permission list.
 		getLoaderManager().initLoader(0, null, this);
 	}
 
@@ -47,30 +48,30 @@ public class PermissionListFragment extends AbstractListFragment {
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		setLoading(true);
 
-		// Set up the selection clause
+		// Set up the selection clause.
 		String selection = Permissions.PERMISSION_NAME + " IS NOT NULL";
 		if (!SettingsHelper.getShowSystemApps(getActivity())) {
 			selection += " AND " + Permissions.IS_SYSTEM + " = 0";
 		}
 
-		// Get the permission sort order preference
+		// Set the permission sort order preference.
 		String sortOrder = SettingsHelper.getPermissionSortOrder(getActivity())
 				? Permissions.PERMISSION_NAME + " ASC" : "count DESC";
 
+		// Create the loader.
 		return new CursorLoader(getActivity(), Permissions.PERMISSIONS_URI, new String[]{Permissions._ID,
 				Permissions.PERMISSION_NAME, Permissions.APP_NAME, "Count(app_name) AS count"}, selection, null,
 				sortOrder);
 	}
 
+	/** Start the permission detail activity when a list item is clicked. */
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-
 		Cursor cursor = (Cursor) mAdapter.getItem(position);
 		if (cursor != null) {
 			String permissionName = cursor.getString(cursor.getColumnIndex(Permissions.PERMISSION_NAME));
 			Intent intent = new Intent(getActivity(), PermissionDetailActivity.class);
-			intent.putExtra(PermissionDetailActivity.PERMISSION_NAME_EXTRA, permissionName);
+			intent.putExtra(PermissionDetailActivity.EXTRA_PERMISSION_NAME, permissionName);
 			startActivity(intent);
 		}
 	}

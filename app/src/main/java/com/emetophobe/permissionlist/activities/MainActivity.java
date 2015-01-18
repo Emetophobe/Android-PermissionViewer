@@ -44,7 +44,6 @@ public class MainActivity extends ActionBarActivity {
 	private static final String PREF_FIRST_RUN = "pref_first_run";
 
 	private static int sViewPagerPosition = 0;
-
 	private ProgressDialog mDialog;
 
 	@Override
@@ -52,25 +51,31 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// Make sure default preferences are initialized
+		// Make sure default preferences are initialized.
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-		// Create the permission list the first time the app is run
-		createPermissionList();
-
-		// Set up the toolbar
+		// Set up the toolbar.
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
+
+		// Initialize the database the first time the application is run.
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		if (prefs.getBoolean(PREF_FIRST_RUN, true)) {
+			new PermissionScanner(this, mHandler).start();
+			prefs.edit().putBoolean(PREF_FIRST_RUN, false).apply();
+		} else {
+			initViewPager();
+		}
 	}
 
-	// Set up the view pager.
+	/** Set up the view pager. **/
 	private void initViewPager() {
 		ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
 		viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
-				// Remember the view pager position
+				// Remember the current view pager position
 				sViewPagerPosition = position;
 			}
 		});
@@ -97,18 +102,7 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	// Run the permission scanner thread the first time the app is run.
-	private void createPermissionList() {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		if (prefs.getBoolean(PREF_FIRST_RUN, true)) {
-			new PermissionScanner(this, mHandler).start();
-			prefs.edit().putBoolean(PREF_FIRST_RUN, false).apply();
-		} else {
-			initViewPager();
-		}
-	}
-
-	// Handler that is used by the PermissionScanner to display a progress dialog.
+	/** Handler that is used by the PermissionScanner to display a progress dialog. **/
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -141,7 +135,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 	};
 
-	// Custom FragmentPagerAdapter for handling the fragment tabs/pages.
+	/** FragmentPagerAdapter for handling the fragment tabs/pages. **/
 	private class PagerAdapter extends FragmentPagerAdapter {
 		public PagerAdapter(FragmentManager fm) {
 			super(fm);

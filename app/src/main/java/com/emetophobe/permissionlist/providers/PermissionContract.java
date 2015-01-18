@@ -36,7 +36,7 @@ public class PermissionContract {
 		public static final String PACKAGE_NAME = "package_name";
 		/** The permission name (optional). */
 		public static final String PERMISSION_NAME = "permission";
-		/** Whether or not the application is a system app. */
+		/** The system package flag (0 or 1). */
 		public static final String IS_SYSTEM = "is_system";
 
 		private Permissions() {}

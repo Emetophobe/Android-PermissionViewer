@@ -31,7 +31,7 @@ import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
 public class PermissionDetailActivity extends AbstractDetailActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-	public static final String PERMISSION_NAME_EXTRA = "permission_name";
+	public static final String EXTRA_PERMISSION_NAME = "extra_permission_name";
 
 	private static final int APPLICATION_LIST = 0;
 	private static final int PERMISSION_DATA = 1;
@@ -43,18 +43,18 @@ public class PermissionDetailActivity extends AbstractDetailActivity implements 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Get the permission name from the intent extras
+		// Get the permission name from the intent extras.
 		Bundle extras = getIntent().getExtras();
-		mPermissionName = extras != null ? extras.getString(PERMISSION_NAME_EXTRA) : null;
+		mPermissionName = extras != null ? extras.getString(EXTRA_PERMISSION_NAME) : null;
 		if (mPermissionName == null) {
-			throw new IllegalArgumentException("Missing intent extra PERMISSION_NAME_EXTRA");
+			throw new IllegalArgumentException("Must pass a valid permission name with EXTRA_PERMISSION_NAME.");
 		}
 
-		// Set up the app list adapter
+		// Set up the adapter.
 		mAdapter = new AppListAdapter(this);
 		mListView.setAdapter(mAdapter);
 
-		// Load the permission data and the application list
+		// Load the permission data and the application list.
 		getSupportLoaderManager().initLoader(PERMISSION_DATA, null, this);
 		getSupportLoaderManager().initLoader(APPLICATION_LIST, null, this);
 	}
@@ -111,6 +111,7 @@ public class PermissionDetailActivity extends AbstractDetailActivity implements 
 		}
 	}
 
+	/** Get the permission description. */
 	private String getDescription() {
 		int resId = getResources().getIdentifier("permission_" + mPermissionName, "string", getPackageName());
 		return resId != 0 ? getString(resId) : getString(R.string.permission_unknown);

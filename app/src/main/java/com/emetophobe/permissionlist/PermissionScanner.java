@@ -81,12 +81,12 @@ public class PermissionScanner extends Thread {
 						if (packageInfo.requestedPermissions[i].startsWith("android.permission.")) {
 							permissionName = packageInfo.requestedPermissions[i].substring("android.permission.".length());
 
-							// Add a separate package entry for each permission that it has
+							// Add a separate package entry for each permission
 							addPackage(appName, packageName, permissionName, system);
 						}
 					}
 				} else {
-					// Package contains no permission, just add a single package entry
+					// Package contains no permission, just add a single entry with no permissions
 					addPackage(appName, packageName, null, system);
 				}
 			} catch (Exception e) {
@@ -101,7 +101,7 @@ public class PermissionScanner extends Thread {
 		sendMessage(MESSAGE_PROGRESS_COMPLETE, 0);
 	}
 
-	// Add the package to the content provider
+	/** Add the package data to the permission database. **/
 	private void addPackage(String appName, String packageName, String permission, boolean isSystemApp) {
 		ContentValues values = new ContentValues();
 		values.put(Permissions.APP_NAME, appName);
@@ -115,7 +115,7 @@ public class PermissionScanner extends Thread {
 		mContext.getContentResolver().insert(Permissions.CONTENT_URI, values);
 	}
 
-	// Send a message to the main thread using the handler.
+	/** Send a message to the main thread using the handler. **/
 	private void sendMessage(int message, int arg1) {
 		Message msg = mHandler.obtainMessage(message);
 		msg.arg1 = arg1;

@@ -61,7 +61,7 @@ public class AppListAdapter extends CursorAdapter {
 			holder.name.setText(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)));
 		}
 
-		// Set the app icon (TODO: Should we load/cache the app icons in a separate thread?)
+		// Set the app icon (TODO: Should we load/cache the icons in a separate thread?)
 		Drawable drawable;
 		try {
 			drawable = mPackageManager.getApplicationIcon(cursor.getString(cursor.getColumnIndex(Permissions.PACKAGE_NAME)));

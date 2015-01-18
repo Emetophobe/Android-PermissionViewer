@@ -36,10 +36,11 @@ public class AppListFragment extends AbstractListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		// Set up the app list adapter
+		// Set up the adapter.
 		mAdapter = new AppListAdapter(getActivity());
 		setListAdapter(mAdapter);
 
+		// Load the app list.
 		getLoaderManager().initLoader(0, null, this);
 	}
 
@@ -47,28 +48,28 @@ public class AppListFragment extends AbstractListFragment {
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		setLoading(true);
 
-		// Get the show system apps preference
+		// Set the show system selection clause
 		String selection = !SettingsHelper.getShowSystemApps(getActivity())
 				? Permissions.IS_SYSTEM + "= 0" : null;
 
-		// Get the application sort order preference
+		// Set the application sort order.
 		String sortOrder = SettingsHelper.getAppSortOrder(getActivity())
 				? Permissions.APP_NAME + " COLLATE NOCASE ASC" : "count DESC";
 
+		// Create the loader.
 		return new CursorLoader(getActivity(), Permissions.APPLICATIONS_URI, new String[]{Permissions._ID,
 				Permissions.APP_NAME, Permissions.PACKAGE_NAME, Permissions.PERMISSION_NAME,
 				"Count(permission) AS count"}, selection, null, sortOrder);
 	}
 
+	/** Start the app detail activity when a list item is clicked. */
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-
 		Cursor cursor = (Cursor) mAdapter.getItem(position);
 		if (cursor != null) {
 			String packageName = cursor.getString(cursor.getColumnIndex(Permissions.PACKAGE_NAME));
 			Intent i = new Intent(getActivity(), AppDetailActivity.class);
-			i.putExtra(AppDetailActivity.PACKAGE_NAME_EXTRA, packageName);
+			i.putExtra(AppDetailActivity.EXTRA_PACKAGE_NAME, packageName);
 			startActivity(i);
 		}
 	}

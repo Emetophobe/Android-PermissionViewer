@@ -31,7 +31,7 @@ import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
 public class AppDetailActivity extends AbstractDetailActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-	public static final String PACKAGE_NAME_EXTRA = "package_name";
+	public static final String EXTRA_PACKAGE_NAME = "extra_package_name";
 
 	private static final int PERMISSION_LIST = 0;
 	private static final int APP_DATA = 1;
@@ -43,18 +43,18 @@ public class AppDetailActivity extends AbstractDetailActivity implements LoaderM
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Get the package name from the intent extras
+		// Get the package name from the intent extras.
 		Bundle extras = getIntent().getExtras();
-		mPackageName = extras != null ? extras.getString(PACKAGE_NAME_EXTRA) : null;
+		mPackageName = extras != null ? extras.getString(EXTRA_PACKAGE_NAME) : null;
 		if (mPackageName == null) {
-			throw new IllegalArgumentException("Missing intent extra PACKAGE_NAME_EXTRA.");
+			throw new IllegalArgumentException("Must pass a valid package name with EXTRA_PACKAGE_NAME.");
 		}
 
-		// Set up the permission list adapter
+		// Set up the adapter.
 		mAdapter = new PermissionListAdapter(this);
 		mListView.setAdapter(mAdapter);
 
-		// Load the application data and the permission list
+		// Load the application data and the permission list.
 		getSupportLoaderManager().initLoader(APP_DATA, null, this);
 		getSupportLoaderManager().initLoader(PERMISSION_LIST, null, this);
 	}
