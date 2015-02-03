@@ -31,8 +31,13 @@ import android.util.Log;
 import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
+/**
+ * Update the permission database whenever a package is modified.
+ * Receives PACKAGE_ADDED, PACKAGE_REMOVED, and PACKAGE_REPLACED events.
+ */
 public class UpdateReceiver extends BroadcastReceiver {
 	private static final String TAG = "UpdateReceiver";
+	private static final String ANDROID_PERMISSION = "android.permission.";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -67,7 +72,7 @@ public class UpdateReceiver extends BroadcastReceiver {
 		// Get the system flag
 		int system = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0 ? 1 : 0;
 
-		// Delete old permissions from the database
+		// Delete old permissions that match the package name
 		context.getContentResolver().delete(Permissions.CONTENT_URI, Permissions.PACKAGE_NAME + "=?", new String[]{packageName});
 
 		String permissionName;
@@ -77,8 +82,8 @@ public class UpdateReceiver extends BroadcastReceiver {
 			PackageInfo packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
 			if (packageInfo.requestedPermissions != null && packageInfo.requestedPermissions.length > 0) {
 				for (int i = 0; i < packageInfo.requestedPermissions.length; ++i) {
-					if (packageInfo.requestedPermissions[i].startsWith("android.permission.")) {
-						permissionName = packageInfo.requestedPermissions[i].substring("android.permission.".length());
+					if (packageInfo.requestedPermissions[i].startsWith(ANDROID_PERMISSION)) {
+						permissionName = packageInfo.requestedPermissions[i].substring(ANDROID_PERMISSION.length());
 
 						// Insert the permissions into the database
 						values = new ContentValues();

@@ -24,13 +24,19 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 
-import com.emetophobe.permissionlist.adapters.AppListAdapter;
 import com.emetophobe.permissionlist.SettingsHelper;
 import com.emetophobe.permissionlist.activities.AppDetailActivity;
+import com.emetophobe.permissionlist.adapters.AppListAdapter;
 import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
+/**
+ * Display the list of installed applications.
+ */
 public class AppListFragment extends AbstractListFragment {
+	private static final String PERMISSION_COUNT = "Count(permission) AS count";
+	private static final String SORT_BY_APP_NAME = Permissions.APP_NAME + " COLLATE NOCASE ASC";
+	private static final String SORT_BY_COUNT = "count DESC";
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -44,25 +50,30 @@ public class AppListFragment extends AbstractListFragment {
 		getLoaderManager().initLoader(0, null, this);
 	}
 
+	/**
+	 * Create the app list loader.
+	 */
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		setLoading(true);
 
-		// Set the show system selection clause
+		// Get the show system apps preference and set the selection clause.
 		String selection = !SettingsHelper.getShowSystemApps(getActivity())
 				? Permissions.IS_SYSTEM + "= 0" : null;
 
-		// Set the application sort order.
+		// Get the application sort order preference and set the sort order.
 		String sortOrder = SettingsHelper.getAppSortOrder(getActivity())
-				? Permissions.APP_NAME + " COLLATE NOCASE ASC" : "count DESC";
+				? SORT_BY_APP_NAME : SORT_BY_COUNT;
 
 		// Create the loader.
 		return new CursorLoader(getActivity(), Permissions.APPLICATIONS_URI, new String[]{Permissions._ID,
 				Permissions.APP_NAME, Permissions.PACKAGE_NAME, Permissions.PERMISSION_NAME,
-				"Count(permission) AS count"}, selection, null, sortOrder);
+				PERMISSION_COUNT}, selection, null, sortOrder);
 	}
 
-	/** Start the app detail activity when a list item is clicked. */
+	/**
+	 * Start the AppDetailActivity when an application in the list is clicked.
+	 */
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Cursor cursor = (Cursor) mAdapter.getItem(position);

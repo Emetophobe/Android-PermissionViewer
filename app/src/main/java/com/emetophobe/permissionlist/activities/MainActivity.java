@@ -46,6 +46,9 @@ public class MainActivity extends ActionBarActivity {
 	private static int sViewPagerPosition = 0;
 	private ProgressDialog mDialog;
 
+	/**
+	 * Initialize the main activity.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,11 +67,14 @@ public class MainActivity extends ActionBarActivity {
 			new PermissionScanner(this, mHandler).start();
 			prefs.edit().putBoolean(PREF_FIRST_RUN, false).apply();
 		} else {
+			// Just display the view pager if the database has already been initialized.
 			initViewPager();
 		}
 	}
 
-	/** Set up the view pager. **/
+	/**
+	 * Initialize the view pager and display the first fragment.
+	 */
 	private void initViewPager() {
 		ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
@@ -102,13 +108,15 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	/** Handler that is used by the PermissionScanner to display a progress dialog. **/
+	/**
+	 * Callback handler that is used to display a progress dialog. Receives messages from the UpdateReceiver.
+	 */
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
+				// Display a progress dialog while the database is initializing.
 				case PermissionScanner.MESSAGE_PROGRESS_INIT:
-					// Display the progress dialog
 					mDialog = new ProgressDialog(MainActivity.this);
 					mDialog.setTitle(getString(R.string.progress_title));
 					mDialog.setMessage(getString(R.string.progress_message));
@@ -119,23 +127,23 @@ public class MainActivity extends ActionBarActivity {
 					mDialog.show();
 					break;
 
+				// Increment the progress dialog
 				case PermissionScanner.MESSAGE_PROGRESS_UPDATE:
-					// Increment the progress dialog
 					mDialog.setProgress(msg.arg1);
 					break;
 
+				// Complete the progress dialog and initialize the view pager once the database has been initialized.
 				case PermissionScanner.MESSAGE_PROGRESS_COMPLETE:
-					// Finish the dialog
 					mDialog.cancel();
-
-					// Initialize the view pager once the thread is finished
 					initViewPager();
 					break;
 			}
 		}
 	};
 
-	/** FragmentPagerAdapter for handling the fragment tabs/pages. **/
+	/**
+	 * Pager adapter that is used to display the app list and permission list fragments.
+	 */
 	private class PagerAdapter extends FragmentPagerAdapter {
 		public PagerAdapter(FragmentManager fm) {
 			super(fm);

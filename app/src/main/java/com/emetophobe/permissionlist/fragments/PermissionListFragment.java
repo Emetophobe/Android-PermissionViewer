@@ -30,7 +30,13 @@ import com.emetophobe.permissionlist.activities.PermissionDetailActivity;
 import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
+/**
+ * Display the list of permissions used by the installed applications.
+ */
 public class PermissionListFragment extends AbstractListFragment {
+	private static final String APP_COUNT = "Count(app_name) AS count";
+	private static final String SORT_BY_PERMISSION_NAME = Permissions.PERMISSION_NAME + " ASC";
+	private static final String SORT_BY_COUNT = "count DESC";
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -44,27 +50,32 @@ public class PermissionListFragment extends AbstractListFragment {
 		getLoaderManager().initLoader(0, null, this);
 	}
 
+	/**
+	 * Create the permission list loader.
+	 */
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		setLoading(true);
 
-		// Set up the selection clause.
+		// Create the selection clause.
 		String selection = Permissions.PERMISSION_NAME + " IS NOT NULL";
 		if (!SettingsHelper.getShowSystemApps(getActivity())) {
 			selection += " AND " + Permissions.IS_SYSTEM + " = 0";
 		}
 
-		// Set the permission sort order preference.
+		// Get the permission sort order preference and set the sort order.
 		String sortOrder = SettingsHelper.getPermissionSortOrder(getActivity())
-				? Permissions.PERMISSION_NAME + " ASC" : "count DESC";
+				? SORT_BY_PERMISSION_NAME : SORT_BY_COUNT;
 
 		// Create the loader.
 		return new CursorLoader(getActivity(), Permissions.PERMISSIONS_URI, new String[]{Permissions._ID,
-				Permissions.PERMISSION_NAME, Permissions.APP_NAME, "Count(app_name) AS count"}, selection, null,
+				Permissions.PERMISSION_NAME, Permissions.APP_NAME, APP_COUNT}, selection, null,
 				sortOrder);
 	}
 
-	/** Start the permission detail activity when a list item is clicked. */
+	/**
+	 * Start the PermissionDetailActivity when a permission in the list is clicked.
+	 */
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Cursor cursor = (Cursor) mAdapter.getItem(position);

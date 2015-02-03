@@ -26,18 +26,40 @@ public class SettingsHelper {
 	private static final String APP_SORT_ORDER = "pref_app_sort_order";
 	private static final String PERM_SORT_ORDER = "pref_perm_sort_order";
 
-	private SettingsHelper() {}
+	/**
+	 * This class cannot be instantiated.
+	 */
+	private SettingsHelper() {
+	}
 
+	/**
+	 * Returns the show system apps preference.
+	 *
+	 * @param context The context to use.
+	 * @return true if system apps should be shown, false if system apps should be hidden.
+	 */
 	public static boolean getShowSystemApps(Context context) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		return prefs.getBoolean(SHOW_SYSTEM_APPS, true);
 	}
 
+	/**
+	 * Returns the application sort order preference.
+	 *
+	 * @param context The context to use.
+	 * @return true if apps should be sorted by application name, false if applications should be sorted by permission count.
+	 */
 	public static boolean getAppSortOrder(Context context) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		return prefs.getBoolean(APP_SORT_ORDER, false);
 	}
 
+	/**
+	 * Returns the permission sort order preference.
+	 *
+	 * @param context The context to use.
+	 * @return true if permissions should be sorted by permission name, false if permissions should be sorted by account count.
+	 */
 	public static boolean getPermissionSortOrder(Context context) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		return prefs.getBoolean(PERM_SORT_ORDER, false);

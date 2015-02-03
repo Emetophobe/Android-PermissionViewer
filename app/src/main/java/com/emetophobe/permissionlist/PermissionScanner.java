@@ -30,16 +30,26 @@ import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 import java.util.List;
 
 
+/**
+ * Initialize the permission database using a background thread.
+ */
 public class PermissionScanner extends Thread {
 	public static final int MESSAGE_PROGRESS_INIT = 0;
 	public static final int MESSAGE_PROGRESS_UPDATE = 1;
 	public static final int MESSAGE_PROGRESS_COMPLETE = 2;
 
 	private static final String TAG = "PermissionScanner";
+	private static final String ANDROID_PERMISSION = "android.permission.";
 
 	private Context mContext;
 	private final Handler mHandler;
 
+	/**
+	 * Construct the permission scanner.
+	 *
+	 * @param context The context to use.
+	 * @param handler The message handler from the main thread.
+	 */
 	public PermissionScanner(Context context, Handler handler) {
 		super(TAG);
 		mContext = context.getApplicationContext();
@@ -52,7 +62,7 @@ public class PermissionScanner extends Thread {
 		PackageManager pm = mContext.getPackageManager();
 		List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
 
-		// Initialize the progress dialog
+		// Send a message to the main thread to display the progress dialog
 		sendMessage(MESSAGE_PROGRESS_INIT, packages.size());
 
 		String packageName, appName, permissionName;
@@ -78,30 +88,37 @@ public class PermissionScanner extends Thread {
 				packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
 				if (packageInfo.requestedPermissions != null) {
 					for (int i = 0; i < packageInfo.requestedPermissions.length; ++i) {
-						if (packageInfo.requestedPermissions[i].startsWith("android.permission.")) {
-							permissionName = packageInfo.requestedPermissions[i].substring("android.permission.".length());
+						if (packageInfo.requestedPermissions[i].startsWith(ANDROID_PERMISSION)) {
+							permissionName = packageInfo.requestedPermissions[i].substring(ANDROID_PERMISSION.length());
 
-							// Add a separate package entry for each permission
+							// Add a separate entry for each permission
 							addPackage(appName, packageName, permissionName, system);
 						}
 					}
 				} else {
-					// Package contains no permission, just add a single entry with no permissions
+					// Add an empty permission entry for packages that contain zero permissions
 					addPackage(appName, packageName, null, system);
 				}
 			} catch (Exception e) {
 				Log.e(TAG, e.toString());
 			}
 
-			// Update the progress dialog
+			// Send a message to the main thread to update the progress dialog
 			sendMessage(MESSAGE_PROGRESS_UPDATE, ++count);
 		}
 
-		// Finish the progress dialog
+		// Send a message to the main thread that the thread is finished.
 		sendMessage(MESSAGE_PROGRESS_COMPLETE, 0);
 	}
 
-	/** Add the package data to the permission database. **/
+	/**
+	 * Add an entry to the permission database.
+	 *
+	 * @param appName     The application name.
+	 * @param packageName The package name.
+	 * @param permission  The permission name (optional, can be null).
+	 * @param isSystemApp Whether the package is a system app or not.
+	 */
 	private void addPackage(String appName, String packageName, String permission, boolean isSystemApp) {
 		ContentValues values = new ContentValues();
 		values.put(Permissions.APP_NAME, appName);
@@ -115,7 +132,12 @@ public class PermissionScanner extends Thread {
 		mContext.getContentResolver().insert(Permissions.CONTENT_URI, values);
 	}
 
-	/** Send a message to the main thread using the handler. **/
+	/**
+	 * Send a message to the main thread using the message handler.
+	 *
+	 * @param message The message type.
+	 * @param arg1    The message argument.
+	 */
 	private void sendMessage(int message, int arg1) {
 		Message msg = mHandler.obtainMessage(message);
 		msg.arg1 = arg1;
