@@ -19,6 +19,7 @@ package com.emetophobe.permissionlist.activities;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,9 +27,9 @@ import com.emetophobe.permissionlist.R;
 
 
 public abstract class AbstractDetailActivity extends ActionBarActivity {
-	protected TextView mDescriptionView;
-	protected TextView mCountView;
-	protected ListView mListView;
+	private TextView mDescriptionText;
+	private TextView mCountText;
+	private ListView mListView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,34 @@ public abstract class AbstractDetailActivity extends ActionBarActivity {
 
 		// Find the views.
 		mListView = (ListView) findViewById(R.id.list);
-		mDescriptionView = (TextView) findViewById(R.id.description);
-		mCountView = (TextView) findViewById(R.id.count);
+		mDescriptionText = (TextView) findViewById(R.id.description);
+		mCountText = (TextView) findViewById(R.id.count);
+	}
+
+	/**
+	 * Convenience method to set the listview adapter.
+	 *
+	 * @param adapter The listview adapter.
+	 */
+	protected void setListAdapter(ListAdapter adapter) {
+		mListView.setAdapter(adapter);
+	}
+
+	/**
+	 * Convenience method to set the description text.
+	 *
+	 * @param text The text to display.
+	 */
+	protected void setDescription(String text) {
+		mDescriptionText.setText(text);
+	}
+
+	/**
+	 * Convenience method to set the application or permission count.
+	 *
+	 * @param text The text to display.
+	 */
+	protected void setCount(String text) {
+		mCountText.setText(text);
 	}
 }

@@ -25,16 +25,13 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.MenuItem;
 
-import com.emetophobe.permissionlist.adapters.PermissionListAdapter;
 import com.emetophobe.permissionlist.R;
+import com.emetophobe.permissionlist.adapters.PermissionListAdapter;
 import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
 public class AppDetailActivity extends AbstractDetailActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	public static final String EXTRA_PACKAGE_NAME = "extra_package_name";
-
-	private static final int PERMISSION_LIST = 0;
-	private static final int APP_DATA = 1;
 
 	private PermissionListAdapter mAdapter;
 	private String mPackageName;
@@ -52,11 +49,10 @@ public class AppDetailActivity extends AbstractDetailActivity implements LoaderM
 
 		// Set up the adapter.
 		mAdapter = new PermissionListAdapter(this);
-		mListView.setAdapter(mAdapter);
+		setListAdapter(mAdapter);
 
-		// Load the application data and the permission list.
-		getSupportLoaderManager().initLoader(APP_DATA, null, this);
-		getSupportLoaderManager().initLoader(PERMISSION_LIST, null, this);
+		// Load the permission list
+		getSupportLoaderManager().initLoader(0, null, this);
 	}
 
 	@Override
@@ -71,36 +67,27 @@ public class AppDetailActivity extends AbstractDetailActivity implements LoaderM
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		if (id == PERMISSION_LIST) {
-			return new CursorLoader(this, Permissions.CONTENT_URI, new String[]{Permissions._ID,
-					Permissions.PERMISSION_NAME}, Permissions.PACKAGE_NAME + "=?", new String[]{mPackageName},
-					Permissions.PERMISSION_NAME + " ASC");
-		} else {
-			return new CursorLoader(this, Permissions.CONTENT_URI, new String[]{Permissions._ID,
-					Permissions.APP_NAME, Permissions.PACKAGE_NAME, "Count(permission) as count"},
-					Permissions.PACKAGE_NAME + "=?", new String[]{mPackageName}, Permissions.PERMISSION_NAME + " ASC");
-		}
+		final String[] projection = {Permissions._ID, Permissions.APP_NAME, Permissions.PACKAGE_NAME, Permissions.PERMISSION_NAME};
+		final String selection = Permissions.PACKAGE_NAME + "=?";
+		final String[] selectionArgs = {mPackageName};
+		final String sortOrder = Permissions.PERMISSION_NAME + " ASC";
+		return new CursorLoader(this, Permissions.CONTENT_URI, projection, selection, selectionArgs, sortOrder);
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		if (loader.getId() == PERMISSION_LIST) {
-			mAdapter.swapCursor(cursor);
-		} else if (loader.getId() == APP_DATA && cursor != null && cursor.moveToFirst()) {
-			// Display the app name in the toolbar title
-			setTitle(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)));
+		mAdapter.swapCursor(cursor);
 
-			// Set the package namd and permission count
-			mDescriptionView.setText(cursor.getString(cursor.getColumnIndex(Permissions.PACKAGE_NAME)));
-			String count = cursor.getString(cursor.getColumnIndex("count"));
-			mCountView.setText(String.format(getString(R.string.permission_count), count));
+		// Set the app name, package name, and permission count.
+		if (cursor != null && cursor.moveToFirst()) {
+			setTitle(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)));
+			setDescription(cursor.getString(cursor.getColumnIndex(Permissions.PACKAGE_NAME)));
+			setCount(String.format(getString(R.string.permission_count), cursor.getCount()));
 		}
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		if (loader.getId() == PERMISSION_LIST) {
-			mAdapter.swapCursor(null);
-		}
+		mAdapter.swapCursor(null);
 	}
 }

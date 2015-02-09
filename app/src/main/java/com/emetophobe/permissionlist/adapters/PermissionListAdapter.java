@@ -29,6 +29,7 @@ import com.emetophobe.permissionlist.providers.PermissionContract;
 
 
 public class PermissionListAdapter extends CursorAdapter {
+	private static final String APP_COUNT = "count";
 
 	public PermissionListAdapter(Context context) {
 		super(context, null, 0);
@@ -49,7 +50,7 @@ public class PermissionListAdapter extends CursorAdapter {
 
 		// Set the permission name (with optional app count)
 		try {
-			String count = cursor.getString(cursor.getColumnIndexOrThrow("count"));
+			String count = cursor.getString(cursor.getColumnIndexOrThrow(APP_COUNT));
 			holder.permission.setText(cursor.getString(cursor.getColumnIndex(PermissionContract.Permissions.PERMISSION_NAME)) + " (" + count + ")");
 		} catch (IllegalArgumentException e) {
 			holder.permission.setText(cursor.getString(cursor.getColumnIndex(PermissionContract.Permissions.PERMISSION_NAME)));

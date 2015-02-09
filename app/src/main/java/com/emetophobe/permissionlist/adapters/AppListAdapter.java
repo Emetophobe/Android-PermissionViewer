@@ -32,6 +32,8 @@ import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
 public class AppListAdapter extends CursorAdapter {
+	private static final String PERMISSION_COUNT = "count";
+
 	private PackageManager mPackageManager;
 
 	public AppListAdapter(Context context) {
@@ -55,7 +57,7 @@ public class AppListAdapter extends CursorAdapter {
 
 		// Set the app name (with optional permission count)
 		try {
-			String count = cursor.getString(cursor.getColumnIndexOrThrow("count"));
+			String count = cursor.getString(cursor.getColumnIndexOrThrow(PERMISSION_COUNT));
 			holder.name.setText(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)) + " (" + count + ")");
 		} catch (IllegalArgumentException e) {
 			holder.name.setText(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)));
@@ -65,7 +67,7 @@ public class AppListAdapter extends CursorAdapter {
 		Drawable drawable;
 		try {
 			drawable = mPackageManager.getApplicationIcon(cursor.getString(cursor.getColumnIndex(Permissions.PACKAGE_NAME)));
-		} catch (Exception e) {
+		} catch (PackageManager.NameNotFoundException e) {
 			drawable = null;
 		}
 		holder.icon.setImageDrawable(drawable);

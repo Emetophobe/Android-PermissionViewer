@@ -24,17 +24,14 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.MenuItem;
 
-import com.emetophobe.permissionlist.adapters.AppListAdapter;
 import com.emetophobe.permissionlist.R;
 import com.emetophobe.permissionlist.SettingsHelper;
+import com.emetophobe.permissionlist.adapters.AppListAdapter;
 import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
 
 
 public class PermissionDetailActivity extends AbstractDetailActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	public static final String EXTRA_PERMISSION_NAME = "extra_permission_name";
-
-	private static final int APPLICATION_LIST = 0;
-	private static final int PERMISSION_DATA = 1;
 
 	private AppListAdapter mAdapter;
 	private String mPermissionName;
@@ -50,13 +47,16 @@ public class PermissionDetailActivity extends AbstractDetailActivity implements 
 			throw new IllegalArgumentException("Must pass a valid permission name with EXTRA_PERMISSION_NAME.");
 		}
 
+		// Set the title and description.
+		setTitle(mPermissionName);
+		setDescription(getDescription());
+
 		// Set up the adapter.
 		mAdapter = new AppListAdapter(this);
-		mListView.setAdapter(mAdapter);
+		setListAdapter(mAdapter);
 
-		// Load the permission data and the application list.
-		getSupportLoaderManager().initLoader(PERMISSION_DATA, null, this);
-		getSupportLoaderManager().initLoader(APPLICATION_LIST, null, this);
+		// Load the list of applications that match the permission name
+		getSupportLoaderManager().initLoader(0, null, this);
 	}
 
 	@Override
@@ -71,47 +71,34 @@ public class PermissionDetailActivity extends AbstractDetailActivity implements 
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		// Create the selection statement
 		String selection = Permissions.PERMISSION_NAME + "=?";
 		if (!SettingsHelper.getShowSystemApps(this)) {
 			selection += " AND " + Permissions.IS_SYSTEM + "=0";
 		}
 
-		if (id == APPLICATION_LIST) {
-			// Get the list of applications
-			return new CursorLoader(this, Permissions.CONTENT_URI, new String[]{Permissions._ID, Permissions.APP_NAME,
-					Permissions.IS_SYSTEM, Permissions.PACKAGE_NAME}, selection, new String[]{mPermissionName}, Permissions.APP_NAME + " ASC");
-		} else {
-			// Get the permission name and application count
-			return new CursorLoader(this, Permissions.CONTENT_URI, new String[]{Permissions._ID, Permissions.APP_NAME,
-					Permissions.PERMISSION_NAME, Permissions.IS_SYSTEM, "Count(app_name) as count"}, selection,
-					new String[]{mPermissionName}, Permissions.APP_NAME + " ASC");
-		}
+		final String[] projection = {Permissions._ID, Permissions.APP_NAME,	Permissions.PACKAGE_NAME};
+		final String[] selectionArgs = {mPermissionName};
+		final String sortOrder = Permissions.APP_NAME + " ASC";
+
+		return new CursorLoader(this, Permissions.CONTENT_URI, projection, selection, selectionArgs, sortOrder);
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		if (loader.getId() == APPLICATION_LIST) {
-			mAdapter.swapCursor(cursor);
-		} else if (loader.getId() == PERMISSION_DATA && cursor != null && cursor.moveToFirst()) {
-			// Set the toolbar title to the permission name
-			setTitle(mPermissionName);
+		mAdapter.swapCursor(cursor);
 
-			// Set the description and application count
-			mDescriptionView.setText(getDescription());
-			String count = cursor.getString(cursor.getColumnIndex("count"));
-			mCountView.setText(String.format(getString(R.string.application_count), count));
-		}
+		// Set the application count
+		setCount(String.format(getString(R.string.application_count), cursor.getCount()));
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		if (loader.getId() == APPLICATION_LIST) {
-			mAdapter.swapCursor(null);
-		}
+		mAdapter.swapCursor(null);
 	}
 
-	/** Get the permission description. */
+	/**
+	 * Get the permission description string.
+	 */
 	private String getDescription() {
 		int resId = getResources().getIdentifier("permission_" + mPermissionName, "string", getPackageName());
 		return resId != 0 ? getString(resId) : getString(R.string.permission_unknown);
