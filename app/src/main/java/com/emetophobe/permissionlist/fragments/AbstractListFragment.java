@@ -16,8 +16,11 @@
 
 package com.emetophobe.permissionlist.fragments;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -30,15 +33,41 @@ import android.widget.ViewFlipper;
 import com.emetophobe.permissionlist.R;
 
 
-public abstract class AbstractListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public abstract class AbstractListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {
 	protected ViewFlipper mFlipper;
 	protected CursorAdapter mAdapter;
+
+	private SharedPreferences mSharedPrefs;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_abstractlist, container, false);
 		mFlipper = (ViewFlipper) view.findViewById(R.id.flipper);
 		return view;
+	}
+
+	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+
+		mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mSharedPrefs.unregisterOnSharedPreferenceChangeListener(this);
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key) {
+		getLoaderManager().restartLoader(0, null, this);
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		return null;
 	}
 
 	@Override
