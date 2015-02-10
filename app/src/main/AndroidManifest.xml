@@ -4,7 +4,7 @@
 
 	<application
 		android:allowBackup="true"
-		android:icon="@drawable/ic_launcher"
+		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:theme="@style/AppTheme">
 
@@ -23,7 +23,7 @@
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
-				android:value="naw.java.permissionlist.MainActivity"/>
+				android:value=".activities.MainActivity"/>
 		</activity>
 
 
@@ -33,7 +33,7 @@
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
-				android:value="naw.java.permissionlist.MainActivity"/>
+				android:value=".activities.MainActivity"/>
 		</activity>
 
 		<activity
@@ -43,7 +43,7 @@
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
-				android:value="naw.java.permissionlist.MainActivity"/>
+				android:value=".activities.MainActivity"/>
 		</activity>
 
 		<receiver
