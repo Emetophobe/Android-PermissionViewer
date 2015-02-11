@@ -1,7 +1,7 @@
-Permission List
+Permission Viewer
 ==============
 
-Shows permission details for individual apps
+A simple Android app that lets you view permission details for installed apps.
 
-![](http://i.imgur.com/CHOdFE2.png) _
+![](http://i.imgur.com/UAohNbj.png)
 ![](http://i.imgur.com/rK1QbkB.png)
