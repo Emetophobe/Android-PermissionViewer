@@ -100,7 +100,7 @@ public class PermissionScanner extends Thread {
 					// Add an empty permission entry for packages that contain zero permissions
 					addPackage(appName, packageName, null, system);
 				}
-			} catch (Exception e) {
+			} catch (PackageManager.NameNotFoundException e) {
 				Log.e(TAG, e.toString());
 			}
 
