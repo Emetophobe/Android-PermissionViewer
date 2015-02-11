@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionlist.activities;
+package com.emetophobe.permissionviewer.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -23,7 +23,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.emetophobe.permissionlist.R;
+import com.emetophobe.permissionviewer.R;
 
 
 public abstract class AbstractDetailActivity extends ActionBarActivity {

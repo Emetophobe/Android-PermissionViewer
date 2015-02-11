@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionlist.activities;
+package com.emetophobe.permissionviewer.activities;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -24,10 +24,10 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.MenuItem;
 
-import com.emetophobe.permissionlist.R;
-import com.emetophobe.permissionlist.SettingsHelper;
-import com.emetophobe.permissionlist.adapters.AppListAdapter;
-import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
+import com.emetophobe.permissionviewer.R;
+import com.emetophobe.permissionviewer.SettingsHelper;
+import com.emetophobe.permissionviewer.adapters.AppListAdapter;
+import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
 
 public class PermissionDetailActivity extends AbstractDetailActivity implements LoaderManager.LoaderCallbacks<Cursor> {

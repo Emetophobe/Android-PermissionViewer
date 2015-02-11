@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionlist.activities;
+package com.emetophobe.permissionviewer.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -32,10 +32,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.emetophobe.permissionlist.PermissionScanner;
-import com.emetophobe.permissionlist.R;
-import com.emetophobe.permissionlist.fragments.AppListFragment;
-import com.emetophobe.permissionlist.fragments.PermissionListFragment;
+import com.emetophobe.permissionviewer.PermissionScanner;
+import com.emetophobe.permissionviewer.R;
+import com.emetophobe.permissionviewer.fragments.AppListFragment;
+import com.emetophobe.permissionviewer.fragments.PermissionListFragment;
 
 import java.util.Locale;
 

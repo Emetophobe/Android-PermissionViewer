@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionlist.providers;
+package com.emetophobe.permissionviewer.providers;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -30,7 +30,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
+import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
 
 public class PermissionProvider extends ContentProvider {

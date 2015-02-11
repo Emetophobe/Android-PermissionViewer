@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionlist.fragments;
+package com.emetophobe.permissionviewer.fragments;
 
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -30,7 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ViewFlipper;
 
-import com.emetophobe.permissionlist.R;
+import com.emetophobe.permissionviewer.R;
 
 
 public abstract class AbstractListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {

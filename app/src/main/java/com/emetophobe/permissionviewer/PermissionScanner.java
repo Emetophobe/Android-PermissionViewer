@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionlist;
+package com.emetophobe.permissionviewer;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
+import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class PermissionScanner extends Thread {
 			packageName = appInfo.packageName;
 			try {
 				appName = pm.getApplicationLabel(appInfo).toString();
-			} catch (Exception e) { // application not found
+			} catch (Resources.NotFoundException e) { // application not found
 				appName = packageName;
 			}
 

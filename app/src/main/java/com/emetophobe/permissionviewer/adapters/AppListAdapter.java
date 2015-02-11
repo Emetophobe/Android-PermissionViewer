@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionlist.adapters;
+package com.emetophobe.permissionviewer.adapters;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -27,8 +27,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.emetophobe.permissionlist.R;
-import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
+import com.emetophobe.permissionviewer.R;
+import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
 
 public class AppListAdapter extends CursorAdapter {

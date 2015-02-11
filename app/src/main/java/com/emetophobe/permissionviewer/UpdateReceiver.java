@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionlist;
+package com.emetophobe.permissionviewer;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -28,7 +28,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.emetophobe.permissionlist.providers.PermissionContract.Permissions;
+import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
 
 /**

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionlist.providers;
+package com.emetophobe.permissionviewer.providers;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
 
 
 public class PermissionContract {
-	public static final String AUTHORITY = "com.emetophobe.permissionlist.providers.PermissionProvider";
+	public static final String AUTHORITY = "com.emetophobe.permissionviewer.providers.PermissionProvider";
 
 	private PermissionContract() {}
 

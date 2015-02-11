@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		  package="com.emetophobe.permissionlist">
+		  package="com.emetophobe.permissionviewer">
 
 	<application
 		android:allowBackup="true"
@@ -9,7 +9,7 @@
 		android:theme="@style/AppTheme">
 
 		<activity
-			android:name=".activities.MainActivity"
+			android:name="com.emetophobe.permissionviewer.activities.MainActivity"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -18,36 +18,36 @@
 		</activity>
 
 		<activity
-			android:name=".activities.AppDetailActivity"
-			android:parentActivityName=".activities.MainActivity">
+			android:name="com.emetophobe.permissionviewer.activities.AppDetailActivity"
+			android:parentActivityName="com.emetophobe.permissionviewer.activities.MainActivity">
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
-				android:value=".activities.MainActivity"/>
+				android:value="com.emetophobe.permissionviewer.activities.MainActivity"/>
 		</activity>
 
 
 		<activity
-			android:name=".activities.PermissionDetailActivity"
-			android:parentActivityName=".activities.MainActivity">
+			android:name="com.emetophobe.permissionviewer.activities.PermissionDetailActivity"
+			android:parentActivityName="com.emetophobe.permissionviewer.activities.MainActivity">
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
-				android:value=".activities.MainActivity"/>
+				android:value="com.emetophobe.permissionviewer.activities.MainActivity"/>
 		</activity>
 
 		<activity
-			android:name=".activities.SettingsActivity"
+			android:name="com.emetophobe.permissionviewer.activities.SettingsActivity"
 			android:label="@string/title_settings"
-			android:parentActivityName=".activities.MainActivity">
+			android:parentActivityName="com.emetophobe.permissionviewer.activities.MainActivity">
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
-				android:value=".activities.MainActivity"/>
+				android:value="com.emetophobe.permissionviewer.activities.MainActivity"/>
 		</activity>
 
 		<receiver
-			android:name="com.emetophobe.permissionlist.UpdateReceiver"
+			android:name="com.emetophobe.permissionviewer.UpdateReceiver"
 			android:exported="false">
 			<intent-filter>
 				<action android:name="android.intent.action.PACKAGE_ADDED"/>
@@ -59,8 +59,8 @@
 		</receiver>
 
 		<provider
-			android:name="com.emetophobe.permissionlist.providers.PermissionProvider"
-			android:authorities="com.emetophobe.permissionlist.providers.PermissionProvider"
+			android:name="com.emetophobe.permissionviewer.providers.PermissionProvider"
+			android:authorities="com.emetophobe.permissionviewer.providers.PermissionProvider"
 			android:enabled="true"
 			android:exported="false">
 		</provider>
