@@ -56,14 +56,14 @@ public class AppListAdapter extends CursorAdapter {
 		ViewHolder holder = (ViewHolder) view.getTag();
 
 		// Set the app name (with optional permission count)
-		try {
-			String count = cursor.getString(cursor.getColumnIndexOrThrow(PERMISSION_COUNT));
-			holder.name.setText(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)) + " (" + count + ")");
-		} catch (IllegalArgumentException e) {
+		int countIndex = cursor.getColumnIndex(PERMISSION_COUNT);
+		if (countIndex != -1) {
+			holder.name.setText(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)) + " (" + cursor.getString(countIndex) + ")");
+		} else {
 			holder.name.setText(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)));
 		}
 
-		// Set the app icon (TODO: Should we load/cache the icons in a separate thread?)
+		// Set the app icon (TODO: Should we load or cache the icons in a separate thread?)
 		Drawable drawable;
 		try {
 			drawable = mPackageManager.getApplicationIcon(cursor.getString(cursor.getColumnIndex(Permissions.PACKAGE_NAME)));

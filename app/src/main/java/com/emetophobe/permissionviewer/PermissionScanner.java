@@ -18,12 +18,12 @@ package com.emetophobe.permissionviewer;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.os.Handler;
-import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
@@ -39,22 +39,23 @@ public class PermissionScanner extends Thread {
 	public static final int MESSAGE_PROGRESS_UPDATE = 1;
 	public static final int MESSAGE_PROGRESS_COMPLETE = 2;
 
+	public static final String PERMISSION_INTENT = "permission_intent";
+	public static final String PROGRESS_MESSAGE = "progress_message";
+	public static final String PROGRESS_VALUE = "progress_value";
+
 	private static final String TAG = "PermissionScanner";
 	private static final String ANDROID_PERMISSION = "android.permission.";
 
 	private Context mContext;
-	private final Handler mHandler;
 
 	/**
 	 * Construct the permission scanner.
 	 *
 	 * @param context The context to use.
-	 * @param handler The message handler from the main thread.
 	 */
-	public PermissionScanner(Context context, Handler handler) {
+	public PermissionScanner(Context context) {
 		super(TAG);
 		mContext = context.getApplicationContext();
-		mHandler = handler;
 	}
 
 	@Override
@@ -134,14 +135,15 @@ public class PermissionScanner extends Thread {
 	}
 
 	/**
-	 * Send a message to the main thread using the message handler.
+	 * Send a progress update to the main ui thread.
 	 *
-	 * @param message The message type.
-	 * @param arg1    The message argument.
+	 * @param message  The progress type.
+	 * @param progress The progress value.
 	 */
-	private void sendMessage(int message, int arg1) {
-		Message msg = mHandler.obtainMessage(message);
-		msg.arg1 = arg1;
-		msg.sendToTarget();
+	private void sendMessage(int message, int progress) {
+		Intent intent = new Intent(PERMISSION_INTENT);
+		intent.putExtra(PROGRESS_MESSAGE, message);
+		intent.putExtra(PROGRESS_VALUE, progress);
+		LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
 	}
 }

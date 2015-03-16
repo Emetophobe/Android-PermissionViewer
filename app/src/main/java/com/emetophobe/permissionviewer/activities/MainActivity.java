@@ -17,15 +17,17 @@
 package com.emetophobe.permissionviewer.activities;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -61,15 +63,24 @@ public class MainActivity extends ActionBarActivity {
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
+		LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+				new IntentFilter(PermissionScanner.PERMISSION_INTENT));
+
 		// Initialize the database the first time the application is run.
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		if (prefs.getBoolean(PREF_FIRST_RUN, true)) {
-			new PermissionScanner(this, mHandler).start();
+			new PermissionScanner(this).start();
 			prefs.edit().putBoolean(PREF_FIRST_RUN, false).apply();
 		} else {
 			// Just display the view pager if the database has already been initialized.
 			initViewPager();
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+		super.onDestroy();
 	}
 
 	/**
@@ -109,12 +120,14 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	/**
-	 * Callback handler that is used to display a progress dialog. Receives messages from the UpdateReceiver.
+	 * Receives progress updates from the PermissionScanner.
 	 */
-	private Handler mHandler = new Handler() {
+	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
 		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
+		public void onReceive(Context context, Intent intent) {
+			// Get extra data included in the Intent
+			int action = intent.getIntExtra(PermissionScanner.PROGRESS_MESSAGE, 0);
+			switch (action) {
 				// Display a progress dialog while the database is initializing.
 				case PermissionScanner.MESSAGE_PROGRESS_INIT:
 					mDialog = new ProgressDialog(MainActivity.this);
@@ -123,13 +136,13 @@ public class MainActivity extends ActionBarActivity {
 					mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 					mDialog.setIndeterminate(false);
 					mDialog.setCancelable(false);
-					mDialog.setMax(msg.arg1);
+					mDialog.setMax(intent.getIntExtra(PermissionScanner.PROGRESS_VALUE, 0));
 					mDialog.show();
 					break;
 
 				// Increment the progress dialog
 				case PermissionScanner.MESSAGE_PROGRESS_UPDATE:
-					mDialog.setProgress(msg.arg1);
+					mDialog.setProgress(intent.getIntExtra(PermissionScanner.PROGRESS_VALUE, 0));
 					break;
 
 				// Complete the progress dialog and initialize the view pager once the database has been initialized.
