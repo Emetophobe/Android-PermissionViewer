@@ -49,10 +49,11 @@ public class PermissionListAdapter extends CursorAdapter {
 		ViewHolder holder = (ViewHolder) view.getTag();
 
 		// Set the permission name (with optional app count)
-		try {
-			String count = cursor.getString(cursor.getColumnIndexOrThrow(APP_COUNT));
-			holder.permission.setText(cursor.getString(cursor.getColumnIndex(PermissionContract.Permissions.PERMISSION_NAME)) + " (" + count + ")");
-		} catch (IllegalArgumentException e) {
+		int countIndex = cursor.getColumnIndex(APP_COUNT);
+		if (countIndex != -1) {
+			holder.permission.setText(cursor.getString(cursor.getColumnIndex(PermissionContract.Permissions.PERMISSION_NAME))
+					+ " (" + cursor.getString(countIndex) + ")");
+		} else {
 			holder.permission.setText(cursor.getString(cursor.getColumnIndex(PermissionContract.Permissions.PERMISSION_NAME)));
 		}
 	}
