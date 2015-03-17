@@ -20,10 +20,8 @@ package com.emetophobe.permissionviewer.activities;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.view.MenuItem;
 
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.adapters.PermissionListAdapter;
@@ -32,6 +30,11 @@ import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
 public class AppDetailActivity extends AbstractDetailActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	public static final String EXTRA_PACKAGE_NAME = "extra_package_name";
+
+	private static final String[] PROJECTION = {Permissions._ID, Permissions.APP_NAME,
+			Permissions.PACKAGE_NAME, Permissions.PERMISSION_NAME};
+	private static final String SELECTION = Permissions.PACKAGE_NAME + "=?";
+	private static final String SORT_ORDER = Permissions.PERMISSION_NAME + " ASC";
 
 	private PermissionListAdapter mAdapter;
 	private String mPackageName;
@@ -56,22 +59,8 @@ public class AppDetailActivity extends AbstractDetailActivity implements LoaderM
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				NavUtils.navigateUpFromSameTask(this);
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		final String[] projection = {Permissions._ID, Permissions.APP_NAME, Permissions.PACKAGE_NAME, Permissions.PERMISSION_NAME};
-		final String selection = Permissions.PACKAGE_NAME + "=?";
-		final String[] selectionArgs = {mPackageName};
-		final String sortOrder = Permissions.PERMISSION_NAME + " ASC";
-		return new CursorLoader(this, Permissions.CONTENT_URI, projection, selection, selectionArgs, sortOrder);
+		return new CursorLoader(this, Permissions.CONTENT_URI, PROJECTION, SELECTION, new String[]{mPackageName}, SORT_ORDER);
 	}
 
 	@Override

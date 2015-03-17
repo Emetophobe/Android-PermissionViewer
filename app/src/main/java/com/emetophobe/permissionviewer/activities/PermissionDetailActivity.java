@@ -19,10 +19,8 @@ package com.emetophobe.permissionviewer.activities;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.view.MenuItem;
 
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.SettingsHelper;
@@ -32,6 +30,9 @@ import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
 public class PermissionDetailActivity extends AbstractDetailActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	public static final String EXTRA_PERMISSION_NAME = "extra_permission_name";
+
+	private static final String[] PROJECTION = {Permissions._ID, Permissions.APP_NAME, Permissions.PACKAGE_NAME};
+	private static final String SORT_ORDER = Permissions.APP_NAME + " ASC";
 
 	private AppListAdapter mAdapter;
 	private String mPermissionName;
@@ -60,27 +61,13 @@ public class PermissionDetailActivity extends AbstractDetailActivity implements 
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				NavUtils.navigateUpFromSameTask(this);
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String selection = Permissions.PERMISSION_NAME + "=?";
 		if (!SettingsHelper.getShowSystemApps(this)) {
 			selection += " AND " + Permissions.IS_SYSTEM + "=0";
 		}
 
-		final String[] projection = {Permissions._ID, Permissions.APP_NAME,	Permissions.PACKAGE_NAME};
-		final String[] selectionArgs = {mPermissionName};
-		final String sortOrder = Permissions.APP_NAME + " ASC";
-
-		return new CursorLoader(this, Permissions.CONTENT_URI, projection, selection, selectionArgs, sortOrder);
+		return new CursorLoader(this, Permissions.CONTENT_URI, PROJECTION, selection, new String[]{mPermissionName}, SORT_ORDER);
 	}
 
 	@Override
@@ -88,7 +75,9 @@ public class PermissionDetailActivity extends AbstractDetailActivity implements 
 		mAdapter.swapCursor(cursor);
 
 		// Set the application count
-		setCount(String.format(getString(R.string.application_count), cursor.getCount()));
+		if (cursor != null) {
+			setCount(String.format(getString(R.string.application_count), cursor.getCount()));
+		}
 	}
 
 	@Override
