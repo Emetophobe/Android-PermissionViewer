@@ -27,27 +27,31 @@ import android.widget.TextView;
 
 import com.emetophobe.permissionviewer.R;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 
 public abstract class AbstractDetailActivity extends ActionBarActivity {
-	private TextView mDescriptionText;
-	private TextView mCountText;
-	private ListView mListView;
+	@InjectView(R.id.description)
+	protected TextView mDescriptionText;
+
+	@InjectView(R.id.count)
+	protected TextView mCountText;
+
+	@InjectView(R.id.list)
+	protected ListView mListView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_abstractdetail);
+		ButterKnife.inject(this);
 
 		// Set up the toolbar.
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-		// Find the views.
-		mListView = (ListView) findViewById(R.id.list);
-		mDescriptionText = (TextView) findViewById(R.id.description);
-		mCountText = (TextView) findViewById(R.id.count);
 	}
 
 	@Override

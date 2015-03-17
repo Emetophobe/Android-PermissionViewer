@@ -32,18 +32,27 @@ import android.widget.ViewFlipper;
 
 import com.emetophobe.permissionviewer.R;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 
 public abstract class AbstractListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {
+	@InjectView(R.id.flipper)
 	protected ViewFlipper mFlipper;
+
 	protected CursorAdapter mAdapter;
 
 	private SharedPreferences mSharedPrefs;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_abstractlist, container, false);
-		mFlipper = (ViewFlipper) view.findViewById(R.id.flipper);
-		return view;
+		return inflater.inflate(R.layout.fragment_abstractlist, container, false);
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		ButterKnife.inject(this, view);
 	}
 
 	@Override

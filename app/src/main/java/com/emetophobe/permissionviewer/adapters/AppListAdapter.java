@@ -30,6 +30,9 @@ import android.widget.TextView;
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 
 public class AppListAdapter extends CursorAdapter {
 	private static final String PERMISSION_COUNT = "count";
@@ -44,10 +47,7 @@ public class AppListAdapter extends CursorAdapter {
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		View view = LayoutInflater.from(context).inflate(R.layout.adapter_applist_item, parent, false);
-		ViewHolder holder = new ViewHolder();
-		holder.icon = (ImageView) view.findViewById(R.id.app_icon);
-		holder.name = (TextView) view.findViewById(R.id.app_name);
-		view.setTag(holder);
+		view.setTag(new ViewHolder(view));
 		return view;
 	}
 
@@ -73,8 +73,15 @@ public class AppListAdapter extends CursorAdapter {
 		holder.icon.setImageDrawable(drawable);
 	}
 
-	private static class ViewHolder {
+	protected static class ViewHolder {
+		@InjectView(R.id.app_icon)
 		public ImageView icon;
+
+		@InjectView(R.id.app_name)
 		public TextView name;
+
+		public ViewHolder(View view) {
+			ButterKnife.inject(this, view);
+		}
 	}
 }
