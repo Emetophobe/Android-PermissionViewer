@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.fragments;
+package com.emetophobe.permissionviewer.ui.fragments;
 
 import android.content.SharedPreferences;
 import android.database.Cursor;

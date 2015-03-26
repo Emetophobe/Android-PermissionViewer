@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.activities;
+package com.emetophobe.permissionviewer.ui.activities;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.fragments;
+package com.emetophobe.permissionviewer.ui.fragments;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -24,9 +24,9 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 
-import com.emetophobe.permissionviewer.SettingsHelper;
-import com.emetophobe.permissionviewer.activities.AppDetailActivity;
-import com.emetophobe.permissionviewer.adapters.AppListAdapter;
+import com.emetophobe.permissionviewer.utils.SettingsHelper;
+import com.emetophobe.permissionviewer.ui.activities.AppDetailActivity;
+import com.emetophobe.permissionviewer.ui.adapters.AppListAdapter;
 import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
 

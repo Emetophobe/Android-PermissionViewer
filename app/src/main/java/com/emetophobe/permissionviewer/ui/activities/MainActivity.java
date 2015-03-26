@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.activities;
+package com.emetophobe.permissionviewer.ui.activities;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -34,10 +34,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.emetophobe.permissionviewer.PermissionScanner;
+import com.emetophobe.permissionviewer.threads.InitDatabaseRunnable;
 import com.emetophobe.permissionviewer.R;
-import com.emetophobe.permissionviewer.fragments.AppListFragment;
-import com.emetophobe.permissionviewer.fragments.PermissionListFragment;
+import com.emetophobe.permissionviewer.ui.fragments.AppListFragment;
+import com.emetophobe.permissionviewer.ui.fragments.PermissionListFragment;
 
 import java.util.Locale;
 
@@ -64,12 +64,12 @@ public class MainActivity extends ActionBarActivity {
 		setSupportActionBar(toolbar);
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-				new IntentFilter(PermissionScanner.PERMISSION_INTENT));
+				new IntentFilter(InitDatabaseRunnable.PERMISSION_INTENT));
 
 		// Initialize the database the first time the application is run.
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		if (prefs.getBoolean(PREF_FIRST_RUN, true)) {
-			new PermissionScanner(this).start();
+			new Thread(new InitDatabaseRunnable(this)).start();
 			prefs.edit().putBoolean(PREF_FIRST_RUN, false).apply();
 		} else {
 			// Just display the view pager if the database has already been initialized.
@@ -126,27 +126,27 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// Get extra data included in the Intent
-			int action = intent.getIntExtra(PermissionScanner.PROGRESS_MESSAGE, 0);
+			int action = intent.getIntExtra(InitDatabaseRunnable.PROGRESS_MESSAGE, 0);
 			switch (action) {
 				// Display a progress dialog while the database is initializing.
-				case PermissionScanner.MESSAGE_PROGRESS_INIT:
+				case InitDatabaseRunnable.MESSAGE_PROGRESS_INIT:
 					mDialog = new ProgressDialog(MainActivity.this);
 					mDialog.setTitle(getString(R.string.progress_title));
 					mDialog.setMessage(getString(R.string.progress_message));
 					mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 					mDialog.setIndeterminate(false);
 					mDialog.setCancelable(false);
-					mDialog.setMax(intent.getIntExtra(PermissionScanner.PROGRESS_VALUE, 0));
+					mDialog.setMax(intent.getIntExtra(InitDatabaseRunnable.PROGRESS_VALUE, 0));
 					mDialog.show();
 					break;
 
 				// Increment the progress dialog
-				case PermissionScanner.MESSAGE_PROGRESS_UPDATE:
-					mDialog.setProgress(intent.getIntExtra(PermissionScanner.PROGRESS_VALUE, 0));
+				case InitDatabaseRunnable.MESSAGE_PROGRESS_UPDATE:
+					mDialog.setProgress(intent.getIntExtra(InitDatabaseRunnable.PROGRESS_VALUE, 0));
 					break;
 
 				// Complete the progress dialog and initialize the view pager once the database has been initialized.
-				case PermissionScanner.MESSAGE_PROGRESS_COMPLETE:
+				case InitDatabaseRunnable.MESSAGE_PROGRESS_COMPLETE:
 					mDialog.cancel();
 					initViewPager();
 					break;

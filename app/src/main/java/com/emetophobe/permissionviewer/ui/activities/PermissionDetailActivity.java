@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.activities;
+package com.emetophobe.permissionviewer.ui.activities;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -23,8 +23,8 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
 import com.emetophobe.permissionviewer.R;
-import com.emetophobe.permissionviewer.SettingsHelper;
-import com.emetophobe.permissionviewer.adapters.AppListAdapter;
+import com.emetophobe.permissionviewer.utils.SettingsHelper;
+import com.emetophobe.permissionviewer.ui.adapters.AppListAdapter;
 import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
 

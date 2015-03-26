@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer;
+package com.emetophobe.permissionviewer.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

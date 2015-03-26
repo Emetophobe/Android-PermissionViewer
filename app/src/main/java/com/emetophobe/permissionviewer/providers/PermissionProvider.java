@@ -31,6 +31,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
+import com.emetophobe.permissionviewer.utils.DatabaseHelper;
 
 
 public class PermissionProvider extends ContentProvider {
@@ -42,35 +43,8 @@ public class PermissionProvider extends ContentProvider {
 	private static final int PERMISSION_LIST = 3;
 
 	private static final UriMatcher sUriMatcher;
-	private DatabaseHelper mDbHelper;
+	private PermissionDatabase mDbHelper;
 
-	// Internal database helper class.
-	private static class DatabaseHelper extends SQLiteOpenHelper {
-		private static final String DATABASE_NAME = "permissions.db";
-		private static final int DATABASE_VERSION = 7;
-
-		public DatabaseHelper(Context context) {
-			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		}
-
-		@Override
-		public void onCreate(SQLiteDatabase db) {
-			// Create the applications table
-			db.execSQL("CREATE TABLE " + PERMISSION_TABLE + " ("
-					+ PermissionContract.Permissions._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-					+ PermissionContract.Permissions.PACKAGE_NAME + " TEXT NOT NULL, "
-					+ PermissionContract.Permissions.APP_NAME + " TEXT NOT NULL, "
-					+ PermissionContract.Permissions.PERMISSION_NAME + " TEXT, "
-					+ PermissionContract.Permissions.IS_SYSTEM + " INTEGER);");
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			Log.w("DatabaseHelper", "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data");
-			db.execSQL("DROP TABLE IF EXISTS " + PERMISSION_TABLE);
-			onCreate(db);
-		}
-	}
 
 	static {
 		sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -82,7 +56,7 @@ public class PermissionProvider extends ContentProvider {
 
 	@Override
 	public boolean onCreate() {
-		mDbHelper = new DatabaseHelper(getContext());
+		mDbHelper = new PermissionDatabase(getContext());
 		return true;
 	}
 

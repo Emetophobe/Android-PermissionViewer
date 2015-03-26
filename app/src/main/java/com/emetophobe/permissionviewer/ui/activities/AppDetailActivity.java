@@ -15,7 +15,7 @@
  */
 
 
-package com.emetophobe.permissionviewer.activities;
+package com.emetophobe.permissionviewer.ui.activities;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -24,7 +24,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
 import com.emetophobe.permissionviewer.R;
-import com.emetophobe.permissionviewer.adapters.PermissionListAdapter;
+import com.emetophobe.permissionviewer.ui.adapters.PermissionListAdapter;
 import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
 
@@ -71,7 +71,9 @@ public class AppDetailActivity extends AbstractDetailActivity implements LoaderM
 		if (cursor != null && cursor.moveToFirst()) {
 			setTitle(cursor.getString(cursor.getColumnIndex(Permissions.APP_NAME)));
 			setDescription(cursor.getString(cursor.getColumnIndex(Permissions.PACKAGE_NAME)));
-			setCount(String.format(getString(R.string.permission_count), cursor.getCount()));
+
+			int count = cursor.getString(cursor.getColumnIndex(Permissions.PERMISSION_NAME)) != null ? cursor.getCount() : 0;
+			setCount(String.format(getString(R.string.permission_count), count));
 		}
 	}
 
