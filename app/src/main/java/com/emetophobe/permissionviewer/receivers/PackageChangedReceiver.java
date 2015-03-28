@@ -19,13 +19,11 @@ package com.emetophobe.permissionviewer.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.emetophobe.permissionviewer.utils.DatabaseHelper;
+import com.emetophobe.permissionviewer.services.UpdateDatabaseService;
 
 
 /**
@@ -45,20 +43,10 @@ public class PackageChangedReceiver extends BroadcastReceiver {
 			return;
 		}
 
-		// Get the application info
-		ApplicationInfo appInfo;
-		try {
-			appInfo = context.getPackageManager().getApplicationInfo(packageName, 0);
-		} catch (NameNotFoundException e) {
-			Log.d(TAG, "Failed to find the application info for package: " + packageName);
-			e.printStackTrace();
-			return;
-		}
-
-		// Delete any previous package entries
-		DatabaseHelper.delete(context, packageName);
-
-		// Add the new package entry to the database
-		DatabaseHelper.insert(context, appInfo, packageName);
+		// Start the update service
+		Intent updateIntent = new Intent(context, UpdateDatabaseService.class);
+		updateIntent.setAction(UpdateDatabaseService.INTENT_ACTION_UPDATE_PACKAGE);
+		updateIntent.putExtra(UpdateDatabaseService.INTENT_EXTRA_PACKAGE_NAME, packageName);
+		context.startService(updateIntent);
 	}
 }

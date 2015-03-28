@@ -46,6 +46,7 @@
 				android:value=".ui.activities.MainActivity"/>
 		</activity>
 
+		<service android:name=".services.UpdateDatabaseService"/>
 		<receiver
 			android:name=".receivers.PackageChangedReceiver"
 			android:exported="false">

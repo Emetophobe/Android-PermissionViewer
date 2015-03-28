@@ -34,8 +34,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.emetophobe.permissionviewer.threads.InitDatabaseRunnable;
 import com.emetophobe.permissionviewer.R;
+import com.emetophobe.permissionviewer.services.UpdateDatabaseService;
 import com.emetophobe.permissionviewer.ui.fragments.AppListFragment;
 import com.emetophobe.permissionviewer.ui.fragments.PermissionListFragment;
 
@@ -64,12 +64,16 @@ public class MainActivity extends ActionBarActivity {
 		setSupportActionBar(toolbar);
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-				new IntentFilter(InitDatabaseRunnable.PERMISSION_INTENT));
+				new IntentFilter(UpdateDatabaseService.PERMISSION_INTENT));
 
 		// Initialize the database the first time the application is run.
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		if (prefs.getBoolean(PREF_FIRST_RUN, true)) {
-			new Thread(new InitDatabaseRunnable(this)).start();
+			// Start the update service
+			Intent intent = new Intent(this, UpdateDatabaseService.class);
+			intent.setAction(UpdateDatabaseService.INTENT_ACTION_INIT_DATABASE);
+			startService(intent);
+
 			prefs.edit().putBoolean(PREF_FIRST_RUN, false).apply();
 		} else {
 			// Just display the view pager if the database has already been initialized.
@@ -125,28 +129,28 @@ public class MainActivity extends ActionBarActivity {
 	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// Get extra data included in the Intent
-			int action = intent.getIntExtra(InitDatabaseRunnable.PROGRESS_MESSAGE, 0);
-			switch (action) {
+			// Get the message from the intent extras
+			int msg = intent.getIntExtra(UpdateDatabaseService.PROGRESS_MESSAGE, 0);
+			switch (msg) {
 				// Display a progress dialog while the database is initializing.
-				case InitDatabaseRunnable.MESSAGE_PROGRESS_INIT:
+				case UpdateDatabaseService.MESSAGE_PROGRESS_INIT:
 					mDialog = new ProgressDialog(MainActivity.this);
 					mDialog.setTitle(getString(R.string.progress_title));
 					mDialog.setMessage(getString(R.string.progress_message));
 					mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 					mDialog.setIndeterminate(false);
 					mDialog.setCancelable(false);
-					mDialog.setMax(intent.getIntExtra(InitDatabaseRunnable.PROGRESS_VALUE, 0));
+					mDialog.setMax(intent.getIntExtra(UpdateDatabaseService.PROGRESS_VALUE, 0));
 					mDialog.show();
 					break;
 
-				// Increment the progress dialog
-				case InitDatabaseRunnable.MESSAGE_PROGRESS_UPDATE:
-					mDialog.setProgress(intent.getIntExtra(InitDatabaseRunnable.PROGRESS_VALUE, 0));
+				// Increment the progress
+				case UpdateDatabaseService.MESSAGE_PROGRESS_UPDATE:
+					mDialog.setProgress(intent.getIntExtra(UpdateDatabaseService.PROGRESS_VALUE, 0));
 					break;
 
-				// Complete the progress dialog and initialize the view pager once the database has been initialized.
-				case InitDatabaseRunnable.MESSAGE_PROGRESS_COMPLETE:
+				// Close the progress dialog and initialize the view pager once the database has been initialized.
+				case UpdateDatabaseService.MESSAGE_PROGRESS_COMPLETE:
 					mDialog.cancel();
 					initViewPager();
 					break;
