@@ -64,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
 		setSupportActionBar(toolbar);
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-				new IntentFilter(UpdateDatabaseService.PERMISSION_INTENT));
+				new IntentFilter(UpdateDatabaseService.INTENT_UPDATE_BROADCAST));
 
 		// Initialize the database the first time the application is run.
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -124,14 +124,16 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	/**
-	 * Receives progress updates from the PermissionScanner.
+	 * Receives progress updates from the UpdateDatabaseService.
 	 */
 	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// Get the message from the intent extras
-			int msg = intent.getIntExtra(UpdateDatabaseService.PROGRESS_MESSAGE, 0);
-			switch (msg) {
+			// Get the intent extras
+			int message = intent.getIntExtra(UpdateDatabaseService.INTENT_UPDATE_MESSAGE, 0);
+			int progress = intent.getIntExtra(UpdateDatabaseService.INTENT_UPDATE_PROGRESS, 0);
+
+			switch (message) {
 				// Display a progress dialog while the database is initializing.
 				case UpdateDatabaseService.MESSAGE_PROGRESS_INIT:
 					mDialog = new ProgressDialog(MainActivity.this);
@@ -140,16 +142,16 @@ public class MainActivity extends ActionBarActivity {
 					mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 					mDialog.setIndeterminate(false);
 					mDialog.setCancelable(false);
-					mDialog.setMax(intent.getIntExtra(UpdateDatabaseService.PROGRESS_VALUE, 0));
+					mDialog.setMax(progress);
 					mDialog.show();
 					break;
 
-				// Increment the progress
+				// Increment the progress dialog.
 				case UpdateDatabaseService.MESSAGE_PROGRESS_UPDATE:
-					mDialog.setProgress(intent.getIntExtra(UpdateDatabaseService.PROGRESS_VALUE, 0));
+					mDialog.setProgress(progress);
 					break;
 
-				// Close the progress dialog and initialize the view pager once the database has been initialized.
+				// Close the progress dialog and initialize the view pager.
 				case UpdateDatabaseService.MESSAGE_PROGRESS_COMPLETE:
 					mDialog.cancel();
 					initViewPager();

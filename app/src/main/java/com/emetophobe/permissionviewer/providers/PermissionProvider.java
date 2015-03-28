@@ -19,19 +19,15 @@ package com.emetophobe.permissionviewer.providers;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
-import com.emetophobe.permissionviewer.utils.DatabaseHelper;
 
 
 public class PermissionProvider extends ContentProvider {
@@ -44,7 +40,6 @@ public class PermissionProvider extends ContentProvider {
 
 	private static final UriMatcher sUriMatcher;
 	private PermissionDatabase mDbHelper;
-
 
 	static {
 		sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);

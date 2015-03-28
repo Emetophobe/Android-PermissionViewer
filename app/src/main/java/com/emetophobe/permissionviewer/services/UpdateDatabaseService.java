@@ -44,9 +44,9 @@ public class UpdateDatabaseService extends IntentService {
 	public static final int MESSAGE_PROGRESS_UPDATE = 1;
 	public static final int MESSAGE_PROGRESS_COMPLETE = 2;
 
-	public static final String PERMISSION_INTENT = "permission_intent";
-	public static final String PROGRESS_MESSAGE = "progress_message";
-	public static final String PROGRESS_VALUE = "progress_value";
+	public static final String INTENT_UPDATE_BROADCAST = "intent_update_broadcast";
+	public static final String INTENT_UPDATE_MESSAGE = "intent_update_message";
+	public static final String INTENT_UPDATE_PROGRESS = "intent_update_message_extra";
 
 	public UpdateDatabaseService() {
 		super(TAG);
@@ -63,6 +63,9 @@ public class UpdateDatabaseService extends IntentService {
 		}
 	}
 
+	/**
+	 * Initialize the permission database.
+	 */
 	private void initDatabase() {
 		// Delete any old database records
 		getContentResolver().delete(PermissionContract.Permissions.CONTENT_URI, null, null);
@@ -82,6 +85,9 @@ public class UpdateDatabaseService extends IntentService {
 		broadcastMessage(MESSAGE_PROGRESS_COMPLETE, 0);
 	}
 
+	/**
+	 * Add or update an individual package in the permission database.
+	 */
 	private void updatePackage(Intent intent) {
 		// Get the package name from the intent extras
 		String packageName = intent.getStringExtra(INTENT_EXTRA_PACKAGE_NAME);
@@ -99,11 +105,11 @@ public class UpdateDatabaseService extends IntentService {
 			return;
 		}
 
-		// Delete any old package entries
+		// Delete any old package records
 		getContentResolver().delete(PermissionContract.Permissions.CONTENT_URI,
 				PermissionContract.Permissions.PACKAGE_NAME + "=?", new String[]{packageName});
 
-		// Insert the new package entry
+		// Insert the new package record
 		insert(packageName, appInfo);
 	}
 
@@ -127,26 +133,29 @@ public class UpdateDatabaseService extends IntentService {
 		// Get the system app flag
 		boolean isSystemApp = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
 
+		// Get the permission list
+		PackageInfo packageInfo;
 		try {
-			// Get the permission list
-			PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
-
-			// Just add an package entry with no permissions if the list is empty
-			if (packageInfo.requestedPermissions == null || packageInfo.requestedPermissions.length == 0) {
-				insert(packageName, appName, null, isSystemApp);
-				return;
-			}
-
-			// Create a separate package entry for each permission in the list
-			String permissionName;
-			for (int i = 0; i < packageInfo.requestedPermissions.length; ++i) {
-				if (packageInfo.requestedPermissions[i].startsWith(ANDROID_PERMISSION)) {
-					permissionName = packageInfo.requestedPermissions[i].substring(ANDROID_PERMISSION.length());
-					insert(packageName, appName, permissionName, isSystemApp);
-				}
-			}
+			packageInfo = getPackageManager().getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
 		} catch (PackageManager.NameNotFoundException e) {
-			Log.e(TAG, e.toString());
+			Log.d(TAG, "Failed to get the package info for " + packageName);
+			e.printStackTrace();
+			return;
+		}
+
+		// If the package has no permissions just add a record with no permissions
+		if (packageInfo.requestedPermissions == null || packageInfo.requestedPermissions.length == 0) {
+			insert(packageName, appName, null, isSystemApp);
+			return;
+		}
+
+		// Create a separate package entry for each permission in the list
+		String permissionName;
+		for (int i = 0; i < packageInfo.requestedPermissions.length; ++i) {
+			if (packageInfo.requestedPermissions[i].startsWith(ANDROID_PERMISSION)) {
+				permissionName = packageInfo.requestedPermissions[i].substring(ANDROID_PERMISSION.length());
+				insert(packageName, appName, permissionName, isSystemApp);
+			}
 		}
 	}
 
@@ -172,15 +181,15 @@ public class UpdateDatabaseService extends IntentService {
 	}
 
 	/**
-	 * Send a progress update message to the main/ui thread.
+	 * Broadcast an update message.
 	 *
-	 * @param message  The progress type.
-	 * @param progress The progress value.
+	 * @param message  The update message.
+	 * @param progress The update progress.
 	 */
 	private void broadcastMessage(int message, int progress) {
-		Intent intent = new Intent(PERMISSION_INTENT);
-		intent.putExtra(PROGRESS_MESSAGE, message);
-		intent.putExtra(PROGRESS_VALUE, progress);
+		Intent intent = new Intent(INTENT_UPDATE_BROADCAST);
+		intent.putExtra(INTENT_UPDATE_MESSAGE, message);
+		intent.putExtra(INTENT_UPDATE_PROGRESS, progress);
 		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 }

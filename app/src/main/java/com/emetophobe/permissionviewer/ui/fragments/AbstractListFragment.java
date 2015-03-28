@@ -58,7 +58,6 @@ public abstract class AbstractListFragment extends ListFragment implements Loade
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
 		mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
 	}
@@ -72,11 +71,6 @@ public abstract class AbstractListFragment extends ListFragment implements Loade
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key) {
 		getLoaderManager().restartLoader(0, null, this);
-	}
-
-	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		return null;
 	}
 
 	@Override

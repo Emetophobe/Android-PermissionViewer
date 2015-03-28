@@ -30,4 +30,10 @@ public  class PermissionDatabase extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + PERMISSION_TABLE);
 		onCreate(db);
 	}
+
+	@Override
+	public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		db.execSQL("DROP TABLE IF EXISTS " + PERMISSION_TABLE);
+		onCreate(db);
+	}
 }
