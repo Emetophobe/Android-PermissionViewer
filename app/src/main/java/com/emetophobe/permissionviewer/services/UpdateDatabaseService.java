@@ -23,13 +23,15 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.emetophobe.permissionviewer.events.InitDatabaseEvent;
 import com.emetophobe.permissionviewer.providers.PermissionContract;
 
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 
 public class UpdateDatabaseService extends IntentService {
@@ -44,9 +46,7 @@ public class UpdateDatabaseService extends IntentService {
 	public static final int MESSAGE_PROGRESS_UPDATE = 1;
 	public static final int MESSAGE_PROGRESS_COMPLETE = 2;
 
-	public static final String INTENT_UPDATE_BROADCAST = "intent_update_broadcast";
-	public static final String INTENT_UPDATE_MESSAGE = "intent_update_message";
-	public static final String INTENT_UPDATE_PROGRESS = "intent_update_message_extra";
+	private EventBus mEventBus = EventBus.getDefault();
 
 	public UpdateDatabaseService() {
 		super(TAG);
@@ -73,16 +73,18 @@ public class UpdateDatabaseService extends IntentService {
 		// Get the list of installed packages
 		List<ApplicationInfo> packages = getPackageManager().getInstalledApplications(PackageManager.GET_META_DATA);
 
-		broadcastMessage(MESSAGE_PROGRESS_INIT, packages.size());
+		mEventBus.post(new InitDatabaseEvent(MESSAGE_PROGRESS_INIT, packages.size()));
 
 		// Add each package in the list to the database
 		int count = 0;
 		for (ApplicationInfo appInfo : packages) {
 			insert(appInfo.packageName, appInfo);
-			broadcastMessage(MESSAGE_PROGRESS_UPDATE, ++count); // update the progress dialog
+
+			// update the progress dialog
+			mEventBus.post(new InitDatabaseEvent(MESSAGE_PROGRESS_UPDATE, ++count));
 		}
 
-		broadcastMessage(MESSAGE_PROGRESS_COMPLETE, 0);
+		mEventBus.post(new InitDatabaseEvent(MESSAGE_PROGRESS_COMPLETE));
 	}
 
 	/**
@@ -178,18 +180,5 @@ public class UpdateDatabaseService extends IntentService {
 		}
 
 		getContentResolver().insert(PermissionContract.Permissions.CONTENT_URI, values);
-	}
-
-	/**
-	 * Broadcast an update message.
-	 *
-	 * @param message  The update message.
-	 * @param progress The update progress.
-	 */
-	private void broadcastMessage(int message, int progress) {
-		Intent intent = new Intent(INTENT_UPDATE_BROADCAST);
-		intent.putExtra(INTENT_UPDATE_MESSAGE, message);
-		intent.putExtra(INTENT_UPDATE_PROGRESS, progress);
-		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 }

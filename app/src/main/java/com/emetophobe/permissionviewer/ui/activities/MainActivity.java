@@ -17,17 +17,13 @@
 package com.emetophobe.permissionviewer.ui.activities;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,17 +31,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.emetophobe.permissionviewer.R;
+import com.emetophobe.permissionviewer.events.InitDatabaseEvent;
 import com.emetophobe.permissionviewer.services.UpdateDatabaseService;
 import com.emetophobe.permissionviewer.ui.fragments.AppListFragment;
 import com.emetophobe.permissionviewer.ui.fragments.PermissionListFragment;
 
 import java.util.Locale;
 
+import de.greenrobot.event.EventBus;
+
 
 public class MainActivity extends ActionBarActivity {
 	private static final String PREF_FIRST_RUN = "pref_first_run";
 
 	private static int sViewPagerPosition = 0;
+
+	private EventBus mEventBus = EventBus.getDefault();
+	private SharedPreferences mSharedPrefs;
 	private ProgressDialog mDialog;
 
 	/**
@@ -56,39 +58,22 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// Make sure default preferences are initialized.
+		mEventBus.register(this);
+
+		// Setup the shared preferences.
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+		mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		// Set up the toolbar.
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
-		LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-				new IntentFilter(UpdateDatabaseService.INTENT_UPDATE_BROADCAST));
-
-		// Initialize the database the first time the application is run.
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		if (prefs.getBoolean(PREF_FIRST_RUN, true)) {
-			// Start the update service
-			Intent intent = new Intent(this, UpdateDatabaseService.class);
-			intent.setAction(UpdateDatabaseService.INTENT_ACTION_INIT_DATABASE);
-			startService(intent);
-
-			prefs.edit().putBoolean(PREF_FIRST_RUN, false).apply();
-		} else {
-			// Just display the view pager if the database has already been initialized.
-			initViewPager();
-		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
-		super.onDestroy();
+		initViewPager();
+		initiDatabase();
 	}
 
 	/**
-	 * Initialize the view pager and display the first fragment.
+	 * Initialize the view pager.
 	 */
 	private void initViewPager() {
 		ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -105,6 +90,23 @@ public class MainActivity extends ActionBarActivity {
 		viewPager.setCurrentItem(sViewPagerPosition);
 	}
 
+	/**
+	 * Initialize the database the first time the application is run.
+	 */
+	private void initiDatabase() {
+		if (mSharedPrefs.getBoolean(PREF_FIRST_RUN, true)) {
+			// Start the update service
+			Intent intent = new Intent(this, UpdateDatabaseService.class);
+			intent.setAction(UpdateDatabaseService.INTENT_ACTION_INIT_DATABASE);
+			startService(intent);
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mEventBus.unregister(this);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,41 +126,34 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	/**
-	 * Receives progress updates from the UpdateDatabaseService.
+	 * Handle event bus messages from the UpdateDatabaseService.
 	 */
-	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			// Get the intent extras
-			int message = intent.getIntExtra(UpdateDatabaseService.INTENT_UPDATE_MESSAGE, 0);
-			int progress = intent.getIntExtra(UpdateDatabaseService.INTENT_UPDATE_PROGRESS, 0);
+	public void onEventMainThread(InitDatabaseEvent event) {
+		switch (event.getMessage()) {
+			// Display a progress dialog while the database is initializing.
+			case UpdateDatabaseService.MESSAGE_PROGRESS_INIT:
+				mDialog = new ProgressDialog(MainActivity.this);
+				mDialog.setTitle(getString(R.string.progress_title));
+				mDialog.setMessage(getString(R.string.progress_message));
+				mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+				mDialog.setIndeterminate(false);
+				mDialog.setCancelable(false);
+				mDialog.setMax(event.getProgress());
+				mDialog.show();
+				break;
 
-			switch (message) {
-				// Display a progress dialog while the database is initializing.
-				case UpdateDatabaseService.MESSAGE_PROGRESS_INIT:
-					mDialog = new ProgressDialog(MainActivity.this);
-					mDialog.setTitle(getString(R.string.progress_title));
-					mDialog.setMessage(getString(R.string.progress_message));
-					mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-					mDialog.setIndeterminate(false);
-					mDialog.setCancelable(false);
-					mDialog.setMax(progress);
-					mDialog.show();
-					break;
+			// Increment the progress dialog.
+			case UpdateDatabaseService.MESSAGE_PROGRESS_UPDATE:
+				mDialog.setProgress(event.getProgress());
+				break;
 
-				// Increment the progress dialog.
-				case UpdateDatabaseService.MESSAGE_PROGRESS_UPDATE:
-					mDialog.setProgress(progress);
-					break;
-
-				// Close the progress dialog and initialize the view pager.
-				case UpdateDatabaseService.MESSAGE_PROGRESS_COMPLETE:
-					mDialog.cancel();
-					initViewPager();
-					break;
-			}
+			// Close the progress dialog.
+			case UpdateDatabaseService.MESSAGE_PROGRESS_COMPLETE:
+				mDialog.cancel();
+				mSharedPrefs.edit().putBoolean(PREF_FIRST_RUN, false).apply();
+				break;
 		}
-	};
+	}
 
 	/**
 	 * Pager adapter that is used to display the app list and permission list fragments.

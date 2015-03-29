@@ -79,7 +79,7 @@ public class PermissionProvider extends ContentProvider {
 		// Notify observers if a row was added
 		if (rowId > 0) {
 			Uri newUri = ContentUris.withAppendedId(contentUri, rowId);
-			getContext().getContentResolver().notifyChange(newUri, null);
+			notifyChange(newUri);
 			return newUri;
 		}
 
@@ -141,7 +141,7 @@ public class PermissionProvider extends ContentProvider {
 
 		// Notify observers if row(s) were updated
 		if (count > 0) {
-			getContext().getContentResolver().notifyChange(uri, null);
+			notifyChange(uri);
 		}
 		return count;
 	}
@@ -168,8 +168,14 @@ public class PermissionProvider extends ContentProvider {
 
 		// Notify observers if row(s) were deleted
 		if (count > 0) {
-			getContext().getContentResolver().notifyChange(uri, null);
+			notifyChange(uri);
 		}
 		return count;
+	}
+
+	private void notifyChange(Uri uri) {
+		getContext().getContentResolver().notifyChange(uri, null);
+		getContext().getContentResolver().notifyChange(Permissions.APPLICATIONS_URI, null);
+		getContext().getContentResolver().notifyChange(Permissions.PERMISSIONS_URI, null);
 	}
 }
