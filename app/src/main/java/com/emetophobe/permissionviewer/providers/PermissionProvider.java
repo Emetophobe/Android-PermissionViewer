@@ -41,10 +41,10 @@ public class PermissionProvider extends ContentProvider {
 
 	static {
 		sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		sUriMatcher.addURI(PermissionContract.AUTHORITY, "permissions", PERMISSIONS);
-		sUriMatcher.addURI(PermissionContract.AUTHORITY, "permissions/#", PERMISSION_ID);
-		sUriMatcher.addURI(PermissionContract.AUTHORITY, "app_list", APPLICATION_LIST);
-		sUriMatcher.addURI(PermissionContract.AUTHORITY, "permission_list", PERMISSION_LIST);
+		sUriMatcher.addURI(PermissionContract.AUTHORITY, PermissionContract.PATH_PERMISSIONS, PERMISSIONS);
+		sUriMatcher.addURI(PermissionContract.AUTHORITY, PermissionContract.PATH_PERMISSIONS + "/#", PERMISSION_ID);
+		sUriMatcher.addURI(PermissionContract.AUTHORITY, PermissionContract.PATH_APP_LIST, APPLICATION_LIST);
+		sUriMatcher.addURI(PermissionContract.AUTHORITY, PermissionContract.PATH_PERMISSION_LIST, PERMISSION_LIST);
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class PermissionProvider extends ContentProvider {
 				break;
 
 			default:
-				throw new UnsupportedOperationException("Unsupported URI " + uri);
+				throw new UnsupportedOperationException("Unsupported uri: " + uri);
 		}
 
 		// Notify observers if a row was added
@@ -134,7 +134,7 @@ public class PermissionProvider extends ContentProvider {
 				break;
 
 			default:
-				throw new UnsupportedOperationException("Unsupported URI " + uri);
+				throw new UnsupportedOperationException("Unsupported uri: " + uri);
 		}
 
 		// Notify observers if row(s) were updated
@@ -161,7 +161,7 @@ public class PermissionProvider extends ContentProvider {
 				break;
 
 			default:
-				throw new UnsupportedOperationException("Unsupported URI " + uri);
+				throw new UnsupportedOperationException("Unsupported uri: " + uri);
 		}
 
 		// Notify observers if row(s) were deleted

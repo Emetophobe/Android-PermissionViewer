@@ -23,12 +23,19 @@ import android.provider.BaseColumns;
 public class PermissionContract {
 	public static final String AUTHORITY = "com.emetophobe.permissionviewer.providers.PermissionProvider";
 
+	private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
+
+	public static final String PATH_PERMISSIONS = "permissions";
+	public static final String PATH_APP_LIST = "app_list";
+	public static final String PATH_PERMISSION_LIST = "permission_list";
+
+	/** This class cannot be instantiated. */
 	private PermissionContract() {}
 
 	public static final class Permissions implements BaseColumns {
-		public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/permissions");
-		public static final Uri APPLICATIONS_URI = Uri.parse("content://" + AUTHORITY + "/app_list");
-		public static final Uri PERMISSIONS_URI = Uri.parse("content://" + AUTHORITY + "/permission_list");
+		public static final Uri CONTENT_URI = buildUri(PATH_PERMISSIONS);
+		public static final Uri APPLICATIONS_URI = buildUri(PATH_APP_LIST);
+		public static final Uri PERMISSIONS_URI = buildUri(PATH_PERMISSION_LIST);
 
 		/** The application label. */
 		public static final String APP_NAME = "app_name";
@@ -42,6 +49,12 @@ public class PermissionContract {
 		/** The system package flag (0 or 1). */
 		public static final String IS_SYSTEM = "is_system";
 
+		/** Used internally to build the content uris. */
+		private static Uri buildUri(String path) {
+			return BASE_CONTENT_URI.buildUpon().appendPath(path).build();
+		}
+
+		/** This class cannot be instantiated. */
 		private Permissions() {}
 	}
 }
