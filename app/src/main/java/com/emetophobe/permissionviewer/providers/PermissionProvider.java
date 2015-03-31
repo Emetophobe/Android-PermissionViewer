@@ -31,8 +31,6 @@ import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
 
 public class PermissionProvider extends ContentProvider {
-	private static final String PERMISSION_TABLE = "permissions";
-
 	private static final int PERMISSIONS = 0;
 	private static final int PERMISSION_ID = 1;
 	private static final int APPLICATION_LIST = 2;
@@ -68,7 +66,7 @@ public class PermissionProvider extends ContentProvider {
 
 		switch (sUriMatcher.match(uri)) {
 			case PERMISSIONS:
-				rowId = db.insertOrThrow(PERMISSION_TABLE, null, values);
+				rowId = db.insertOrThrow(PermissionDatabase.PERMISSION_TABLE, null, values);
 				contentUri = PermissionContract.Permissions.CONTENT_URI;
 				break;
 
@@ -89,7 +87,7 @@ public class PermissionProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder sqlBuilder = new SQLiteQueryBuilder();
-		sqlBuilder.setTables(PERMISSION_TABLE);
+		sqlBuilder.setTables(PermissionDatabase.PERMISSION_TABLE);
 		String groupBy = null;
 
 		switch (sUriMatcher.match(uri)) {
@@ -126,13 +124,13 @@ public class PermissionProvider extends ContentProvider {
 
 		switch (sUriMatcher.match(uri)) {
 			case PERMISSIONS:
-				count = db.update(PERMISSION_TABLE, values, selection, selectionArgs);
+				count = db.update(PermissionDatabase.PERMISSION_TABLE, values, selection, selectionArgs);
 				break;
 
 			case PERMISSION_ID:
 				selection = PermissionContract.Permissions._ID + " = " + uri.getPathSegments().get(1)
 						+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : "");
-				count = db.update(PERMISSION_TABLE, values, selection, selectionArgs);
+				count = db.update(PermissionDatabase.PERMISSION_TABLE, values, selection, selectionArgs);
 				break;
 
 			default:
@@ -153,13 +151,13 @@ public class PermissionProvider extends ContentProvider {
 
 		switch (sUriMatcher.match(uri)) {
 			case PERMISSIONS:
-				count = db.delete(PERMISSION_TABLE, selection, selectionArgs);
+				count = db.delete(PermissionDatabase.PERMISSION_TABLE, selection, selectionArgs);
 				break;
 
 			case PERMISSION_ID:
 				selection = PermissionContract.Permissions._ID + " = " + uri.getPathSegments().get(1)
 						+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : "");
-				count = db.delete(PERMISSION_TABLE, selection, selectionArgs);
+				count = db.delete(PermissionDatabase.PERMISSION_TABLE, selection, selectionArgs);
 				break;
 
 			default:
