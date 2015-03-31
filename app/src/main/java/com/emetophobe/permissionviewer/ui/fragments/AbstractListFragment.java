@@ -46,13 +46,15 @@ public abstract class AbstractListFragment extends ListFragment implements Loade
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_abstractlist, container, false);
+		View view = inflater.inflate(R.layout.fragment_abstractlist, container, false);
+		ButterKnife.inject(this, view);
+		return view;
 	}
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		ButterKnife.inject(this, view);
+	public void onDestroyView() {
+		super.onDestroyView();
+		ButterKnife.reset(this);
 	}
 
 	@Override
