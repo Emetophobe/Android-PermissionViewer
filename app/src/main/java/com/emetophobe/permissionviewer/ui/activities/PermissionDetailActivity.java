@@ -23,7 +23,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
 import com.emetophobe.permissionviewer.R;
-import com.emetophobe.permissionviewer.utils.SettingsHelper;
+import com.emetophobe.permissionviewer.utils.SettingsUtils;
 import com.emetophobe.permissionviewer.ui.adapters.AppListAdapter;
 import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
@@ -63,7 +63,7 @@ public class PermissionDetailActivity extends AbstractDetailActivity implements 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String selection = Permissions.PERMISSION_NAME + "=?";
-		if (!SettingsHelper.getShowSystemApps(this)) {
+		if (!SettingsUtils.getShowSystemApps(this)) {
 			selection += " AND " + Permissions.IS_SYSTEM + "=0";
 		}
 

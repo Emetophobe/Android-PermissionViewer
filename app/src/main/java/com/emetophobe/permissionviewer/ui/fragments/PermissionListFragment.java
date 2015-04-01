@@ -25,7 +25,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.emetophobe.permissionviewer.ui.adapters.PermissionListAdapter;
-import com.emetophobe.permissionviewer.utils.SettingsHelper;
+import com.emetophobe.permissionviewer.utils.SettingsUtils;
 import com.emetophobe.permissionviewer.ui.activities.PermissionDetailActivity;
 import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
@@ -59,12 +59,12 @@ public class PermissionListFragment extends AbstractListFragment {
 
 		// Create the selection clause.
 		String selection = Permissions.PERMISSION_NAME + " IS NOT NULL";
-		if (!SettingsHelper.getShowSystemApps(getActivity())) {
+		if (!SettingsUtils.getShowSystemApps(getActivity())) {
 			selection += " AND " + Permissions.IS_SYSTEM + " = 0";
 		}
 
 		// Get the permission sort order preference and set the sort order.
-		String sortOrder = SettingsHelper.getPermissionSortOrder(getActivity())
+		String sortOrder = SettingsUtils.getPermissionSortOrder(getActivity())
 				? SORT_BY_PERMISSION_NAME : SORT_BY_COUNT;
 
 		// Create the loader.

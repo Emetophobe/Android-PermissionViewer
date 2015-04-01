@@ -21,7 +21,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 
-public class SettingsHelper {
+public class SettingsUtils {
 	private static final String SHOW_SYSTEM_APPS = "pref_show_system_apps";
 	private static final String APP_SORT_ORDER = "pref_app_sort_order";
 	private static final String PERM_SORT_ORDER = "pref_perm_sort_order";
@@ -29,7 +29,7 @@ public class SettingsHelper {
 	/**
 	 * This class cannot be instantiated.
 	 */
-	private SettingsHelper() {
+	private SettingsUtils() {
 	}
 
 	/**

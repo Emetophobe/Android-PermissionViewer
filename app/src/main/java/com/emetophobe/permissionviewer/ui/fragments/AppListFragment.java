@@ -24,7 +24,7 @@ import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListView;
 
-import com.emetophobe.permissionviewer.utils.SettingsHelper;
+import com.emetophobe.permissionviewer.utils.SettingsUtils;
 import com.emetophobe.permissionviewer.ui.activities.AppDetailActivity;
 import com.emetophobe.permissionviewer.ui.adapters.AppListAdapter;
 import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
@@ -58,11 +58,11 @@ public class AppListFragment extends AbstractListFragment {
 		setLoading(true);
 
 		// Get the show system apps preference and set the selection clause.
-		String selection = !SettingsHelper.getShowSystemApps(getActivity())
+		String selection = !SettingsUtils.getShowSystemApps(getActivity())
 				? Permissions.IS_SYSTEM + "= 0" : null;
 
 		// Get the application sort order preference and set the sort order.
-		String sortOrder = SettingsHelper.getAppSortOrder(getActivity())
+		String sortOrder = SettingsUtils.getAppSortOrder(getActivity())
 				? SORT_BY_APP_NAME : SORT_BY_COUNT;
 
 		// Create the loader.
