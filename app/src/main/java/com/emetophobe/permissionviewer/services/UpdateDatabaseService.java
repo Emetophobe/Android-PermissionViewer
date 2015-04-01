@@ -123,7 +123,7 @@ public class UpdateDatabaseService extends IntentService {
 	 * @param appInfo     The application info.
 	 */
 	public void insert(String packageName, ApplicationInfo appInfo) {
-		// Get the application label/name
+		// Get the application label
 		String appName;
 		try {
 			appName = getPackageManager().getApplicationLabel(appInfo).toString();
@@ -135,7 +135,7 @@ public class UpdateDatabaseService extends IntentService {
 		// Get the system app flag
 		boolean isSystemApp = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
 
-		// Get the permission list
+		// Get the package info
 		PackageInfo packageInfo;
 		try {
 			packageInfo = getPackageManager().getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
@@ -152,10 +152,9 @@ public class UpdateDatabaseService extends IntentService {
 		}
 
 		// Create a separate package entry for each permission in the list
-		String permissionName;
-		for (int i = 0; i < packageInfo.requestedPermissions.length; ++i) {
-			if (packageInfo.requestedPermissions[i].startsWith(ANDROID_PERMISSION)) {
-				permissionName = packageInfo.requestedPermissions[i].substring(ANDROID_PERMISSION.length());
+		for(String permissionName : packageInfo.requestedPermissions) {
+			if (permissionName.startsWith(ANDROID_PERMISSION)) {
+				permissionName = permissionName.substring(ANDROID_PERMISSION.length());
 				insert(packageName, appName, permissionName, isSystemApp);
 			}
 		}
