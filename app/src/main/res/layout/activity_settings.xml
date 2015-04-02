@@ -23,7 +23,7 @@ limitations under the License.
 			  android:orientation="vertical"
 			  tools:context="com.apps.unitconverter.SettingsActivity">
 
-	<include layout="@layout/view_toolbar" />
+	<include layout="@layout/layout_toolbar" />
 
 	<FrameLayout
 		android:id="@+id/container"

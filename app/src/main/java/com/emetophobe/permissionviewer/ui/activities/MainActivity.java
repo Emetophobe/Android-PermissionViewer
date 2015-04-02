@@ -184,9 +184,9 @@ public class MainActivity extends ActionBarActivity {
 			Locale l = Locale.getDefault();
 			switch (position) {
 				case 0:
-					return getString(R.string.action_applications).toUpperCase(l);
+					return getString(R.string.title_applications).toUpperCase(l);
 				case 1:
-					return getString(R.string.action_permissions).toUpperCase(l);
+					return getString(R.string.title_permissions).toUpperCase(l);
 			}
 			return null;
 		}

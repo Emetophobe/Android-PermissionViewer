@@ -19,16 +19,25 @@ package com.emetophobe.permissionviewer.ui.activities;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.utils.SettingsUtils;
 import com.emetophobe.permissionviewer.ui.adapters.AppListAdapter;
 import com.emetophobe.permissionviewer.providers.PermissionContract.Permissions;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
-public class PermissionDetailActivity extends AbstractDetailActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+public class PermissionDetailActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 	public static final String EXTRA_PERMISSION_NAME = "extra_permission_name";
 
 	private static final String[] PROJECTION = {Permissions._ID, Permissions.APP_NAME, Permissions.PACKAGE_NAME};
@@ -37,9 +46,29 @@ public class PermissionDetailActivity extends AbstractDetailActivity implements 
 	private AppListAdapter mAdapter;
 	private String mPermissionName;
 
+	@InjectView(R.id.permission_name)
+	protected TextView mPermissionLabel;
+
+	@InjectView(R.id.permission_description)
+	protected TextView mPermissionDescription;
+
+	@InjectView(R.id.application_count)
+	protected TextView mAppCount;
+
+	@InjectView(R.id.application_list)
+	protected ListView mAppList;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_permission_detail);
+		ButterKnife.inject(this);
+
+		// Set up the toolbar.
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayShowTitleEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// Get the permission name from the intent extras.
 		Bundle extras = getIntent().getExtras();
@@ -48,16 +77,26 @@ public class PermissionDetailActivity extends AbstractDetailActivity implements 
 			throw new IllegalArgumentException("Must pass a valid permission name with EXTRA_PERMISSION_NAME.");
 		}
 
-		// Set the title and description.
-		setTitle(mPermissionName);
-		setDescription(getDescription());
+		// Set the permission name and description
+		mPermissionLabel.setText(mPermissionName);
+		mPermissionDescription.setText(getDescription());
 
 		// Set up the adapter.
 		mAdapter = new AppListAdapter(this);
-		setListAdapter(mAdapter);
+		mAppList.setAdapter(mAdapter);
 
-		// Load the list of applications that match the permission name
+		// Load the application list
 		getSupportLoaderManager().initLoader(0, null, this);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -76,7 +115,7 @@ public class PermissionDetailActivity extends AbstractDetailActivity implements 
 
 		// Set the application count
 		if (cursor != null) {
-			setCount(String.format(getString(R.string.application_count), cursor.getCount()));
+			mAppCount.setText(String.format(getString(R.string.application_count), cursor.getCount()));
 		}
 	}
 

@@ -19,6 +19,7 @@
 
 		<activity
 			android:name=".ui.activities.AppDetailActivity"
+			android:label="@string/title_app_info"
 			android:parentActivityName=".ui.activities.MainActivity">
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data
@@ -29,6 +30,7 @@
 
 		<activity
 			android:name=".ui.activities.PermissionDetailActivity"
+			android:label="@string/title_permission_info"
 			android:parentActivityName=".ui.activities.MainActivity">
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data

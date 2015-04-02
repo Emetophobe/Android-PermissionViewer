@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  xmlns:tools="http://schemas.android.com/tools"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  android:orientation="vertical">
+
+	<include layout="@layout/layout_toolbar"/>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="16dp">
+
+		<ImageView
+			android:id="@+id/app_icon"
+			android:layout_width="48dp"
+			android:layout_height="48dp"
+			android:src="@mipmap/ic_launcher"/>
+
+		<TextView
+			android:id="@+id/app_label"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:paddingTop="8dp"
+			android:paddingLeft="8dp"
+			android:layout_alignParentTop="true"
+			android:layout_toRightOf="@+id/app_icon"
+			android:layout_toEndOf="@+id/app_icon"
+			android:textStyle="bold"
+			tools:text="Permission Viewer"/>
+
+		<TextView
+			android:id="@+id/app_package"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:paddingLeft="8dp"
+			android:layout_below="@+id/app_label"
+			android:layout_toRightOf="@+id/app_icon"
+			android:layout_toEndOf="@+id/app_icon"
+			tools:text="com.emetophobe.permissionviewer"/>
+
+	</RelativeLayout>
+
+	<TextView
+		android:id="@+id/permission_count"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingLeft="8dp"
+		android:paddingRight="8dp"
+		android:paddingBottom="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginRight="8dp"
+		android:textAllCaps="false"
+		android:textStyle="normal"
+		style="?android:attr/listSeparatorTextViewStyle"
+		tools:text="Permissions: 0"/>
+
+	<ListView
+		android:id="@+id/permission_list"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:overScrollHeader="@null"
+		android:divider="@android:color/transparent"
+		android:dividerHeight="0dp"/>
+
+</LinearLayout>
