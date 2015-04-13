@@ -57,11 +57,11 @@ public class AppListFragment extends AbstractListFragment {
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		setLoading(true);
 
-		// Get the show system apps preference and set the selection clause.
+		// Filter apps based on the system flag preference
 		String selection = !SettingsUtils.getShowSystemApps(getActivity())
 				? Permissions.IS_SYSTEM + "= 0" : null;
 
-		// Get the application sort order preference and set the sort order.
+		// Sort apps based on the sort order preference
 		String sortOrder = SettingsUtils.getAppSortOrder(getActivity())
 				? SORT_BY_APP_NAME : SORT_BY_COUNT;
 

@@ -57,13 +57,13 @@ public class PermissionListFragment extends AbstractListFragment {
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		setLoading(true);
 
-		// Create the selection clause.
+		// Filter permissions based the permission name and system flag preference
 		String selection = Permissions.PERMISSION_NAME + " IS NOT NULL";
 		if (!SettingsUtils.getShowSystemApps(getActivity())) {
 			selection += " AND " + Permissions.IS_SYSTEM + " = 0";
 		}
 
-		// Get the permission sort order preference and set the sort order.
+		// Sort permissions based on the sort order preference
 		String sortOrder = SettingsUtils.getPermissionSortOrder(getActivity())
 				? SORT_BY_PERMISSION_NAME : SORT_BY_COUNT;
 

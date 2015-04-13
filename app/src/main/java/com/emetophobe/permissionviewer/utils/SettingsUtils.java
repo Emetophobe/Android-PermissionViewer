@@ -27,12 +27,6 @@ public class SettingsUtils {
 	private static final String PERM_SORT_ORDER = "pref_perm_sort_order";
 
 	/**
-	 * This class cannot be instantiated.
-	 */
-	private SettingsUtils() {
-	}
-
-	/**
 	 * Returns the show system apps preference.
 	 *
 	 * @param context The context to use.
@@ -64,4 +58,9 @@ public class SettingsUtils {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		return prefs.getBoolean(PERM_SORT_ORDER, false);
 	}
+
+	/**
+	 * This class cannot be instantiated.
+	 */
+	private SettingsUtils() {}
 }
