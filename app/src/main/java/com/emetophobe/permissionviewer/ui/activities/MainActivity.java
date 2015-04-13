@@ -45,8 +45,6 @@ public class MainActivity extends ActionBarActivity {
 	private static final String PREF_FIRST_RUN = "pref_first_run";
 
 	private static int sViewPagerPosition = 0;
-
-	private EventBus mEventBus = EventBus.getDefault();
 	private SharedPreferences mSharedPrefs;
 	private ProgressDialog mDialog;
 
@@ -58,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		mEventBus.register(this);
+		EventBus.getDefault().register(this);
 
 		// Setup the shared preferences.
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -69,7 +67,7 @@ public class MainActivity extends ActionBarActivity {
 		setSupportActionBar(toolbar);
 
 		initViewPager();
-		initiDatabase();
+		initDatabase();
 	}
 
 	/**
@@ -93,7 +91,7 @@ public class MainActivity extends ActionBarActivity {
 	/**
 	 * Initialize the database the first time the application is run.
 	 */
-	private void initiDatabase() {
+	private void initDatabase() {
 		if (mSharedPrefs.getBoolean(PREF_FIRST_RUN, true)) {
 			// Start the update service
 			Intent intent = new Intent(this, UpdateDatabaseService.class);
@@ -105,7 +103,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		mEventBus.unregister(this);
+		EventBus.getDefault().unregister(this);
 	}
 
 	@Override
