@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
-			 android:id="@+id/flipper"
+			 android:id="@+id/view_flipper"
 			 android:layout_width="match_parent"
 			 android:layout_height="match_parent"
+			 android:background="@color/light_grey"
 			 android:isScrollContainer="true">
 
 	<LinearLayout
@@ -27,8 +28,8 @@
 		android:layout_height="match_parent"
 		android:orientation="vertical">
 
-		<ListView
-			android:id="@android:id/list"
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/recycler_view"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:choiceMode="singleChoice"
@@ -36,11 +37,12 @@
 			android:dividerHeight="0dp"/>
 
 		<TextView
-			android:id="@android:id/empty"
+			android:id="@+id/empty_view"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:gravity="center"
-			android:text="@string/empty_list"/>
+			android:text="@string/empty_list"
+			android:visibility="gone"/>
 
 	</LinearLayout>
 </ViewFlipper>

@@ -2,6 +2,7 @@
 			  xmlns:tools="http://schemas.android.com/tools"
 			  android:layout_width="match_parent"
 			  android:layout_height="match_parent"
+			  android:background="@color/light_grey"
 			  android:orientation="vertical">
 
 	<include layout="@layout/layout_toolbar"/>
@@ -55,11 +56,11 @@
 		style="?android:attr/listSeparatorTextViewStyle"
 		tools:text="Permissions: 0"/>
 
-	<ListView
-		android:id="@+id/permission_list"
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/recycler_view"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:overScrollHeader="@null"
+		android:choiceMode="singleChoice"
 		android:divider="@android:color/transparent"
 		android:dividerHeight="0dp"/>
 
