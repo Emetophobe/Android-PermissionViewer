@@ -38,7 +38,7 @@ import java.util.Locale;
 
 
 public class MainActivity extends BaseActivity implements HasComponent<FragmentComponent> {
-	private static int sViewPagerPosition = 0;
+	private static int sCurrentViewPagerPosition = 0;
 
 	private FragmentComponent mFragmentComponent;
 
@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity implements HasComponent<FragmentC
 		setSupportActionBar(toolbar);
 
 		injectDependencies();
-		initViewPager();
+		setupViewPager();
 	}
 
 	private void injectDependencies() {
@@ -67,19 +67,19 @@ public class MainActivity extends BaseActivity implements HasComponent<FragmentC
 		return mFragmentComponent;
 	}
 
-	private void initViewPager() {
+	private void setupViewPager() {
 		ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
-		viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+		viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
 				// Remember the current view pager position
-				sViewPagerPosition = position;
+				sCurrentViewPagerPosition = position;
 			}
 		});
 
 		// Restore the pager position
-		viewPager.setCurrentItem(sViewPagerPosition);
+		viewPager.setCurrentItem(sCurrentViewPagerPosition);
 	}
 
 	@Override
