@@ -20,14 +20,14 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.emetophobe.permissionviewer.utils.PermissionHelper;
+import com.emetophobe.permissionviewer.utils.AppListHelper;
+import com.emetophobe.permissionviewer.utils.PermissionListHelper;
 import com.emetophobe.permissionviewer.utils.SettingsHelper;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import de.greenrobot.event.EventBus;
 
 
 /**
@@ -60,7 +60,13 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	PermissionHelper providePermissionHelper() {
-		return new PermissionHelper(mApplication);
+	AppListHelper provideAppListHelper(SettingsHelper settingsHelper) {
+		return new AppListHelper(mApplication, settingsHelper);
+	}
+
+	@Provides
+	@Singleton
+	PermissionListHelper providePermissionListHelper(AppListHelper appListHelper, SettingsHelper settingsHelper) {
+		return new PermissionListHelper(appListHelper, settingsHelper);
 	}
 }

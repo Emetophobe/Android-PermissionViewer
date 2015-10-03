@@ -29,11 +29,11 @@ public class AppDetail implements Parcelable {
 	private int mSystemFlag;
 	private List<String> mPermissionList;
 
-	public AppDetail(String packageName, String appLabel, int systemFlag) {
+	public AppDetail(String packageName, String appLabel, int systemFlag, List<String> permissions) {
 		mPackageName = packageName;
 		mAppLabel = appLabel;
 		mSystemFlag = systemFlag;
-		mPermissionList = new ArrayList<>();
+		mPermissionList = new ArrayList<>(permissions);
 	}
 
 	public String getPackageName() {

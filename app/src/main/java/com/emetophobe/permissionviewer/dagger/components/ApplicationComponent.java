@@ -21,7 +21,8 @@ import android.content.SharedPreferences;
 
 import com.emetophobe.permissionviewer.dagger.modules.ApplicationModule;
 import com.emetophobe.permissionviewer.ui.MainActivity;
-import com.emetophobe.permissionviewer.utils.PermissionHelper;
+import com.emetophobe.permissionviewer.utils.AppListHelper;
+import com.emetophobe.permissionviewer.utils.PermissionListHelper;
 import com.emetophobe.permissionviewer.utils.SettingsHelper;
 
 import javax.inject.Singleton;
@@ -37,5 +38,6 @@ public interface ApplicationComponent {
 	Application application();
 	SharedPreferences sharedPrefs();
 	SettingsHelper settingsHelper();
-	PermissionHelper permissionHelper();
+	AppListHelper appListHelper();
+	PermissionListHelper permissionHelper();
 }
