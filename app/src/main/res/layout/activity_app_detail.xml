@@ -1,11 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:tools="http://schemas.android.com/tools"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
-			  android:background="@color/light_grey"
-			  android:orientation="vertical">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="true"
+	android:background="@color/colorBackground"
+	android:orientation="vertical">
 
-	<include layout="@layout/layout_toolbar"/>
+	<android.support.design.widget.AppBarLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:theme="@style/AppTheme.AppBarOverlay">
+
+		<include layout="@layout/toolbar"/>
+
+	</android.support.design.widget.AppBarLayout>
 
 	<RelativeLayout
 		android:layout_width="match_parent"
@@ -22,11 +32,11 @@
 			android:id="@+id/app_label"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:paddingTop="8dp"
-			android:paddingLeft="8dp"
 			android:layout_alignParentTop="true"
-			android:layout_toRightOf="@+id/app_icon"
 			android:layout_toEndOf="@+id/app_icon"
+			android:layout_toRightOf="@+id/app_icon"
+			android:paddingLeft="8dp"
+			android:paddingTop="8dp"
 			android:textStyle="bold"
 			tools:text="Permission Viewer"/>
 
@@ -34,26 +44,26 @@
 			android:id="@+id/app_package"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:paddingLeft="8dp"
 			android:layout_below="@+id/app_label"
-			android:layout_toRightOf="@+id/app_icon"
 			android:layout_toEndOf="@+id/app_icon"
+			android:layout_toRightOf="@+id/app_icon"
+			android:paddingLeft="8dp"
 			tools:text="com.emetophobe.permissionviewer"/>
 
 	</RelativeLayout>
 
 	<TextView
 		android:id="@+id/permission_count"
+		style="?android:attr/listSeparatorTextViewStyle"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:paddingLeft="8dp"
-		android:paddingRight="8dp"
-		android:paddingBottom="8dp"
 		android:layout_marginLeft="8dp"
 		android:layout_marginRight="8dp"
+		android:paddingBottom="8dp"
+		android:paddingLeft="8dp"
+		android:paddingRight="8dp"
 		android:textAllCaps="false"
 		android:textStyle="normal"
-		style="?android:attr/listSeparatorTextViewStyle"
 		tools:text="Permissions: 0"/>
 
 	<android.support.v7.widget.RecyclerView

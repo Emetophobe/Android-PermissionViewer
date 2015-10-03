@@ -11,8 +11,7 @@
 
 		<activity
 			android:name=".ui.MainActivity"
-			android:label="@string/app_name"
-			android:theme="@style/AppTheme.NoActionBar">
+			android:label="@string/app_name" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 				<category android:name="android.intent.category.LAUNCHER"/>
@@ -22,7 +21,6 @@
 		<activity
 			android:name=".ui.app_detail.AppDetailActivity"
 			android:label="@string/title_app_info"
-			android:theme="@style/AppTheme.NoActionBar"
 			android:parentActivityName=".ui.MainActivity">
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data
@@ -34,7 +32,6 @@
 		<activity
 			android:name=".ui.permission_detail.PermissionDetailActivity"
 			android:label="@string/title_permission_info"
-			android:theme="@style/AppTheme.NoActionBar"
 			android:parentActivityName=".ui.MainActivity">
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data
@@ -45,7 +42,6 @@
 		<activity
 			android:name=".ui.SettingsActivity"
 			android:label="@string/title_settings"
-			android:theme="@style/AppTheme.NoActionBar"
 			android:parentActivityName=".ui.MainActivity">
 			<!-- Parent activity meta-data to support 4.0 and lower -->
 			<meta-data
