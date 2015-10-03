@@ -22,6 +22,7 @@ import com.emetophobe.permissionviewer.ui.app_list.AppListPresenterImpl;
 import com.emetophobe.permissionviewer.ui.permission_list.PermissionListPresenter;
 import com.emetophobe.permissionviewer.ui.permission_list.PermissionListPresenterImpl;
 import com.emetophobe.permissionviewer.utils.PermissionHelper;
+import com.emetophobe.permissionviewer.utils.SettingsHelper;
 
 import dagger.Module;
 import dagger.Provides;
@@ -33,13 +34,13 @@ public class FragmentModule {
 
 	@Provides
 	@PerActivity
-	AppListPresenter provideAppListPresenter(PermissionHelper permissionHelper) {
-		return new AppListPresenterImpl(permissionHelper);
+	AppListPresenter provideAppListPresenter(PermissionHelper permissionHelper, SettingsHelper settingsHelper) {
+		return new AppListPresenterImpl(permissionHelper, settingsHelper);
 	}
 
 	@Provides
 	@PerActivity
-	PermissionListPresenter providePermissionListPresenter(PermissionHelper permissionHelper) {
-		return new PermissionListPresenterImpl(permissionHelper);
+	PermissionListPresenter providePermissionListPresenter(PermissionHelper permissionHelper, SettingsHelper settingsHelper) {
+		return new PermissionListPresenterImpl(permissionHelper, settingsHelper);
 	}
 }

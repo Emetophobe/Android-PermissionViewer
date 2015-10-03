@@ -16,8 +16,7 @@
 
 package com.emetophobe.permissionviewer.utils;
 
-import android.content.Context;
-import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
 
 
 public class SettingsHelper {
@@ -25,38 +24,37 @@ public class SettingsHelper {
 	private static final String APP_SORT_ORDER = "pref_app_sort_order";
 	private static final String PERM_SORT_ORDER = "pref_perm_sort_order";
 
-	/**
-	 * This class cannot be instantiated.
-	 */
-	private SettingsHelper() {}
+	private SharedPreferences mSharedPrefs;
+
+
+	public SettingsHelper(SharedPreferences sharedPrefs) {
+		mSharedPrefs = sharedPrefs;
+	}
 
 	/**
 	 * Returns the show system apps preference.
 	 *
-	 * @param context The context to use.
 	 * @return true if system apps should be shown, false if system apps should be hidden.
 	 */
-	public static boolean getShowSystemApps(Context context) {
-		return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SHOW_SYSTEM_APPS, true);
+	public boolean getShowSystemApps() {
+		return mSharedPrefs.getBoolean(SHOW_SYSTEM_APPS, true);
 	}
 
 	/**
 	 * Returns the application sort order preference.
 	 *
-	 * @param context The context to use.
 	 * @return true if apps should be sorted by application name, false if applications should be sorted by permission count.
 	 */
-	public static boolean getAppSortOrder(Context context) {
-		return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(APP_SORT_ORDER, false);
+	public boolean getAppSortOrder() {
+		return mSharedPrefs.getBoolean(APP_SORT_ORDER, false);
 	}
 
 	/**
 	 * Returns the permission sort order preference.
 	 *
-	 * @param context The context to use.
-	 * @return true if permissions should be sorted by permission name, false if permissions should be sorted by account count.
+	 * @return true if permissions should be sorted by permission name, false if permissions should be sorted by application count.
 	 */
-	public static boolean getPermissionSortOrder(Context context) {
-		return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PERM_SORT_ORDER, false);
+	public boolean getPermissionSortOrder() {
+		return mSharedPrefs.getBoolean(PERM_SORT_ORDER, false);
 	}
 }

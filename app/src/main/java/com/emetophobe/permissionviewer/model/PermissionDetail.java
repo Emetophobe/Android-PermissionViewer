@@ -27,14 +27,9 @@ public class PermissionDetail implements Parcelable {
 	private String mName;
 	private List<AppDetail> mAppList;
 
-	public PermissionDetail(String name) {
-		mName = name;
-		mAppList = new ArrayList<>();
-	}
-
 	public PermissionDetail(String name, List<AppDetail> appList) {
 		mName = name;
-		mAppList = appList;
+		mAppList = new ArrayList<>(appList);
 	}
 
 	public String getName() {

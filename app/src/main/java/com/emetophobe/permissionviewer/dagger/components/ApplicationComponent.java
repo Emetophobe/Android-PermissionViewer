@@ -21,13 +21,12 @@ import android.content.SharedPreferences;
 
 import com.emetophobe.permissionviewer.dagger.modules.ApplicationModule;
 import com.emetophobe.permissionviewer.ui.MainActivity;
-import com.emetophobe.permissionviewer.ui.base.BaseActivity;
 import com.emetophobe.permissionviewer.utils.PermissionHelper;
+import com.emetophobe.permissionviewer.utils.SettingsHelper;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
-import de.greenrobot.event.EventBus;
 
 
 @Singleton
@@ -36,7 +35,7 @@ public interface ApplicationComponent {
 	void inject(MainActivity mainActivity);
 
 	Application application();
-	EventBus eventBus();
 	SharedPreferences sharedPrefs();
+	SettingsHelper settingsHelper();
 	PermissionHelper permissionHelper();
 }

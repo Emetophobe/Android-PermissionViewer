@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.emetophobe.permissionviewer.utils.PermissionHelper;
+import com.emetophobe.permissionviewer.utils.SettingsHelper;
 
 import javax.inject.Singleton;
 
@@ -53,8 +54,8 @@ public class ApplicationModule {
 	}
 
 	@Provides
-	EventBus provideEventBus() {
-		return EventBus.getDefault();
+	SettingsHelper provideSettingsHelper(SharedPreferences sharedPrefs) {
+		return new SettingsHelper(sharedPrefs);
 	}
 
 	@Provides
