@@ -59,13 +59,11 @@ public class ApplicationModule {
 	}
 
 	@Provides
-	@Singleton
 	AppListHelper provideAppListHelper(SettingsHelper settingsHelper) {
 		return new AppListHelper(mApplication, settingsHelper);
 	}
 
 	@Provides
-	@Singleton
 	PermissionListHelper providePermissionListHelper(AppListHelper appListHelper, SettingsHelper settingsHelper) {
 		return new PermissionListHelper(appListHelper, settingsHelper);
 	}
