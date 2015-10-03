@@ -40,9 +40,6 @@ import javax.inject.Inject;
 import butterknife.Bind;
 
 
-/**
- * Display the list of installed applications.
- */
 public class AppListFragment extends BaseFragment implements AppListView {
 	@Inject
 	protected AppListPresenter mPresenter;
@@ -56,7 +53,6 @@ public class AppListFragment extends BaseFragment implements AppListView {
 	@Bind(R.id.empty_view)
 	protected TextView mEmptyTextView;
 
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_abstract_list, container, false);
@@ -67,9 +63,13 @@ public class AppListFragment extends BaseFragment implements AppListView {
 		super.onActivityCreated(savedInstanceState);
 		injectDependencies();
 		setupRecyclerView();
-
 		mPresenter.attachView(this);
-		mPresenter.loadAppList(false);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mPresenter.loadAppList(true);
 	}
 
 	@Override
@@ -116,9 +116,6 @@ public class AppListFragment extends BaseFragment implements AppListView {
 		setLoading(false);
 	}
 
-	/**
-	 * Show or hide the loading screen.
-	 */
 	private void setLoading(boolean show) {
 		mViewFlipper.setDisplayedChild(show ? 0 : 1);
 	}

@@ -41,7 +41,6 @@ import butterknife.Bind;
 
 
 public class PermissionListFragment extends BaseFragment implements PermissionListView {
-
 	@Inject
 	protected PermissionListPresenter mPresenter;
 
@@ -54,7 +53,6 @@ public class PermissionListFragment extends BaseFragment implements PermissionLi
 	@Bind(R.id.empty_view)
 	protected TextView mEmptyTextView;
 
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_abstract_list, container, false);
@@ -65,9 +63,13 @@ public class PermissionListFragment extends BaseFragment implements PermissionLi
 		super.onActivityCreated(savedInstanceState);
 		injectDependencies();
 		setupRecyclerView();
-
 		mPresenter.attachView(this);
-		mPresenter.loadPermissionList(false);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mPresenter.loadPermissionList(true);
 	}
 
 	@Override
@@ -115,9 +117,6 @@ public class PermissionListFragment extends BaseFragment implements PermissionLi
 		setLoading(false);
 	}
 
-	/**
-	 * Show or hide the loading screen.
-	 */
 	private void setLoading(boolean show) {
 		mViewFlipper.setDisplayedChild(show ? 0 : 1);
 	}

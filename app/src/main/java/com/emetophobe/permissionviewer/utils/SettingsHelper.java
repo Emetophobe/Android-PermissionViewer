@@ -22,7 +22,7 @@ import android.content.SharedPreferences;
 public class SettingsHelper {
 	private static final String SHOW_SYSTEM_APPS = "pref_show_system_apps";
 	private static final String APP_SORT_ORDER = "pref_app_sort_order";
-	private static final String PERM_SORT_ORDER = "pref_perm_sort_order";
+	private static final String PERMISSION_SORT_ORDER = "pref_perm_sort_order";
 
 	private SharedPreferences mSharedPrefs;
 
@@ -55,6 +55,6 @@ public class SettingsHelper {
 	 * @return true if permissions should be sorted by permission name, false if permissions should be sorted by application count.
 	 */
 	public boolean getPermissionSortOrder() {
-		return mSharedPrefs.getBoolean(PERM_SORT_ORDER, false);
+		return mSharedPrefs.getBoolean(PERMISSION_SORT_ORDER, false);
 	}
 }
