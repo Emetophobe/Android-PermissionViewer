@@ -18,6 +18,7 @@ package com.emetophobe.permissionviewer.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -68,15 +69,14 @@ public class MainActivity extends BaseActivity implements HasComponent<FragmentC
 	}
 
 	private void setupViewPager() {
-		ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-		viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
-		viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-			@Override
-			public void onPageSelected(int position) {
-				// Remember the current view pager position
-				sCurrentViewPagerPosition = position;
-			}
-		});
+		PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
+
+		TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+		tabLayout.setTabsFromPagerAdapter(adapter);
+
+		ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+		viewPager.addOnPageChangeListener(new OnPageChangeListener(tabLayout));
+		viewPager.setAdapter(adapter);
 
 		// Restore the pager position
 		viewPager.setCurrentItem(sCurrentViewPagerPosition);
@@ -97,6 +97,19 @@ public class MainActivity extends BaseActivity implements HasComponent<FragmentC
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	private class OnPageChangeListener extends TabLayout.TabLayoutOnPageChangeListener {
+		public OnPageChangeListener(TabLayout tabLayout) {
+			super(tabLayout);
+		}
+
+		// Remember the selected page position
+		@Override
+		public void onPageSelected(int position) {
+			super.onPageSelected(position);
+			sCurrentViewPagerPosition = position;
+		}
 	}
 
 	/**
@@ -125,12 +138,12 @@ public class MainActivity extends BaseActivity implements HasComponent<FragmentC
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
+			Locale locale = Locale.getDefault();
 			switch (position) {
 				case 0:
-					return getString(R.string.title_applications).toUpperCase(l);
+					return getString(R.string.title_applications).toUpperCase(locale);
 				case 1:
-					return getString(R.string.title_permissions).toUpperCase(l);
+					return getString(R.string.title_permissions).toUpperCase(locale);
 			}
 			return null;
 		}
