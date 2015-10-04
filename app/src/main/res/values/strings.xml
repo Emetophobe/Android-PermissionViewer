@@ -10,20 +10,22 @@
 	<string name="action_settings">Settings</string>
 
 	<string name="empty_list">No items</string>
-
 	<string name="loading">Loading&#8230;</string>
 
 	<string name="permission_count">Permissions: %1$s</string>
 	<string name="application_count">Applications: %1$s</string>
 
 	<string name="pref_show_system_title">System apps</string>
-	<string name="pref_show_system_summary">Show or hide protected system apps</string>
+	<string name="pref_show_system_summaryOn">Showing system apps</string>
+	<string name="pref_show_system_summaryOff">Hiding system apps</string>
 
 	<string name="pref_app_sort_order_title">Application sort order</string>
-	<string name="pref_app_sort_order_summary">Sort applications by name or by permission count</string>
+	<string name="pref_app_sort_order_summaryOn">Sorting applications by name</string>
+	<string name="pref_app_sort_order_summaryOff">Sorting applications by permission count</string>
 
 	<string name="pref_perm_sort_order_title">Permissions sort order</string>
-	<string name="pref_perm_sort_order_summary">Sort permissions by name or by application count</string>
+	<string name="pref_perm_sort_order_summaryOn">Sorting permissions by name</string>
+	<string name="pref_perm_sort_order_summaryOff">Sorting permissions by application count</string>
 
 	<!-- Permission descriptions -->
 	<string name="permission_unknown">No description</string>

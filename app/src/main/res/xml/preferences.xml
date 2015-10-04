@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<CheckBoxPreference
 		android:defaultValue="true"
 		android:key="pref_show_system_apps"
-		android:summary="@string/pref_show_system_summary"
-		android:title="@string/pref_show_system_title" />
+		android:summaryOff="@string/pref_show_system_summaryOff"
+		android:summaryOn="@string/pref_show_system_summaryOn"
+		android:title="@string/pref_show_system_title"/>
 
 	<CheckBoxPreference
 		android:defaultValue="false"
 		android:key="pref_app_sort_order"
-		android:summary="@string/pref_app_sort_order_summary"
-		android:title="@string/pref_app_sort_order_title" />
+		android:summaryOff="@string/pref_app_sort_order_summaryOff"
+		android:summaryOn="@string/pref_app_sort_order_summaryOn"
+		android:title="@string/pref_app_sort_order_title"/>
 
 	<CheckBoxPreference
 		android:defaultValue="false"
 		android:key="pref_perm_sort_order"
-		android:summary="@string/pref_perm_sort_order_summary"
-		android:title="@string/pref_perm_sort_order_title" />
+		android:summaryOff="@string/pref_perm_sort_order_summaryOff"
+		android:summaryOn="@string/pref_perm_sort_order_summaryOn"
+		android:title="@string/pref_perm_sort_order_title"/>
 
 </PreferenceScreen>
