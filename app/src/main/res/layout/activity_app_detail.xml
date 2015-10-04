@@ -38,6 +38,7 @@
 			android:layout_toEndOf="@+id/app_icon"
 			android:layout_toRightOf="@+id/app_icon"
 			android:paddingLeft="8dp"
+			android:paddingRight="8dp"
 			android:paddingTop="8dp"
 			android:textStyle="bold"
 			tools:text="Permission Viewer"/>
@@ -50,6 +51,7 @@
 			android:layout_toEndOf="@+id/app_icon"
 			android:layout_toRightOf="@+id/app_icon"
 			android:paddingLeft="8dp"
+			android:paddingRight="8dp"
 			tools:text="com.emetophobe.permissionviewer"/>
 
 	</RelativeLayout>

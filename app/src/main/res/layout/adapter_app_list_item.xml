@@ -14,7 +14,9 @@
 		android:layout_width="32dp"
 		android:layout_height="32dp"
 		android:gravity="center_vertical"
-		android:paddingLeft="8dp"/>
+		android:paddingLeft="8dp"
+		android:paddingStart="8dp"
+		android:paddingEnd="8dp"/>
 
 	<TextView
 		android:id="@+id/app_label"
@@ -22,6 +24,9 @@
 		android:layout_height="match_parent"
 		android:gravity="center_vertical"
 		android:paddingLeft="16dp"
+		android:paddingStart="16dp"
+		android:paddingRight="8dp"
+		android:paddingEnd="8dp"
 		tools:text="App name"/>
 
 </LinearLayout>

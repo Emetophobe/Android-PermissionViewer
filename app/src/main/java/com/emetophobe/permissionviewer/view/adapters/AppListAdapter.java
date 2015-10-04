@@ -43,10 +43,10 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListV
 	private List<AppDetail> mAppList;
 	private boolean mShowPermissionCount;
 
-	public AppListAdapter(Context context) {
+	public AppListAdapter(Context context, boolean showPermissionCount) {
 		mContext = context;
 		mAppList = Collections.emptyList();
-		mShowPermissionCount = true;
+		mShowPermissionCount = showPermissionCount;
 	}
 
 	public AppListAdapter(Context context, List<AppDetail> appList, boolean showPermissionCount) {

@@ -24,11 +24,11 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
 import com.emetophobe.permissionviewer.model.AppDetail;
+import com.emetophobe.permissionviewer.presenter.AppListPresenter;
+import com.emetophobe.permissionviewer.utils.SettingsHelper;
+import com.emetophobe.permissionviewer.view.AppListView;
 import com.emetophobe.permissionviewer.view.activities.AppDetailActivity;
 import com.emetophobe.permissionviewer.view.adapters.AppListAdapter;
-import com.emetophobe.permissionviewer.presenter.AppListPresenter;
-import com.emetophobe.permissionviewer.view.AppListView;
-import com.emetophobe.permissionviewer.utils.SettingsHelper;
 
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class AppListFragment extends AbstractListFragment implements AppListView
 	}
 
 	private void setupRecyclerView() {
-		AppListAdapter adapter = new AppListAdapter(getContext());
+		AppListAdapter adapter = new AppListAdapter(getContext(), true);
 		adapter.setCallback(new AppListAdapter.Callback() {
 			@Override
 			public void onItemClick(AppDetail appDetail) {

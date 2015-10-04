@@ -16,7 +16,6 @@
 
 package com.emetophobe.permissionviewer.view.activities;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.emetophobe.permissionviewer.PermissionApp;
@@ -24,12 +23,7 @@ import com.emetophobe.permissionviewer.dagger.components.ApplicationComponent;
 import com.emetophobe.permissionviewer.dagger.modules.ActivityModule;
 
 
-public class BaseActivity extends AppCompatActivity {
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-
+public abstract class BaseActivity extends AppCompatActivity {
 	protected ApplicationComponent getApplicationComponent() {
 		return ((PermissionApp)getApplication()).getApplicationComponent();
 	}

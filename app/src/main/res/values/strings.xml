@@ -12,8 +12,6 @@
 	<string name="empty_list">No items</string>
 
 	<string name="loading">Loading&#8230;</string>
-	<string name="progress_title">One time setup</string>
-	<string name="progress_message">Initializing the permission database. This may take a minute&#8230;</string>
 
 	<string name="permission_count">Permissions: %1$s</string>
 	<string name="application_count">Applications: %1$s</string>

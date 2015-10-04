@@ -35,7 +35,9 @@ public class SettingsActivity extends AppCompatActivity {
 		// Set up the toolbar.
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction().add(R.id.container, new SettingsFragment()).commit();
