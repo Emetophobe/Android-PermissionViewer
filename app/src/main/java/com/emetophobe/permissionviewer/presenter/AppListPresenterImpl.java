@@ -17,8 +17,9 @@
 package com.emetophobe.permissionviewer.presenter;
 
 import com.emetophobe.permissionviewer.dagger.PerActivity;
+import com.emetophobe.permissionviewer.presenter.base.BasePresenter;
 import com.emetophobe.permissionviewer.view.AppListView;
-import com.emetophobe.permissionviewer.utils.AppListHelper;
+import com.emetophobe.permissionviewer.helper.AppListHelper;
 
 import javax.inject.Inject;
 

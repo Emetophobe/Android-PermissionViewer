@@ -21,9 +21,9 @@ import android.content.SharedPreferences;
 
 import com.emetophobe.permissionviewer.dagger.modules.ApplicationModule;
 import com.emetophobe.permissionviewer.view.activities.MainActivity;
-import com.emetophobe.permissionviewer.utils.AppListHelper;
-import com.emetophobe.permissionviewer.utils.PermissionListHelper;
-import com.emetophobe.permissionviewer.utils.SettingsHelper;
+import com.emetophobe.permissionviewer.helper.AppListHelper;
+import com.emetophobe.permissionviewer.helper.PermissionListHelper;
+import com.emetophobe.permissionviewer.helper.SettingsHelper;
 
 import javax.inject.Singleton;
 

@@ -21,8 +21,8 @@ import com.emetophobe.permissionviewer.presenter.AppListPresenter;
 import com.emetophobe.permissionviewer.presenter.AppListPresenterImpl;
 import com.emetophobe.permissionviewer.presenter.PermissionListPresenter;
 import com.emetophobe.permissionviewer.presenter.PermissionListPresenterImpl;
-import com.emetophobe.permissionviewer.utils.AppListHelper;
-import com.emetophobe.permissionviewer.utils.PermissionListHelper;
+import com.emetophobe.permissionviewer.helper.AppListHelper;
+import com.emetophobe.permissionviewer.helper.PermissionListHelper;
 
 import dagger.Module;
 import dagger.Provides;

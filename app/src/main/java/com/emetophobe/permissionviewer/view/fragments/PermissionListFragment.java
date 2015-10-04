@@ -25,7 +25,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
 import com.emetophobe.permissionviewer.model.PermissionDetail;
 import com.emetophobe.permissionviewer.presenter.PermissionListPresenter;
-import com.emetophobe.permissionviewer.utils.SettingsHelper;
+import com.emetophobe.permissionviewer.helper.SettingsHelper;
 import com.emetophobe.permissionviewer.view.PermissionListView;
 import com.emetophobe.permissionviewer.view.activities.PermissionDetailActivity;
 import com.emetophobe.permissionviewer.view.adapters.PermissionListAdapter;

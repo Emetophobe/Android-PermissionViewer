@@ -20,9 +20,9 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.emetophobe.permissionviewer.utils.AppListHelper;
-import com.emetophobe.permissionviewer.utils.PermissionListHelper;
-import com.emetophobe.permissionviewer.utils.SettingsHelper;
+import com.emetophobe.permissionviewer.helper.AppListHelper;
+import com.emetophobe.permissionviewer.helper.PermissionListHelper;
+import com.emetophobe.permissionviewer.helper.SettingsHelper;
 
 import javax.inject.Singleton;
 

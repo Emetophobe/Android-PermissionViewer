@@ -16,6 +16,7 @@
 
 package com.emetophobe.permissionviewer.presenter;
 
+import com.emetophobe.permissionviewer.presenter.base.MvpPresenter;
 import com.emetophobe.permissionviewer.view.PermissionListView;
 
 

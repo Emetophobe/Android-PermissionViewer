@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.utils;
+package com.emetophobe.permissionviewer.helper;
 
 import com.emetophobe.permissionviewer.model.AppDetail;
 import com.emetophobe.permissionviewer.model.PermissionDetail;
