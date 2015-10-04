@@ -17,6 +17,7 @@
 package com.emetophobe.permissionviewer.ui.app_list;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +33,7 @@ import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
 import com.emetophobe.permissionviewer.model.AppDetail;
 import com.emetophobe.permissionviewer.ui.app_detail.AppDetailActivity;
 import com.emetophobe.permissionviewer.ui.base.BaseFragment;
+import com.emetophobe.permissionviewer.utils.SettingsHelper;
 
 import java.util.List;
 
@@ -40,9 +42,12 @@ import javax.inject.Inject;
 import butterknife.Bind;
 
 
-public class AppListFragment extends BaseFragment implements AppListView {
+public class AppListFragment extends BaseFragment implements AppListView, SharedPreferences.OnSharedPreferenceChangeListener {
 	@Inject
 	protected AppListPresenter mPresenter;
+
+	@Inject
+	protected SharedPreferences mSharedPrefs;
 
 	@Bind(R.id.view_flipper)
 	protected ViewFlipper mViewFlipper;
@@ -63,19 +68,23 @@ public class AppListFragment extends BaseFragment implements AppListView {
 		super.onActivityCreated(savedInstanceState);
 		injectDependencies();
 		setupRecyclerView();
-		mPresenter.attachView(this);
-	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		mPresenter.loadAppList(true);
+		mPresenter.attachView(this);
+		mPresenter.loadAppList(false);
+
+		mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
 		mPresenter.detachView(this);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mSharedPrefs.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
 	private void injectDependencies() {
@@ -95,6 +104,13 @@ public class AppListFragment extends BaseFragment implements AppListView {
 
 		mRecyclerView.setAdapter(adapter);
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (key.equals(SettingsHelper.APP_SORT_ORDER) || key.equals(SettingsHelper.SHOW_SYSTEM_APPS)) {
+			mPresenter.loadAppList(true);
+		}
 	}
 
 	@Override

@@ -35,6 +35,7 @@ import dagger.Component;
 public interface ApplicationComponent {
 	void inject(MainActivity mainActivity);
 
+	//Exposed to sub-graphs.
 	Application application();
 	SharedPreferences sharedPrefs();
 	SettingsHelper settingsHelper();

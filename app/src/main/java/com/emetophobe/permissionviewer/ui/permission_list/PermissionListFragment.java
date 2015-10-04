@@ -17,6 +17,7 @@
 package com.emetophobe.permissionviewer.ui.permission_list;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +33,7 @@ import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
 import com.emetophobe.permissionviewer.model.PermissionDetail;
 import com.emetophobe.permissionviewer.ui.base.BaseFragment;
 import com.emetophobe.permissionviewer.ui.permission_detail.PermissionDetailActivity;
+import com.emetophobe.permissionviewer.utils.SettingsHelper;
 
 import java.util.List;
 
@@ -40,9 +42,12 @@ import javax.inject.Inject;
 import butterknife.Bind;
 
 
-public class PermissionListFragment extends BaseFragment implements PermissionListView {
+public class PermissionListFragment extends BaseFragment implements PermissionListView, SharedPreferences.OnSharedPreferenceChangeListener {
 	@Inject
 	protected PermissionListPresenter mPresenter;
+
+	@Inject
+	protected SharedPreferences mSharedPrefs;
 
 	@Bind(R.id.view_flipper)
 	protected ViewFlipper mViewFlipper;
@@ -63,13 +68,11 @@ public class PermissionListFragment extends BaseFragment implements PermissionLi
 		super.onActivityCreated(savedInstanceState);
 		injectDependencies();
 		setupRecyclerView();
-		mPresenter.attachView(this);
-	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		mPresenter.loadPermissionList(true);
+		mPresenter.attachView(this);
+		mPresenter.loadPermissionList(false);
+
+		mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
 	}
 
 	@Override
@@ -78,8 +81,13 @@ public class PermissionListFragment extends BaseFragment implements PermissionLi
 		mPresenter.detachView(this);
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mSharedPrefs.unregisterOnSharedPreferenceChangeListener(this);
+	}
+
 	private void injectDependencies() {
-		//((MainActivity)getActivity()).getComponent().inject(this);
 		getComponent(FragmentComponent.class).inject(this);
 	}
 
@@ -96,6 +104,13 @@ public class PermissionListFragment extends BaseFragment implements PermissionLi
 
 		mRecyclerView.setAdapter(adapter);
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if (key.equals(SettingsHelper.PERMISSION_SORT_ORDER) || key.equals(SettingsHelper.SHOW_SYSTEM_APPS)) {
+			mPresenter.loadPermissionList(true);
+		}
 	}
 
 	@Override
