@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.ui.permission_list;
+package com.emetophobe.permissionviewer.view;
 
-import com.emetophobe.permissionviewer.ui.base.mvp.MvpPresenter;
+import android.support.annotation.StringRes;
+
+import com.emetophobe.permissionviewer.model.PermissionDetail;
+
+import java.util.List;
 
 
-public interface PermissionListPresenter extends MvpPresenter<PermissionListView> {
-	void loadPermissionList(boolean forceRefresh);
+public interface PermissionListView extends MvpView {
+	void showLoading();
+
+	void showPermissionList(List<PermissionDetail> permissionList);
+
+	void showError(@StringRes int resId);
 }

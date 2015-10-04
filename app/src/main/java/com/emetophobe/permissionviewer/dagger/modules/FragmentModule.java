@@ -17,10 +17,10 @@
 package com.emetophobe.permissionviewer.dagger.modules;
 
 import com.emetophobe.permissionviewer.dagger.PerActivity;
-import com.emetophobe.permissionviewer.ui.app_list.AppListPresenter;
-import com.emetophobe.permissionviewer.ui.app_list.AppListPresenterImpl;
-import com.emetophobe.permissionviewer.ui.permission_list.PermissionListPresenter;
-import com.emetophobe.permissionviewer.ui.permission_list.PermissionListPresenterImpl;
+import com.emetophobe.permissionviewer.presenter.AppListPresenter;
+import com.emetophobe.permissionviewer.presenter.AppListPresenterImpl;
+import com.emetophobe.permissionviewer.presenter.PermissionListPresenter;
+import com.emetophobe.permissionviewer.presenter.PermissionListPresenterImpl;
 import com.emetophobe.permissionviewer.utils.AppListHelper;
 import com.emetophobe.permissionviewer.utils.PermissionListHelper;
 

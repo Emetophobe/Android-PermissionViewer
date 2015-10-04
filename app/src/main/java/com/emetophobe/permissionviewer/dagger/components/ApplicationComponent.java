@@ -20,7 +20,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.emetophobe.permissionviewer.dagger.modules.ApplicationModule;
-import com.emetophobe.permissionviewer.ui.MainActivity;
+import com.emetophobe.permissionviewer.view.activities.MainActivity;
 import com.emetophobe.permissionviewer.utils.AppListHelper;
 import com.emetophobe.permissionviewer.utils.PermissionListHelper;
 import com.emetophobe.permissionviewer.utils.SettingsHelper;

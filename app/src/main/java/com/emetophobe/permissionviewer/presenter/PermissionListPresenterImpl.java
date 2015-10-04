@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.ui.app_list;
+package com.emetophobe.permissionviewer.presenter;
 
 import com.emetophobe.permissionviewer.dagger.PerActivity;
-import com.emetophobe.permissionviewer.ui.base.mvp.BasePresenter;
-import com.emetophobe.permissionviewer.utils.AppListHelper;
+import com.emetophobe.permissionviewer.view.PermissionListView;
+import com.emetophobe.permissionviewer.utils.PermissionListHelper;
 
 import javax.inject.Inject;
 
@@ -27,26 +27,26 @@ import rx.schedulers.Schedulers;
 
 
 @PerActivity
-public class AppListPresenterImpl extends BasePresenter<AppListView> implements AppListPresenter {
-	private AppListHelper mAppListHelper;
+public class PermissionListPresenterImpl extends BasePresenter<PermissionListView> implements PermissionListPresenter {
+	private PermissionListHelper mPermissionHelper;
 
 	@Inject
-	public AppListPresenterImpl(AppListHelper appListHelper) {
-		mAppListHelper = appListHelper;
+	public PermissionListPresenterImpl(PermissionListHelper permissionHelper) {
+		mPermissionHelper = permissionHelper;
 	}
 
 	@Override
-	public void loadAppList(boolean forceRefresh) {
+	public void loadPermissionList(boolean forceRefresh) {
 		if (getView() != null) {
 			getView().showLoading();
 		}
 
-		mAppListHelper.getAppList(forceRefresh)
+		mPermissionHelper.getPermissionList(forceRefresh)
 				.subscribeOn(Schedulers.computation())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(appList -> {
+				.subscribe(permissionList -> {
 					if (getView() != null) {
-						getView().showAppList(appList);
+						getView().showPermissionList(permissionList);
 					}
 				});
 	}
