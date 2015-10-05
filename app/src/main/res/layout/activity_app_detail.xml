@@ -4,8 +4,6 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@color/colorPrimary"
-	android:fitsSystemWindows="true"
 	android:orientation="vertical">
 
 	<android.support.design.widget.AppBarLayout
@@ -21,7 +19,6 @@
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@color/colorBackground"
 		android:padding="16dp">
 
 		<ImageView
@@ -56,33 +53,27 @@
 
 	</RelativeLayout>
 
-	<LinearLayout
+	<TextView
+		android:id="@+id/permission_count"
+		style="?android:attr/listSeparatorTextViewStyle"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@color/colorBackground"
-		android:orientation="vertical">
+		android:layout_marginLeft="8dp"
+		android:layout_marginRight="8dp"
+		android:paddingBottom="8dp"
+		android:paddingLeft="8dp"
+		android:paddingRight="8dp"
+		android:textAllCaps="false"
+		android:textStyle="normal"
+		tools:text="Permissions: 0"/>
 
-		<TextView
-			android:id="@+id/permission_count"
-			style="?android:attr/listSeparatorTextViewStyle"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="8dp"
-			android:layout_marginRight="8dp"
-			android:paddingBottom="8dp"
-			android:paddingLeft="8dp"
-			android:paddingRight="8dp"
-			android:textAllCaps="false"
-			android:textStyle="normal"
-			tools:text="Permissions: 0"/>
-
-		<android.support.v7.widget.RecyclerView
-			android:id="@+id/recycler_view"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:choiceMode="singleChoice"
-			android:divider="@android:color/transparent"
-			android:dividerHeight="0dp"/>
-	</LinearLayout>
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/recycler_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:choiceMode="singleChoice"
+		android:divider="@android:color/transparent"
+		android:dividerHeight="0dp"
+		tools:listitem="@layout/adapter_permission_list_item"/>
 
 </LinearLayout>

@@ -4,8 +4,6 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@color/colorPrimary"
-	android:fitsSystemWindows="true"
 	android:orientation="vertical"
 	tools:context=".SettingsActivity">
 
@@ -21,7 +19,6 @@
 	<FrameLayout
 		android:id="@+id/container"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="@color/colorBackground"/>
+		android:layout_height="match_parent"/>
 
 </LinearLayout>

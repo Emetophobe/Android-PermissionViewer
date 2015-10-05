@@ -4,8 +4,6 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@color/colorPrimary"
-	android:fitsSystemWindows="true"
 	android:orientation="vertical">
 
 	<android.support.design.widget.AppBarLayout
@@ -17,52 +15,47 @@
 
 	</android.support.design.widget.AppBarLayout>
 
-	<LinearLayout
+	<TextView
+		android:id="@+id/permission_name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingLeft="16dp"
+		android:paddingRight="16dp"
+		android:paddingTop="16dp"
+		android:textStyle="bold"
+		tools:text="Name"/>
+
+	<TextView
+		android:id="@+id/permission_description"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingLeft="16dp"
+		android:paddingRight="16dp"
+		android:paddingTop="8dp"
+		tools:text="Description"/>
+
+	<TextView
+		android:id="@+id/application_count"
+		style="?android:attr/listSeparatorTextViewStyle"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@color/colorBackground"
-		android:orientation="vertical">
+		android:layout_marginLeft="8dp"
+		android:layout_marginRight="8dp"
+		android:paddingBottom="8dp"
+		android:paddingLeft="8dp"
+		android:paddingRight="8dp"
+		android:paddingTop="16dp"
+		android:textAllCaps="false"
+		android:textStyle="normal"
+		tools:text="Applications: 0"/>
 
-		<TextView
-			android:id="@+id/permission_name"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:paddingLeft="16dp"
-			android:paddingRight="16dp"
-			android:paddingTop="16dp"
-			android:textStyle="bold"
-			tools:text="Name"/>
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/recycler_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:choiceMode="singleChoice"
+		android:divider="@android:color/transparent"
+		android:dividerHeight="0dp"
+		tools:listitem="@layout/adapter_app_list_item"/>
 
-		<TextView
-			android:id="@+id/permission_description"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:paddingLeft="16dp"
-			android:paddingRight="16dp"
-			android:paddingTop="8dp"
-			tools:text="Description - Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."/>
-
-		<TextView
-			android:id="@+id/application_count"
-			style="?android:attr/listSeparatorTextViewStyle"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="8dp"
-			android:layout_marginRight="8dp"
-			android:paddingBottom="8dp"
-			android:paddingLeft="8dp"
-			android:paddingRight="8dp"
-			android:paddingTop="16dp"
-			android:textAllCaps="false"
-			android:textStyle="normal"
-			tools:text="Applications: 0"/>
-
-		<android.support.v7.widget.RecyclerView
-			android:id="@+id/recycler_view"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:choiceMode="singleChoice"
-			android:divider="@android:color/transparent"
-			android:dividerHeight="0dp"/>
-	</LinearLayout>
 </LinearLayout>
