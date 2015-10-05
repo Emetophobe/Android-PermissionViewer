@@ -38,8 +38,6 @@ import java.util.Locale;
 
 
 public class MainActivity extends BaseActivity implements HasComponent<FragmentComponent> {
-	private static int sCurrentViewPagerPosition = 0;
-
 	private FragmentComponent mFragmentComponent;
 
 	@Override
@@ -68,17 +66,11 @@ public class MainActivity extends BaseActivity implements HasComponent<FragmentC
 	}
 
 	private void setupViewPager() {
-		PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
+		ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+		viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
 
 		TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-		tabLayout.setTabsFromPagerAdapter(adapter);
-
-		ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-		viewPager.addOnPageChangeListener(new OnPageChangeListener(tabLayout));
-		viewPager.setAdapter(adapter);
-
-		// Restore the pager position
-		viewPager.setCurrentItem(sCurrentViewPagerPosition);
+		tabLayout.setupWithViewPager(viewPager);
 	}
 
 	@Override
@@ -96,19 +88,6 @@ public class MainActivity extends BaseActivity implements HasComponent<FragmentC
 		}
 
 		return super.onOptionsItemSelected(item);
-	}
-
-	private class OnPageChangeListener extends TabLayout.TabLayoutOnPageChangeListener {
-		public OnPageChangeListener(TabLayout tabLayout) {
-			super(tabLayout);
-		}
-
-		// Remember the selected page position
-		@Override
-		public void onPageSelected(int position) {
-			super.onPageSelected(position);
-			sCurrentViewPagerPosition = position;
-		}
 	}
 
 	/**
