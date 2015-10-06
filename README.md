@@ -7,8 +7,11 @@ A simple permission app for Android.
 The following third party libraries were used
 ---------------------------------------------
 [ButterKnife][1]
+
 [Dagger 2][2]
+
 [RxJava][3]
+
 [Retrolambda][4]
 
 
