@@ -1,20 +1,25 @@
 Permission Viewer
-==============
+=================
 
-An open source Android app that displays permissions
+A simple permission app for Android.
 
-MainActivity:
+
+The following third party libraries were used
+---------------------------------------------
+[ButterKnife][1]
+[Dagger 2][2]
+[RxJava][3]
+[Retrolambda][4]
+
+
+Screenshots
+-----------
 
 ![MainActivity](images/device-2015-10-06-114154.png)
 
-AppDetailActivity:
-
 ![AppDetailActivity](images/device-2015-10-06-114224.png)
 
-SettingsActivity:
-
 ![SettingsActivity](images/device-2015-10-06-114258.png)
-
 
 
 License
@@ -33,3 +38,9 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+
+[1]: https://github.com/JakeWharton/butterknife
+[2]: http://google.github.io/dagger/
+[3]: https://github.com/ReactiveX/RxJava
+[4]: https://github.com/orfjackal/retrolambda
