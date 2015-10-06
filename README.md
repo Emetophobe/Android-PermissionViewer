@@ -4,17 +4,6 @@ Permission Viewer
 A simple permission app for Android.
 
 
-The following third party libraries were used:
-
-[ButterKnife][1]
-
-[Dagger 2][2]
-
-[RxJava][3]
-
-[Retrolambda][4]
-
-
 Screenshots
 -----------
 
@@ -23,6 +12,15 @@ Screenshots
 ![AppDetailActivity](images/device-2015-10-06-114224.png)
 
 ![SettingsActivity](images/device-2015-10-06-114258.png)
+
+
+Third party libraries
+---------------------
+
+* [ButterKnife][1]
+* [Dagger 2][2]
+* [RxJava][3]
+* [Retrolambda][4]
 
 
 License
