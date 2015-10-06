@@ -1,15 +1,18 @@
 Permission Viewer
 ==============
 
-A simple Android app that displays permissions for individual applications.
+An open source Android app that displays permissions
 
 MainActivity:
+
 ![MainActivity](images/device-2015-10-06-114154.png)
 
 AppDetailActivity:
+
 ![AppDetailActivity](images/device-2015-10-06-114224.png)
 
 SettingsActivity:
+
 ![SettingsActivity](images/device-2015-10-06-114258.png)
 
 
