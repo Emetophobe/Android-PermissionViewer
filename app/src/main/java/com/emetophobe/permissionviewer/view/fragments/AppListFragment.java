@@ -17,7 +17,6 @@
 package com.emetophobe.permissionviewer.view.fragments;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,7 +24,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
 import com.emetophobe.permissionviewer.model.AppDetail;
 import com.emetophobe.permissionviewer.presenter.AppListPresenter;
-import com.emetophobe.permissionviewer.helper.SettingsHelper;
 import com.emetophobe.permissionviewer.view.AppListView;
 import com.emetophobe.permissionviewer.view.activities.AppDetailActivity;
 import com.emetophobe.permissionviewer.view.adapters.AppListAdapter;
@@ -46,6 +44,11 @@ public class AppListFragment extends AbstractListFragment implements AppListView
 		setupRecyclerView();
 
 		mPresenter.attachView(this);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
 		mPresenter.loadAppList();
 	}
 
@@ -72,13 +75,6 @@ public class AppListFragment extends AbstractListFragment implements AppListView
 
 		mRecyclerView.setAdapter(adapter);
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-	}
-
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (key.equals(SettingsHelper.APP_SORT_ORDER) || key.equals(SettingsHelper.SHOW_SYSTEM_APPS)) {
-			mPresenter.loadAppList();
-		}
 	}
 
 	@Override

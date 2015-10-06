@@ -16,7 +16,6 @@
 
 package com.emetophobe.permissionviewer.view.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,17 +25,11 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.emetophobe.permissionviewer.R;
-import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
-
-import javax.inject.Inject;
 
 import butterknife.Bind;
 
 
-public abstract class AbstractListFragment extends BaseFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-	@Inject
-	protected SharedPreferences mSharedPrefs;
-
+public abstract class AbstractListFragment extends BaseFragment {
 	@Bind(R.id.view_flipper)
 	protected ViewFlipper mViewFlipper;
 
@@ -49,23 +42,6 @@ public abstract class AbstractListFragment extends BaseFragment implements Share
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_abstract_list, container, false);
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		injectDependencies();
-		mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		mSharedPrefs.unregisterOnSharedPreferenceChangeListener(this);
-	}
-
-	private void injectDependencies() {
-		getComponent(FragmentComponent.class).inject(this);
 	}
 
 	protected void setLoading(boolean show) {

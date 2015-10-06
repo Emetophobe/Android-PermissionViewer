@@ -18,9 +18,13 @@
 	<string name="permission_count">Permissions: %1$s</string>
 	<string name="application_count">Applications: %1$s</string>
 
-	<string name="pref_show_system_title">System apps</string>
+	<string name="pref_show_system_title">Show system apps</string>
 	<string name="pref_show_system_summaryOn">Showing system apps</string>
 	<string name="pref_show_system_summaryOff">Hiding system apps</string>
+
+	<string name="pref_show_disabled_apps_title">Show disabled apps</string>
+	<string name="pref_show_disabled_apps_summaryOn">Showing disabled apps</string>
+	<string name="pref_show_disabled_apps_summaryOff">Hiding disabled apps</string>
 
 	<string name="pref_app_sort_order_title">Application sort order</string>
 	<string name="pref_app_sort_order_summaryOn">Sorting applications by name</string>

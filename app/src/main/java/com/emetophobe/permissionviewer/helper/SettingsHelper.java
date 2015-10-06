@@ -21,11 +21,11 @@ import android.content.SharedPreferences;
 
 public class SettingsHelper {
 	public static final String SHOW_SYSTEM_APPS = "pref_show_system_apps";
+	public static final String SHOW_DISABLED_APPS = "pref_show_disabled_apps";
 	public static final String APP_SORT_ORDER = "pref_app_sort_order";
 	public static final String PERMISSION_SORT_ORDER = "pref_perm_sort_order";
 
 	private SharedPreferences mSharedPrefs;
-
 
 	public SettingsHelper(SharedPreferences sharedPrefs) {
 		mSharedPrefs = sharedPrefs;
@@ -38,6 +38,15 @@ public class SettingsHelper {
 	 */
 	public boolean getShowSystemApps() {
 		return mSharedPrefs.getBoolean(SHOW_SYSTEM_APPS, true);
+	}
+
+	/**
+	 * Returns the show disabled apps preference.
+	 *
+	 * @return true if disabled apps should be shown, false if disabled apps should be hidden.
+	 */
+	public boolean getShowDisabledApps() {
+		return mSharedPrefs.getBoolean(SHOW_DISABLED_APPS, false);
 	}
 
 	/**

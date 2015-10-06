@@ -10,6 +10,13 @@
 
 	<CheckBoxPreference
 		android:defaultValue="false"
+		android:key="pref_show_disabled_apps"
+		android:summaryOff="@string/pref_show_disabled_apps_summaryOff"
+		android:summaryOn="@string/pref_show_disabled_apps_summaryOn"
+		android:title="@string/pref_show_disabled_apps_title"/>
+
+	<CheckBoxPreference
+		android:defaultValue="false"
 		android:key="pref_app_sort_order"
 		android:summaryOff="@string/pref_app_sort_order_summaryOff"
 		android:summaryOn="@string/pref_app_sort_order_summaryOn"

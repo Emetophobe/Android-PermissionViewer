@@ -91,7 +91,13 @@ public class AppListHelper {
 		// Get the system app flag
 		int systemFlag = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM);
 		if (!mSettingsHelper.getShowSystemApps() && systemFlag == 1) {
-			return null;    // ignore system apps if the show system apps setting is disabled
+			return null;    // ignore system apps if the setting is disabled
+		}
+
+		// Get the app enabled flag
+		if (!mSettingsHelper.getShowDisabledApps() && !appInfo.enabled) {
+			Log.d(TAG, "Ignoring disabled app: " + packageName);
+			return null; 	// ignore disabled apps if the setting is disabled
 		}
 
 		// Get the application label
