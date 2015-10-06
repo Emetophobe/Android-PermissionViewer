@@ -21,5 +21,5 @@ import com.emetophobe.permissionviewer.view.PermissionListView;
 
 
 public interface PermissionListPresenter extends MvpPresenter<PermissionListView> {
-	void loadPermissionList(boolean forceRefresh);
+	void loadPermissionList();
 }

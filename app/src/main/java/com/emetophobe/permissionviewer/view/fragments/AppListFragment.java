@@ -46,7 +46,7 @@ public class AppListFragment extends AbstractListFragment implements AppListView
 		setupRecyclerView();
 
 		mPresenter.attachView(this);
-		mPresenter.loadAppList(false);
+		mPresenter.loadAppList();
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class AppListFragment extends AbstractListFragment implements AppListView
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (key.equals(SettingsHelper.APP_SORT_ORDER) || key.equals(SettingsHelper.SHOW_SYSTEM_APPS)) {
-			mPresenter.loadAppList(true);
+			mPresenter.loadAppList();
 		}
 	}
 

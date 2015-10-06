@@ -23,9 +23,9 @@ import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
+import com.emetophobe.permissionviewer.helper.SettingsHelper;
 import com.emetophobe.permissionviewer.model.PermissionDetail;
 import com.emetophobe.permissionviewer.presenter.PermissionListPresenter;
-import com.emetophobe.permissionviewer.helper.SettingsHelper;
 import com.emetophobe.permissionviewer.view.PermissionListView;
 import com.emetophobe.permissionviewer.view.activities.PermissionDetailActivity;
 import com.emetophobe.permissionviewer.view.adapters.PermissionListAdapter;
@@ -46,7 +46,7 @@ public class PermissionListFragment extends AbstractListFragment implements Perm
 		setupRecyclerView();
 
 		mPresenter.attachView(this);
-		mPresenter.loadPermissionList(false);
+		mPresenter.loadPermissionList();
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class PermissionListFragment extends AbstractListFragment implements Perm
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (key.equals(SettingsHelper.PERMISSION_SORT_ORDER) || key.equals(SettingsHelper.SHOW_SYSTEM_APPS)) {
-			mPresenter.loadPermissionList(true);
+			mPresenter.loadPermissionList();
 		}
 	}
 

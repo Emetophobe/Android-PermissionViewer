@@ -37,12 +37,12 @@ public class AppListPresenterImpl extends BasePresenter<AppListView> implements 
 	}
 
 	@Override
-	public void loadAppList(boolean forceRefresh) {
+	public void loadAppList() {
 		if (getView() != null) {
 			getView().showLoading();
 		}
 
-		mAppListHelper.getAppList(forceRefresh)
+		mAppListHelper.getAppList()
 				.subscribeOn(Schedulers.computation())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(appList -> {

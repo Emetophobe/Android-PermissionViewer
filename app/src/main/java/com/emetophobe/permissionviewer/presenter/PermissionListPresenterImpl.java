@@ -37,12 +37,12 @@ public class PermissionListPresenterImpl extends BasePresenter<PermissionListVie
 	}
 
 	@Override
-	public void loadPermissionList(boolean forceRefresh) {
+	public void loadPermissionList() {
 		if (getView() != null) {
 			getView().showLoading();
 		}
 
-		mPermissionHelper.getPermissionList(forceRefresh)
+		mPermissionHelper.getPermissionList()
 				.subscribeOn(Schedulers.computation())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(permissionList -> {

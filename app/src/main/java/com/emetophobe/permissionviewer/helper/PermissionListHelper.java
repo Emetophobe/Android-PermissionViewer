@@ -30,46 +30,38 @@ import rx.functions.Func1;
 
 
 public class PermissionListHelper {
-	private static final String TAG = "PermissionListHelper";
-
 	private AppListHelper mAppListHelper;
 	private SettingsHelper mSettingsHelper;
-	private List<PermissionDetail> mPermissionList;
 
 	public PermissionListHelper(AppListHelper appListHelper, SettingsHelper settingsHelper) {
 		mAppListHelper = appListHelper;
 		mSettingsHelper = settingsHelper;
-		mPermissionList = new ArrayList<>();
 	}
 
 	/**
 	 * Get the permissions list observer.
 	 *
-	 * @param forceRefresh recreate the permission list.
 	 * @return The permission list observable.
 	 */
-	public Observable<List<PermissionDetail>> getPermissionList(boolean forceRefresh) {
+	public Observable<List<PermissionDetail>> getPermissionList() {
 		// Use the app list observable to create the permission list observable
-		return mAppListHelper.getAppList(forceRefresh)
+		return mAppListHelper.getAppList()
 				.map(new Func1<List<AppDetail>, List<PermissionDetail>>() {
 					@Override
 					public List<PermissionDetail> call(List<AppDetail> appList) {
-						if (mPermissionList.isEmpty() || forceRefresh) {
-							build(appList);
-						}
-
-						return mPermissionList;
+						return createPermissionList(appList);
 					}
 				});
 	}
 
 	/**
 	 * Create the permission list from the app list.
+	 *
 	 * @param appList The list of app details
+	 * @return The permission list.
 	 */
-	private void build(List<AppDetail> appList) {
-		// Clear old data
-		mPermissionList.clear();
+	private List<PermissionDetail> createPermissionList(List<AppDetail> appList) {
+		List<PermissionDetail> permissionList = new ArrayList<>();
 
 		// Build a temporary permission map
 		HashMap<String, List<AppDetail>> map = new HashMap<>();
@@ -86,11 +78,13 @@ public class PermissionListHelper {
 
 		// Build the permission list from the map
 		for (String permission : map.keySet()) {
-			mPermissionList.add(new PermissionDetail(permission, map.get(permission)));
+			permissionList.add(new PermissionDetail(permission, map.get(permission)));
 		}
 
 		// Sort the permission list based on the user preference
-		Collections.sort(mPermissionList, mSettingsHelper.getPermissionSortOrder() ? mSortByName : mSortByCount);
+		Collections.sort(permissionList, mSettingsHelper.getPermissionSortOrder() ? mSortByName : mSortByCount);
+
+		return permissionList;
 	}
 
 

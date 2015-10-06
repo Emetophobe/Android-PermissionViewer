@@ -31,7 +31,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscriber;
 
 
 public class AppListHelper {
@@ -41,52 +40,44 @@ public class AppListHelper {
 	private PackageManager mPackageManager;
 	private SettingsHelper mSettingsHelper;
 
-	private List<AppDetail> mAppList;
-
 	public AppListHelper(Context context, SettingsHelper settingsHelper) {
 		mPackageManager = context.getPackageManager();
 		mSettingsHelper = settingsHelper;
-		mAppList = new ArrayList<>();
 	}
 
 	/**
 	 * Get the app list observer.
 	 *
-	 * @param forceRefresh recreate the app list.
 	 * @return The app list observable.
 	 */
-	public Observable<List<AppDetail>> getAppList(boolean forceRefresh) {
-		return Observable.create(new Observable.OnSubscribe<List<AppDetail>>() {
-			@Override
-			public void call(Subscriber<? super List<AppDetail>> subscriber) {
-				if (mAppList.isEmpty() || forceRefresh) {
-					build();
-				}
-
-				subscriber.onNext(mAppList);
-				subscriber.onCompleted();
-			}
+	public Observable<List<AppDetail>> getAppList() {
+		return Observable.create(subscriber -> {
+			subscriber.onNext(createAppList());
+			subscriber.onCompleted();
 		});
 	}
 
 	/**
 	 * Create the application list.
+	 *
+	 * @return The app list.
 	 */
-	private void build() {
-		// Clear old data
-		mAppList.clear();
+	private List<AppDetail> createAppList() {
+		List<AppDetail> appList = new ArrayList<>();
 
 		// Get the list of installed packages and create the AppDetail list
 		List<ApplicationInfo> packages = mPackageManager.getInstalledApplications(PackageManager.GET_META_DATA);
 		for (ApplicationInfo appInfo : packages) {
 			AppDetail appDetail = getAppDetail(appInfo.packageName, appInfo);
 			if (appDetail != null) {
-				mAppList.add(appDetail);
+				appList.add(appDetail);
 			}
 		}
 
 		// Sort the app list based on the user preference
-		Collections.sort(mAppList, mSettingsHelper.getAppSortOrder() ? mSortByName : mSortByCount);
+		Collections.sort(appList, mSettingsHelper.getAppSortOrder() ? mSortByName : mSortByCount);
+
+		return appList;
 	}
 
 	/**
