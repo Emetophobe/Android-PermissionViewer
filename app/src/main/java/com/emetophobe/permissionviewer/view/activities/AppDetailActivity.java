@@ -17,17 +17,22 @@
 
 package com.emetophobe.permissionviewer.view.activities;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.model.AppDetail;
@@ -86,10 +91,20 @@ public class AppDetailActivity extends AppCompatActivity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.app_detail, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				NavUtils.navigateUpFromSameTask(this);
+				return true;
+
+			case R.id.action_app_settings:
+				showAppSettings();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -112,5 +127,15 @@ public class AppDetailActivity extends AppCompatActivity {
 			drawable = null;
 		}
 		return drawable;
+	}
+
+	private void showAppSettings() {
+		try {
+			Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+			intent.setData(Uri.parse("package:" + mAppDetail.getPackageName()));
+			startActivity(intent);
+		} catch(ActivityNotFoundException e) {
+			Toast.makeText(this, R.string.error_launching_app_settings, Toast.LENGTH_LONG).show();
+		}
 	}
 }
