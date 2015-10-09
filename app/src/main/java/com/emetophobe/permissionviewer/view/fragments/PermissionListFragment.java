@@ -18,9 +18,9 @@ package com.emetophobe.permissionviewer.view.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 
+import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
 import com.emetophobe.permissionviewer.model.PermissionDetail;
 import com.emetophobe.permissionviewer.presenter.PermissionListPresenter;
@@ -42,20 +42,19 @@ public class PermissionListFragment extends AbstractListFragment implements Perm
 		super.onActivityCreated(savedInstanceState);
 		injectDependencies();
 		setupRecyclerView();
-
 		mPresenter.attachView(this);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		mPresenter.loadPermissionList();
+		loadData();
 	}
 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		mPresenter.detachView(this);
+		mPresenter.detachView();
 	}
 
 	private void injectDependencies() {
@@ -78,21 +77,20 @@ public class PermissionListFragment extends AbstractListFragment implements Perm
 	}
 
 	@Override
-	public void showLoading() {
-		setLoading(true);
+	public void showError(Throwable e) {
+		super.showError();
+		mErrorView.setText(getString(R.string.error_loading_permission_list, e.toString()));
 	}
 
 	@Override
-	public void showPermissionList(List<PermissionDetail> permissionList) {
+	public void setData(List<PermissionDetail> data) {
 		PermissionListAdapter adapter = (PermissionListAdapter) mRecyclerView.getAdapter();
-		adapter.setPermissionList(permissionList);
+		adapter.setPermissionList(data);
 		adapter.notifyDataSetChanged();
-		setLoading(false);
 	}
 
 	@Override
-	public void showError(@StringRes int resId) {
-		mEmptyTextView.setText(resId);
-		setLoading(false);
+	public void loadData() {
+		mPresenter.loadPermissionList();
 	}
 }

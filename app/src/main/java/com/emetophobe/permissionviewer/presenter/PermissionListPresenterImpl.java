@@ -17,18 +17,22 @@
 package com.emetophobe.permissionviewer.presenter;
 
 import com.emetophobe.permissionviewer.dagger.PerActivity;
-import com.emetophobe.permissionviewer.presenter.base.BasePresenter;
-import com.emetophobe.permissionviewer.view.PermissionListView;
 import com.emetophobe.permissionviewer.helper.PermissionListHelper;
+import com.emetophobe.permissionviewer.model.PermissionDetail;
+import com.emetophobe.permissionviewer.view.PermissionListView;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
 @PerActivity
-public class PermissionListPresenterImpl extends BasePresenter<PermissionListView> implements PermissionListPresenter {
+public class PermissionListPresenterImpl extends AbstractMvpPresenter<PermissionListView> implements PermissionListPresenter {
+	private Subscriber<List<PermissionDetail>> mSubscriber;
 	private PermissionListHelper mPermissionHelper;
 
 	@Inject
@@ -38,17 +42,57 @@ public class PermissionListPresenterImpl extends BasePresenter<PermissionListVie
 
 	@Override
 	public void loadPermissionList() {
+		// Show the loading view
 		if (getView() != null) {
 			getView().showLoading();
 		}
 
+		unsubscribe();
+
+		// Create the subscriber
+		mSubscriber = new Subscriber<List<PermissionDetail>>() {
+			@Override
+			public void onCompleted() {
+				// Show the content view
+				if (getView() != null) {
+					getView().showContent();
+				}
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				// Show the error view
+				if (getView() != null) {
+					getView().showError(e);
+				}
+			}
+
+			@Override
+			public void onNext(List<PermissionDetail> data) {
+				// Set the adapter data
+				if (getView() != null) {
+					getView().setData(data);
+				}
+			}
+		};
+
+		// Create the observer and subscribe to it
 		mPermissionHelper.getPermissionList()
 				.subscribeOn(Schedulers.computation())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(permissionList -> {
-					if (getView() != null) {
-						getView().showPermissionList(permissionList);
-					}
-				});
+				.subscribe(mSubscriber);
+	}
+
+	private void unsubscribe() {
+		if (mSubscriber != null && !mSubscriber.isUnsubscribed()) {
+			mSubscriber.unsubscribe();
+		}
+		mSubscriber = null;
+	}
+
+	@Override
+	public void detachView() {
+		super.detachView();
+		unsubscribe();
 	}
 }

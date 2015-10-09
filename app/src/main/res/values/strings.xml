@@ -13,6 +13,8 @@
 	<string name="empty_list">No items</string>
 	<string name="loading">Loading&#8230;</string>
 
+	<string name="error_loading_app_list">Error loading the application list (%1$s)</string>
+	<string name="error_loading_permission_list">Error loading the permissions list (%1$s)</string>
 	<string name="error_launching_app_settings">Failed to launch the app settings activity</string>
 
 	<string name="permission_count">Permissions: %1$s</string>

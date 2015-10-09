@@ -16,8 +16,6 @@
 
 package com.emetophobe.permissionviewer.view;
 
-import android.support.annotation.StringRes;
-
 import com.emetophobe.permissionviewer.model.AppDetail;
 
 import java.util.List;
@@ -25,8 +23,9 @@ import java.util.List;
 
 public interface AppListView extends MvpView {
 	void showLoading();
+	void showContent();
+	void showError(Throwable e);
 
-	void showAppList(List<AppDetail> appList);
-
-	void showError(@StringRes int resId);
+	void setData(List<AppDetail> data);
+	void loadData();
 }

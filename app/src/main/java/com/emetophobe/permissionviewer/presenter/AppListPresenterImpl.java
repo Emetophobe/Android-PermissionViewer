@@ -17,18 +17,22 @@
 package com.emetophobe.permissionviewer.presenter;
 
 import com.emetophobe.permissionviewer.dagger.PerActivity;
-import com.emetophobe.permissionviewer.presenter.base.BasePresenter;
-import com.emetophobe.permissionviewer.view.AppListView;
 import com.emetophobe.permissionviewer.helper.AppListHelper;
+import com.emetophobe.permissionviewer.model.AppDetail;
+import com.emetophobe.permissionviewer.view.AppListView;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
 @PerActivity
-public class AppListPresenterImpl extends BasePresenter<AppListView> implements AppListPresenter {
+public class AppListPresenterImpl extends AbstractMvpPresenter<AppListView> implements AppListPresenter {
+	private Subscriber<List<AppDetail>> mSubscriber;
 	private AppListHelper mAppListHelper;
 
 	@Inject
@@ -38,17 +42,57 @@ public class AppListPresenterImpl extends BasePresenter<AppListView> implements 
 
 	@Override
 	public void loadAppList() {
+		// Show the loading view
 		if (getView() != null) {
 			getView().showLoading();
 		}
 
+		unsubscribe();
+
+		// Create the subscriber
+		mSubscriber = new Subscriber<List<AppDetail>>() {
+			@Override
+			public void onCompleted() {
+				// Show the content view
+				if (getView() != null) {
+					getView().showContent();
+				}
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				// Show the error view
+				if (getView() != null) {
+					getView().showError(e);
+				}
+			}
+
+			@Override
+			public void onNext(List<AppDetail> data) {
+				// Set the adapter data
+				if (getView() != null) {
+					getView().setData(data);
+				}
+			}
+		};
+
+		// Create the observer and subscribe to it
 		mAppListHelper.getAppList()
 				.subscribeOn(Schedulers.computation())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(appList -> {
-					if (getView() != null) {
-						getView().showAppList(appList);
-					}
-				});
+				.subscribe(mSubscriber);
+	}
+
+	private void unsubscribe() {
+		if (mSubscriber != null && !mSubscriber.isUnsubscribed()) {
+			mSubscriber.unsubscribe();
+		}
+		mSubscriber = null;
+	}
+
+	@Override
+	public void detachView() {
+		super.detachView();
+		unsubscribe();
 	}
 }
