@@ -32,7 +32,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAdapter.PermissionListViewHolder> {
+// Used by the PermissionListFragment
+public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAdapter.ViewHolder> {
 	private List<PermissionDetail> mPermissionList;
 	private Callback mCallback;
 
@@ -49,9 +50,9 @@ public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAd
 	}
 
 	@Override
-	public PermissionListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_permission_list_item, parent, false);
-		final PermissionListViewHolder viewHolder = new PermissionListViewHolder(itemView);
+		final ViewHolder viewHolder = new ViewHolder(itemView);
 		viewHolder.name.setOnClickListener(view -> {
 			if (mCallback != null) {
 				mCallback.onItemClick(viewHolder.permissionDetail);
@@ -62,7 +63,7 @@ public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAd
 	}
 
 	@Override
-	public void onBindViewHolder(PermissionListViewHolder holder, int position) {
+	public void onBindViewHolder(ViewHolder holder, int position) {
 		PermissionDetail detail = mPermissionList.get(position);
 		holder.permissionDetail = detail;
 
@@ -77,13 +78,13 @@ public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAd
 		return mPermissionList.size();
 	}
 
-	public static class PermissionListViewHolder extends RecyclerView.ViewHolder {
+	public static class ViewHolder extends RecyclerView.ViewHolder {
 		@Bind(R.id.permission_name)
 		public TextView name;
 
 		public PermissionDetail permissionDetail;
 
-		public PermissionListViewHolder(View itemView) {
+		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
 			//name = (TextView) itemView.findViewById(R.id.permission_name);

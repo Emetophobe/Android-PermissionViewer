@@ -30,7 +30,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class AppDetailAdapter extends RecyclerView.Adapter<AppDetailAdapter.AppDetailViewHolder> {
+// Used by the AppDetailActivity
+public class AppDetailAdapter extends RecyclerView.Adapter<AppDetailAdapter.ViewHolder> {
 	private List<String> mPermissionList;
 
 	public AppDetailAdapter(List<String> permissionList) {
@@ -38,13 +39,13 @@ public class AppDetailAdapter extends RecyclerView.Adapter<AppDetailAdapter.AppD
 	}
 
 	@Override
-	public AppDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_permission_list_item, parent, false);
-		return new AppDetailViewHolder(itemView);
+		return new ViewHolder(itemView);
 	}
 
 	@Override
-	public void onBindViewHolder(AppDetailViewHolder holder, int position) {
+	public void onBindViewHolder(ViewHolder holder, int position) {
 		String permission = mPermissionList.get(position);
 		holder.name.setText(permission);
 	}
@@ -54,11 +55,11 @@ public class AppDetailAdapter extends RecyclerView.Adapter<AppDetailAdapter.AppD
 		return mPermissionList.size();
 	}
 
-	public static class AppDetailViewHolder extends RecyclerView.ViewHolder {
+	public static class ViewHolder extends RecyclerView.ViewHolder {
 		@Bind(R.id.permission_name)
 		public TextView name;
 
-		public AppDetailViewHolder(View itemView) {
+		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
 		}
