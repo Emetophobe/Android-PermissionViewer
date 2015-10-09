@@ -62,7 +62,7 @@ public class AppListFragment extends AbstractListFragment implements AppListView
 	}
 
 	private void setupRecyclerView() {
-		AppListAdapter adapter = new AppListAdapter(getContext(), true);
+		AppListAdapter adapter = new AppListAdapter(getContext());
 		adapter.setCallback(new AppListAdapter.Callback() {
 			@Override
 			public void onItemClick(AppDetail appDetail) {

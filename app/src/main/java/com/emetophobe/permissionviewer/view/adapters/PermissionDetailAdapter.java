@@ -29,49 +29,31 @@ import android.widget.TextView;
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.model.AppDetail;
 
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-// Used by the AppListFragment
-public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHolder> {
+// Used by the PermissionDetailActivity
+public class PermissionDetailAdapter extends RecyclerView.Adapter<PermissionDetailAdapter.ViewHolder> {
 	private List<AppDetail> mAppList;
-	private Callback mCallback;
 	private Context mContext;
 
-	public AppListAdapter(Context context) {
+	public PermissionDetailAdapter(Context context, List<AppDetail> appList) {
 		mContext = context;
-		mAppList = Collections.emptyList();
-	}
-
-	public void setAppList(List<AppDetail> appList) {
 		mAppList = appList;
-	}
-
-	public void setCallback(Callback callback) {
-		mCallback = callback;
 	}
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_app_list_item, parent, false);
-		final ViewHolder viewHolder = new ViewHolder(itemView);
-		viewHolder.contentLayout.setOnClickListener(view -> {
-			if (mCallback != null) {
-				mCallback.onItemClick(viewHolder.appDetail);
-			}
-		});
-
-		return viewHolder;
+		return new ViewHolder(itemView);
 	}
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		AppDetail detail = mAppList.get(position);
-		holder.appDetail = detail;
 
 		// Set the app label
 		String appLabel = detail.getAppLabel() + " (" + detail.getPermissionList().size() + ")";
@@ -94,25 +76,16 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
-		@Bind(R.id.layout_content)
-		public View contentLayout;
-
 		@Bind(R.id.app_icon)
 		public ImageView icon;
 
 		@Bind(R.id.app_label)
 		public TextView label;
 
-		public AppDetail appDetail;
-
 		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
 		}
-	}
-
-	public interface Callback {
-		void onItemClick(AppDetail appDetail);
 	}
 }
 

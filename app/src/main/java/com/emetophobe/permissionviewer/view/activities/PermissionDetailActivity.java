@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.model.PermissionDetail;
-import com.emetophobe.permissionviewer.view.adapters.AppListAdapter;
+import com.emetophobe.permissionviewer.view.adapters.PermissionDetailAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -87,7 +87,7 @@ public class PermissionDetailActivity extends AppCompatActivity {
 	}
 
 	private void setupRecyclerView() {
-		AppListAdapter adapter = new AppListAdapter(this, mPermissionDetail.getAppList(), false);
+		PermissionDetailAdapter adapter = new PermissionDetailAdapter(this, mPermissionDetail.getAppList());
 		mRecyclerView.setAdapter(adapter);
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 	}
