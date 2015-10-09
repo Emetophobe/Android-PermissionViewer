@@ -16,9 +16,5 @@
 
 package com.emetophobe.permissionviewer.view;
 
-import android.content.Context;
-
-
 public interface MvpView {
-	Context getContext();
 }
