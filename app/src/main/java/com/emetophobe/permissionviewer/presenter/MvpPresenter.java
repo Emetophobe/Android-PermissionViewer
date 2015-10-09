@@ -14,33 +14,13 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.presenter.base;
-
-import android.support.annotation.Nullable;
+package com.emetophobe.permissionviewer.presenter;
 
 import com.emetophobe.permissionviewer.view.MvpView;
 
-import java.lang.ref.WeakReference;
 
+public interface MvpPresenter<V extends MvpView> {
+	void attachView(V view);
 
-public abstract class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
-	private WeakReference<V> mView;
-
-	@Override
-	public void attachView(V view) {
-		mView = new WeakReference<>(view);
-	}
-
-	@Override
-	public void detachView(V view) {
-		if (mView != null) {
-			mView.clear();
-			mView = null;
-		}
-	}
-
-	@Nullable
-	public V getView() {
-		return mView != null ? mView.get() : null;
-	}
+	void detachView();
 }
