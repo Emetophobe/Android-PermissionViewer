@@ -23,7 +23,7 @@ import com.emetophobe.permissionviewer.view.MvpView;
 import java.lang.ref.WeakReference;
 
 
-public abstract class AbstractMvpPresenter<V extends MvpView> implements MvpPresenter<V> {
+public abstract class MvpBasePresenter<V extends MvpView> implements MvpPresenter<V> {
 	private WeakReference<V> mView;
 
 	@Override

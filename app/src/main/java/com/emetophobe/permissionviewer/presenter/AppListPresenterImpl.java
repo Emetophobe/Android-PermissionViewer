@@ -31,7 +31,7 @@ import rx.schedulers.Schedulers;
 
 
 @PerActivity
-public class AppListPresenterImpl extends AbstractMvpPresenter<AppListView> implements AppListPresenter {
+public class AppListPresenterImpl extends MvpBasePresenter<AppListView> implements AppListPresenter {
 	private Subscriber<List<AppDetail>> mSubscriber;
 	private AppListHelper mAppListHelper;
 

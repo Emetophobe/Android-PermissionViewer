@@ -31,7 +31,7 @@ import rx.schedulers.Schedulers;
 
 
 @PerActivity
-public class PermissionListPresenterImpl extends AbstractMvpPresenter<PermissionListView> implements PermissionListPresenter {
+public class PermissionListPresenterImpl extends MvpBasePresenter<PermissionListView> implements PermissionListPresenter {
 	private Subscriber<List<PermissionDetail>> mSubscriber;
 	private PermissionListHelper mPermissionHelper;
 
