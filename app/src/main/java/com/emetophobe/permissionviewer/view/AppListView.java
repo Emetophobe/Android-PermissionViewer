@@ -22,10 +22,6 @@ import java.util.List;
 
 
 public interface AppListView extends MvpView {
-	void showLoading();
-	void showContent();
-	void showError(Throwable e);
-
 	void setData(List<AppDetail> data);
 	void loadData();
 }

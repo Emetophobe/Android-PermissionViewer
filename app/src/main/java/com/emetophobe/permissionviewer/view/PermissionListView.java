@@ -22,10 +22,6 @@ import java.util.List;
 
 
 public interface PermissionListView extends MvpView {
-	void showLoading();
-	void showContent();
-	void showError(Throwable e);
-
 	void setData(List<PermissionDetail> data);
 	void loadData();
 }

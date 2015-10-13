@@ -17,4 +17,7 @@
 package com.emetophobe.permissionviewer.view;
 
 public interface MvpView {
+	void showLoading();
+	void showContent();
+	void showError(Throwable e);
 }
