@@ -51,10 +51,7 @@ public class AppListHelper {
 	 * @return The app list observable.
 	 */
 	public Observable<List<AppDetail>> getAppList() {
-		return Observable.create(subscriber -> {
-			subscriber.onNext(createAppList());
-			subscriber.onCompleted();
-		});
+		return Observable.just(createAppList()).cache();
 	}
 
 	/**
