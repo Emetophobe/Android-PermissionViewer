@@ -25,6 +25,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -33,6 +35,7 @@ public class PermissionListHelper {
 	private AppListHelper mAppListHelper;
 	private SettingsHelper mSettingsHelper;
 
+	@Inject
 	public PermissionListHelper(AppListHelper appListHelper, SettingsHelper settingsHelper) {
 		mAppListHelper = appListHelper;
 		mSettingsHelper = settingsHelper;

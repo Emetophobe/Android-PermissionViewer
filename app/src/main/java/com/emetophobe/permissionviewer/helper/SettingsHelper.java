@@ -18,6 +18,8 @@ package com.emetophobe.permissionviewer.helper;
 
 import android.content.SharedPreferences;
 
+import javax.inject.Inject;
+
 
 public class SettingsHelper {
 	public static final String SHOW_SYSTEM_APPS = "pref_show_system_apps";
@@ -27,6 +29,7 @@ public class SettingsHelper {
 
 	private SharedPreferences mSharedPrefs;
 
+	@Inject
 	public SettingsHelper(SharedPreferences sharedPrefs) {
 		mSharedPrefs = sharedPrefs;
 	}

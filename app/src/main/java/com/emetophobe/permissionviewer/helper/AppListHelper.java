@@ -30,6 +30,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 
 
@@ -40,6 +42,7 @@ public class AppListHelper {
 	private PackageManager mPackageManager;
 	private SettingsHelper mSettingsHelper;
 
+	@Inject
 	public AppListHelper(Context context, SettingsHelper settingsHelper) {
 		mPackageManager = context.getPackageManager();
 		mSettingsHelper = settingsHelper;
