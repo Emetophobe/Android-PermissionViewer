@@ -26,12 +26,13 @@ import android.widget.TextView;
 
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.dagger.HasComponent;
+import com.emetophobe.permissionviewer.view.MvpView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public abstract class AbstractListFragment extends Fragment {
+public abstract class AbstractListFragment extends Fragment implements MvpView {
 	@Bind(R.id.loading_view)
 	protected View mLoadingView;
 
@@ -58,19 +59,22 @@ public abstract class AbstractListFragment extends Fragment {
 		ButterKnife.unbind(this);
 	}
 
+	@Override
 	public void showLoading() {
 		mLoadingView.setVisibility(View.VISIBLE);
 		mRecyclerView.setVisibility(View.GONE);
 		mErrorView.setVisibility(View.GONE);
 	}
 
+	@Override
 	public void showContent() {
 		mLoadingView.setVisibility(View.GONE);
 		mRecyclerView.setVisibility(View.VISIBLE);
 		mErrorView.setVisibility(View.GONE);
 	}
 
-	public void showError() {
+	@Override
+	public void showError(Throwable e) {
 		mLoadingView.setVisibility(View.GONE);
 		mRecyclerView.setVisibility(View.GONE);
 		mErrorView.setVisibility(View.VISIBLE);

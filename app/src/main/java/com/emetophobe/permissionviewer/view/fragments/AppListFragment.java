@@ -78,7 +78,7 @@ public class AppListFragment extends AbstractListFragment implements AppListView
 
 	@Override
 	public void showError(Throwable e) {
-		super.showError();
+		super.showError(e);
 		mErrorView.setText(getString(R.string.error_loading_app_list, e.toString()));
 	}
 

@@ -78,7 +78,7 @@ public class PermissionListFragment extends AbstractListFragment implements Perm
 
 	@Override
 	public void showError(Throwable e) {
-		super.showError();
+		super.showError(e);
 		mErrorView.setText(getString(R.string.error_loading_permission_list, e.toString()));
 	}
 
