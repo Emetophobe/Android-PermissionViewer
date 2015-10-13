@@ -53,7 +53,6 @@ public class MainActivity extends BaseActivity implements HasComponent<FragmentC
 	}
 
 	private void injectDependencies() {
-		getApplicationComponent().inject(this);
 		mFragmentComponent = DaggerFragmentComponent.builder()
 				.applicationComponent(getApplicationComponent())
 				.activityModule(getActivityModule())
