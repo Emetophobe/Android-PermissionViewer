@@ -76,7 +76,7 @@ public class AppListPresenterImpl extends MvpBasePresenter<AppListView> implemen
 			}
 		};
 
-		// Create the observer and subscribe to it
+		// Get the observable and subscribe to it
 		mAppListHelper.getAppList()
 				.subscribeOn(Schedulers.computation())
 				.observeOn(AndroidSchedulers.mainThread())

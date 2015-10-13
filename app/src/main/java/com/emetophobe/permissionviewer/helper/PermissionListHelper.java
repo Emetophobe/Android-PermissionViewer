@@ -42,9 +42,9 @@ public class PermissionListHelper {
 	}
 
 	/**
-	 * Get the permissions list observer.
+	 * Get the permissions list observable.
 	 *
-	 * @return The permission list observable.
+	 * @return The observable.
 	 */
 	public Observable<List<PermissionDetail>> getPermissionList() {
 		// Use the app list observable to create the permission list observable
@@ -58,9 +58,9 @@ public class PermissionListHelper {
 	}
 
 	/**
-	 * Create the permission list from the app list.
+	 * Create the permission list.
 	 *
-	 * @param appList The list of app details
+	 * @param appList The application list.
 	 * @return The permission list.
 	 */
 	private List<PermissionDetail> createPermissionList(List<AppDetail> appList) {
@@ -79,7 +79,7 @@ public class PermissionListHelper {
 			}
 		}
 
-		// Build the permission list from the map
+		// Create the permission list from the map
 		for (String permission : map.keySet()) {
 			permissionList.add(new PermissionDetail(permission, map.get(permission)));
 		}

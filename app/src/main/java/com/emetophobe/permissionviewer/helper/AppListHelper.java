@@ -49,9 +49,9 @@ public class AppListHelper {
 	}
 
 	/**
-	 * Get the app list observer.
+	 * Get the application list observable.
 	 *
-	 * @return The app list observable.
+	 * @return The observable.
 	 */
 	public Observable<List<AppDetail>> getAppList() {
 		return Observable.just(createAppList()).cache();
@@ -96,7 +96,6 @@ public class AppListHelper {
 
 		// Get the app enabled flag
 		if (!mSettingsHelper.getShowDisabledApps() && !appInfo.enabled) {
-			Log.d(TAG, "Ignoring disabled app: " + packageName);
 			return null; 	// ignore disabled apps if the setting is disabled
 		}
 

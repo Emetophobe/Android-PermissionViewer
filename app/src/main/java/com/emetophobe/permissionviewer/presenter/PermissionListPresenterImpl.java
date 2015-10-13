@@ -76,7 +76,7 @@ public class PermissionListPresenterImpl extends MvpBasePresenter<PermissionList
 			}
 		};
 
-		// Create the observer and subscribe to it
+		// Get the observable and subscribe to it
 		mPermissionHelper.getPermissionList()
 				.subscribeOn(Schedulers.computation())
 				.observeOn(AndroidSchedulers.mainThread())
