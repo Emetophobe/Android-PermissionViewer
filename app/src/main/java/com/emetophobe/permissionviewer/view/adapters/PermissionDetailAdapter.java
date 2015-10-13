@@ -56,7 +56,7 @@ public class PermissionDetailAdapter extends RecyclerView.Adapter<PermissionDeta
 		AppDetail detail = mAppList.get(position);
 
 		// Set the app label
-		String appLabel = detail.getAppLabel() + " (" + detail.getPermissionList().size() + ")";
+		String appLabel = detail.getAppLabel();
 		holder.label.setText(appLabel);
 
 		// Set the app icon (TODO: Should we load or cache the drawables in a separate thread?)
