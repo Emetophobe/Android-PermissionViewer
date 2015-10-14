@@ -33,6 +33,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Subscriber;
 
 
 public class AppListHelper {
@@ -54,7 +55,13 @@ public class AppListHelper {
 	 * @return The observable.
 	 */
 	public Observable<List<AppDetail>> getAppList() {
-		return Observable.just(createAppList()).cache();
+		return Observable.create(new Observable.OnSubscribe<List<AppDetail>>() {
+			@Override
+			public void call(Subscriber<? super List<AppDetail>> subscriber) {
+				subscriber.onNext(createAppList());
+				subscriber.onCompleted();
+			}
+		}).cache();    // cache the results
 	}
 
 	/**
@@ -96,7 +103,7 @@ public class AppListHelper {
 
 		// Get the app enabled flag
 		if (!mSettingsHelper.getShowDisabledApps() && !appInfo.enabled) {
-			return null; 	// ignore disabled apps if the setting is disabled
+			return null;    // ignore disabled apps if the setting is disabled
 		}
 
 		// Get the application label
