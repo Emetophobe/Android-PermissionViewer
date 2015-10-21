@@ -17,13 +17,11 @@
 package com.emetophobe.permissionviewer.dagger.components;
 
 import android.app.Application;
-import android.content.SharedPreferences;
 
 import com.emetophobe.permissionviewer.dagger.modules.ApplicationModule;
-import com.emetophobe.permissionviewer.view.activities.MainActivity;
 import com.emetophobe.permissionviewer.helper.AppListHelper;
 import com.emetophobe.permissionviewer.helper.PermissionListHelper;
-import com.emetophobe.permissionviewer.helper.SettingsHelper;
+import com.emetophobe.permissionviewer.view.activities.MainActivity;
 
 import javax.inject.Singleton;
 
@@ -35,10 +33,8 @@ import dagger.Component;
 public interface ApplicationComponent {
 	void inject(MainActivity mainActivity);
 
-	//Exposed to sub-graphs.
-	Application application();
-	SharedPreferences sharedPrefs();
-	SettingsHelper settingsHelper();
-	AppListHelper appListHelper();
-	PermissionListHelper permissionHelper();
+	// Exposed to sub-graphs.
+	Application getApplication();
+	AppListHelper getAppListHelper();
+	PermissionListHelper getPermissionListHelper();
 }

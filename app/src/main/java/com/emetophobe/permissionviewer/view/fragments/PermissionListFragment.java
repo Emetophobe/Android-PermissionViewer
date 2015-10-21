@@ -18,7 +18,11 @@ package com.emetophobe.permissionviewer.view.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
@@ -33,37 +37,45 @@ import java.util.List;
 import javax.inject.Inject;
 
 
-public class PermissionListFragment extends AbstractListFragment implements PermissionListView {
+public class PermissionListFragment extends AbstractListFragment<List<PermissionDetail>, PermissionListView, PermissionListPresenter> implements PermissionListView {
 	@Inject
 	protected PermissionListPresenter mPresenter;
+
+	private FragmentComponent mComponent;
+	private PermissionListAdapter mAdapter;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		injectDependencies();
+		return super.onCreateView(inflater, container, savedInstanceState);
+	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		injectDependencies();
 		setupRecyclerView();
-		mPresenter.attachView(this);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		loadData();
+		loadData(false);
 	}
 
+	@NonNull
 	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		mPresenter.detachView();
+	public PermissionListPresenter createPresenter() {
+		return mComponent.getPermissionListPresenter();
 	}
 
 	private void injectDependencies() {
-		getComponent(FragmentComponent.class).inject(this);
+		mComponent = getComponent(FragmentComponent.class);
+		mComponent.inject(this);
 	}
 
 	private void setupRecyclerView() {
-		PermissionListAdapter adapter = new PermissionListAdapter();
-		adapter.setCallback(new PermissionListAdapter.Callback() {
+		mAdapter = new PermissionListAdapter();
+		mAdapter.setCallback(new PermissionListAdapter.Callback() {
 			@Override
 			public void onItemClick(PermissionDetail permissionDetail) {
 				Intent intent = new Intent(PermissionListFragment.this.getContext(), PermissionDetailActivity.class);
@@ -72,25 +84,24 @@ public class PermissionListFragment extends AbstractListFragment implements Perm
 			}
 		});
 
-		mRecyclerView.setAdapter(adapter);
-		mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-	}
-
-	@Override
-	public void showError(Throwable e) {
-		super.showError(e);
-		mErrorView.setText(getString(R.string.error_loading_permission_list, e.toString()));
+		recyclerView.setAdapter(mAdapter);
+		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 	}
 
 	@Override
 	public void setData(List<PermissionDetail> data) {
-		PermissionListAdapter adapter = (PermissionListAdapter) mRecyclerView.getAdapter();
-		adapter.setPermissionList(data);
-		adapter.notifyDataSetChanged();
+		mAdapter.setPermissionList(data);
+		mAdapter.notifyDataSetChanged();
 	}
 
 	@Override
-	public void loadData() {
-		mPresenter.loadPermissionList();
+	public void loadData(boolean pullToRefresh) {
+		mPresenter.loadPermissionList(pullToRefresh);
 	}
+
+	@Override
+	protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
+		return getString(R.string.error_loading_permission_list, e.toString());
+	}
+
 }

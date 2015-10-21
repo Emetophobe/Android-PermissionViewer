@@ -18,7 +18,11 @@ package com.emetophobe.permissionviewer.view.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
@@ -33,37 +37,45 @@ import java.util.List;
 import javax.inject.Inject;
 
 
-public class AppListFragment extends AbstractListFragment implements AppListView {
+public class AppListFragment extends AbstractListFragment<List<AppDetail>, AppListView, AppListPresenter> implements AppListView {
 	@Inject
 	protected AppListPresenter mPresenter;
+
+	private FragmentComponent mComponent;
+	private AppListAdapter mAdapter;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		injectDependencies();
+		return super.onCreateView(inflater, container, savedInstanceState);
+	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		injectDependencies();
 		setupRecyclerView();
-		mPresenter.attachView(this);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		loadData();
+		loadData(false);
 	}
 
+	@NonNull
 	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		mPresenter.detachView();
+	public AppListPresenter createPresenter() {
+		return mComponent.getAppListPresenter();
 	}
 
 	private void injectDependencies() {
-		getComponent(FragmentComponent.class).inject(this);
+		mComponent = getComponent(FragmentComponent.class);
+		mComponent.inject(this);
 	}
 
 	private void setupRecyclerView() {
-		AppListAdapter adapter = new AppListAdapter(getContext());
-		adapter.setCallback(new AppListAdapter.Callback() {
+		mAdapter = new AppListAdapter(getContext());
+		mAdapter.setCallback(new AppListAdapter.Callback() {
 			@Override
 			public void onItemClick(AppDetail appDetail) {
 				Intent intent = new Intent(AppListFragment.this.getContext(), AppDetailActivity.class);
@@ -72,25 +84,23 @@ public class AppListFragment extends AbstractListFragment implements AppListView
 			}
 		});
 
-		mRecyclerView.setAdapter(adapter);
-		mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-	}
-
-	@Override
-	public void showError(Throwable e) {
-		super.showError(e);
-		mErrorView.setText(getString(R.string.error_loading_app_list, e.toString()));
+		recyclerView.setAdapter(mAdapter);
+		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 	}
 
 	@Override
 	public void setData(List<AppDetail> data) {
-		AppListAdapter adapter = (AppListAdapter) mRecyclerView.getAdapter();
-		adapter.setAppList(data);
-		adapter.notifyDataSetChanged();
+		mAdapter.setAppList(data);
+		mAdapter.notifyDataSetChanged();
 	}
 
 	@Override
-	public void loadData() {
-		mPresenter.loadAppList();
+	public void loadData(boolean pullToRefresh) {
+		mPresenter.loadAppList(pullToRefresh);
+	}
+
+	@Override
+	protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
+		return getString(R.string.error_loading_app_list, e.toString());
 	}
 }

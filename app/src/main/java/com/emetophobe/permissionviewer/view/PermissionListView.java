@@ -17,11 +17,11 @@
 package com.emetophobe.permissionviewer.view;
 
 import com.emetophobe.permissionviewer.model.PermissionDetail;
+import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
 
 import java.util.List;
 
 
-public interface PermissionListView extends MvpView {
-	void setData(List<PermissionDetail> data);
-	void loadData();
+public interface PermissionListView extends MvpLceView<List<PermissionDetail>> {
+	// all method are from MvpLceView
 }

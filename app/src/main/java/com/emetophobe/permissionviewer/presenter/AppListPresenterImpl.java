@@ -20,6 +20,7 @@ import com.emetophobe.permissionviewer.dagger.PerActivity;
 import com.emetophobe.permissionviewer.helper.AppListHelper;
 import com.emetophobe.permissionviewer.model.AppDetail;
 import com.emetophobe.permissionviewer.view.AppListView;
+import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.util.List;
 
@@ -41,10 +42,10 @@ public class AppListPresenterImpl extends MvpBasePresenter<AppListView> implemen
 	}
 
 	@Override
-	public void loadAppList() {
+	public void loadAppList(boolean pullToRefresh) {
 		// Show the loading view
 		if (getView() != null) {
-			getView().showLoading();
+			getView().showLoading(pullToRefresh);
 		}
 
 		unsubscribe();
@@ -63,7 +64,7 @@ public class AppListPresenterImpl extends MvpBasePresenter<AppListView> implemen
 			public void onError(Throwable e) {
 				// Show the error view
 				if (getView() != null) {
-					getView().showError(e);
+					getView().showError(e, pullToRefresh);
 				}
 			}
 
@@ -90,9 +91,10 @@ public class AppListPresenterImpl extends MvpBasePresenter<AppListView> implemen
 		mSubscriber = null;
 	}
 
+
 	@Override
-	public void detachView() {
-		super.detachView();
+	public void detachView(boolean retainInstance) {
+		super.detachView(retainInstance);
 		unsubscribe();
 	}
 }

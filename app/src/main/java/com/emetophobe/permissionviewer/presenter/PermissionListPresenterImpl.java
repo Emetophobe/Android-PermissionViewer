@@ -20,6 +20,7 @@ import com.emetophobe.permissionviewer.dagger.PerActivity;
 import com.emetophobe.permissionviewer.helper.PermissionListHelper;
 import com.emetophobe.permissionviewer.model.PermissionDetail;
 import com.emetophobe.permissionviewer.view.PermissionListView;
+import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.util.List;
 
@@ -32,25 +33,25 @@ import rx.schedulers.Schedulers;
 
 @PerActivity
 public class PermissionListPresenterImpl extends MvpBasePresenter<PermissionListView> implements PermissionListPresenter {
-	private Subscriber<List<PermissionDetail>> mSubscriber;
-	private PermissionListHelper mPermissionHelper;
+	private Subscriber<List<PermissionDetail>> subscriber;
+	private PermissionListHelper permissionHelper;
 
 	@Inject
 	public PermissionListPresenterImpl(PermissionListHelper permissionHelper) {
-		mPermissionHelper = permissionHelper;
+		this.permissionHelper = permissionHelper;
 	}
 
 	@Override
-	public void loadPermissionList() {
+	public void loadPermissionList(boolean pullToRefresh) {
 		// Show the loading view
 		if (getView() != null) {
-			getView().showLoading();
+			getView().showLoading(pullToRefresh);
 		}
 
 		unsubscribe();
 
 		// Create the subscriber
-		mSubscriber = new Subscriber<List<PermissionDetail>>() {
+		subscriber = new Subscriber<List<PermissionDetail>>() {
 			@Override
 			public void onCompleted() {
 				// Show the content view
@@ -63,7 +64,7 @@ public class PermissionListPresenterImpl extends MvpBasePresenter<PermissionList
 			public void onError(Throwable e) {
 				// Show the error view
 				if (getView() != null) {
-					getView().showError(e);
+					getView().showError(e, pullToRefresh);
 				}
 			}
 
@@ -77,22 +78,22 @@ public class PermissionListPresenterImpl extends MvpBasePresenter<PermissionList
 		};
 
 		// Get the observable and subscribe to it
-		mPermissionHelper.getPermissionList()
+		permissionHelper.getPermissionList()
 				.subscribeOn(Schedulers.computation())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(mSubscriber);
+				.subscribe(subscriber);
 	}
 
 	private void unsubscribe() {
-		if (mSubscriber != null && !mSubscriber.isUnsubscribed()) {
-			mSubscriber.unsubscribe();
+		if (subscriber != null && !subscriber.isUnsubscribed()) {
+			subscriber.unsubscribe();
 		}
-		mSubscriber = null;
+		subscriber = null;
 	}
 
 	@Override
-	public void detachView() {
-		super.detachView();
+	public void detachView(boolean retainInstance) {
+		super.detachView(retainInstance);
 		unsubscribe();
 	}
 }

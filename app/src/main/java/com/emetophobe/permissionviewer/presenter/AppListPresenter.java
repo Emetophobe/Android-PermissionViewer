@@ -17,8 +17,9 @@
 package com.emetophobe.permissionviewer.presenter;
 
 import com.emetophobe.permissionviewer.view.AppListView;
+import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 
 
 public interface AppListPresenter extends MvpPresenter<AppListView> {
-	void loadAppList();
+	void loadAppList(boolean pullToRefresh);
 }

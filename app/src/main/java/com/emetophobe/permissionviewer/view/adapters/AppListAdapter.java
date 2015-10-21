@@ -58,14 +58,15 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_app_list_item, parent, false);
-		final ViewHolder viewHolder = new ViewHolder(itemView);
-		viewHolder.contentLayout.setOnClickListener(view -> {
+		final ViewHolder holder = new ViewHolder(itemView);
+
+		holder.contentLayout.setOnClickListener(view -> {
 			if (mCallback != null) {
-				mCallback.onItemClick(viewHolder.appDetail);
+				mCallback.onItemClick(holder.appDetail);
 			}
 		});
 
-		return viewHolder;
+		return holder;
 	}
 
 	@Override
@@ -95,15 +96,15 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 		@Bind(R.id.layout_content)
-		public View contentLayout;
+		View contentLayout;
 
 		@Bind(R.id.app_icon)
-		public ImageView icon;
+		ImageView icon;
 
 		@Bind(R.id.app_label)
-		public TextView label;
+		TextView label;
 
-		public AppDetail appDetail;
+		AppDetail appDetail;
 
 		public ViewHolder(View itemView) {
 			super(itemView);
