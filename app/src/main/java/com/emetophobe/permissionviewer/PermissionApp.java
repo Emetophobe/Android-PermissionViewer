@@ -24,22 +24,22 @@ import com.emetophobe.permissionviewer.dagger.modules.ApplicationModule;
 
 
 public class PermissionApp extends Application {
-	private ApplicationComponent mApplicationComponent;
+	private ApplicationComponent appComponent;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		mApplicationComponent = DaggerApplicationComponent.builder()
+		appComponent = DaggerApplicationComponent.builder()
 				.applicationModule(new ApplicationModule(this))
 				.build();
 	}
 
 	public ApplicationComponent getApplicationComponent() {
-		return mApplicationComponent;
+		return appComponent;
 	}
 
 	// For testing
 	public void setComponent(ApplicationComponent applicationComponent) {
-		mApplicationComponent = applicationComponent;
+		appComponent = applicationComponent;
 	}
 }

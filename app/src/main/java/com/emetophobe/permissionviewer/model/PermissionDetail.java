@@ -24,26 +24,26 @@ import java.util.List;
 
 
 public class PermissionDetail implements Parcelable {
-	private String mName;
-	private List<AppDetail> mAppList;
+	private String name;
+	private List<AppDetail> appList;
 
 	public PermissionDetail(String name, List<AppDetail> appList) {
-		mName = name;
-		mAppList = new ArrayList<>(appList);
+		this.name = name;
+		this.appList = new ArrayList<>(appList);
 	}
 
 	public String getName() {
-		return mName;
+		return name;
 	}
 
 	public List<AppDetail> getAppList() {
-		return mAppList;
+		return appList;
 	}
 
 	protected PermissionDetail(Parcel in) {
-		mName = in.readString();
-		mAppList = new ArrayList<>();
-		in.readList(mAppList, AppDetail.class.getClassLoader());
+		name = in.readString();
+		appList = new ArrayList<>();
+		in.readList(appList, AppDetail.class.getClassLoader());
 	}
 
 	@Override
@@ -53,8 +53,8 @@ public class PermissionDetail implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(mName);
-		dest.writeList(mAppList);
+		dest.writeString(name);
+		dest.writeList(appList);
 	}
 
 	public static final Creator<PermissionDetail> CREATOR = new Creator<PermissionDetail>() {

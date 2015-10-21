@@ -45,29 +45,20 @@ import butterknife.ButterKnife;
 public class AppDetailActivity extends AppCompatActivity {
 	public static final String EXTRA_APP_DETAIL = "extra_app_detail";
 
-	private AppDetail mAppDetail;
+	@Bind(R.id.app_icon) ImageView appIcon;
+	@Bind(R.id.app_label) TextView appLabel;
+	@Bind(R.id.app_package)	TextView packageName;
+	@Bind(R.id.permission_count) TextView permissionCount;
+	@Bind(R.id.recycler_view) RecyclerView recyclerView;
 
-	@Bind(R.id.app_icon)
-	protected ImageView mAppIcon;
-
-	@Bind(R.id.app_label)
-	protected TextView mAppName;
-
-	@Bind(R.id.app_package)
-	protected TextView mAppPackage;
-
-	@Bind(R.id.permission_count)
-	protected TextView mPermissionCount;
-
-	@Bind(R.id.recycler_view)
-	protected RecyclerView mRecyclerView;
+	private AppDetail appDetail;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_app_detail);
 		ButterKnife.bind(this);
 
-		// Set up the toolbar.
+		// Set up the toolbar
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		if (getSupportActionBar() != null) {
@@ -76,16 +67,16 @@ public class AppDetailActivity extends AppCompatActivity {
 		}
 
 		// Get the app detail from the intent extras
-		mAppDetail = getIntent().getParcelableExtra(EXTRA_APP_DETAIL);
-		if (mAppDetail == null) {
+		appDetail = getIntent().getParcelableExtra(EXTRA_APP_DETAIL);
+		if (appDetail == null) {
 			throw new IllegalArgumentException("Must pass a valid AppDetail with EXTRA_APP_DETAIL.");
 		}
 
 		// Set the app icon and package name
-		mAppIcon.setImageDrawable(getAppIcon());
-		mAppPackage.setText(mAppDetail.getPackageName());
-		mAppName.setText(mAppDetail.getAppLabel());
-		mPermissionCount.setText(getString(R.string.permission_count, mAppDetail.getPermissionList().size()));
+		appIcon.setImageDrawable(getAppIcon());
+		packageName.setText(appDetail.getPackageName());
+		appLabel.setText(appDetail.getAppLabel());
+		permissionCount.setText(getString(R.string.permission_count, appDetail.getPermissionList().size()));
 
 		setupRecyclerView();
 	}
@@ -111,9 +102,9 @@ public class AppDetailActivity extends AppCompatActivity {
 	}
 
 	private void setupRecyclerView() {
-		AppDetailAdapter adapter = new AppDetailAdapter(mAppDetail.getPermissionList());
-		mRecyclerView.setAdapter(adapter);
-		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+		AppDetailAdapter adapter = new AppDetailAdapter(appDetail.getPermissionList());
+		recyclerView.setAdapter(adapter);
+		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 	}
 
 	/**
@@ -122,7 +113,7 @@ public class AppDetailActivity extends AppCompatActivity {
 	private Drawable getAppIcon() {
 		Drawable drawable;
 		try {
-			drawable = getPackageManager().getApplicationIcon(mAppDetail.getPackageName());
+			drawable = getPackageManager().getApplicationIcon(appDetail.getPackageName());
 		} catch (PackageManager.NameNotFoundException e) {
 			drawable = null;
 		}
@@ -132,7 +123,7 @@ public class AppDetailActivity extends AppCompatActivity {
 	private void showAppSettings() {
 		try {
 			Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-			intent.setData(Uri.parse("package:" + mAppDetail.getPackageName()));
+			intent.setData(Uri.parse("package:" + appDetail.getPackageName()));
 			startActivity(intent);
 		} catch(ActivityNotFoundException e) {
 			Toast.makeText(this, R.string.error_launching_app_settings, Toast.LENGTH_LONG).show();

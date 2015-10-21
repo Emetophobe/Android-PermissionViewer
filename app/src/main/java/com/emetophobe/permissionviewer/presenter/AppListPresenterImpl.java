@@ -33,12 +33,12 @@ import rx.schedulers.Schedulers;
 
 @PerActivity
 public class AppListPresenterImpl extends MvpBasePresenter<AppListView> implements AppListPresenter {
-	private Subscriber<List<AppDetail>> mSubscriber;
-	private AppListHelper mAppListHelper;
+	private Subscriber<List<AppDetail>> subscriber;
+	private AppListHelper appListHelper;
 
 	@Inject
 	public AppListPresenterImpl(AppListHelper appListHelper) {
-		mAppListHelper = appListHelper;
+		this.appListHelper = appListHelper;
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class AppListPresenterImpl extends MvpBasePresenter<AppListView> implemen
 		unsubscribe();
 
 		// Create the subscriber
-		mSubscriber = new Subscriber<List<AppDetail>>() {
+		subscriber = new Subscriber<List<AppDetail>>() {
 			@Override
 			public void onCompleted() {
 				// Show the content view
@@ -78,17 +78,17 @@ public class AppListPresenterImpl extends MvpBasePresenter<AppListView> implemen
 		};
 
 		// Get the observable and subscribe to it
-		mAppListHelper.getAppList()
+		appListHelper.getAppList()
 				.subscribeOn(Schedulers.computation())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(mSubscriber);
+				.subscribe(subscriber);
 	}
 
 	private void unsubscribe() {
-		if (mSubscriber != null && !mSubscriber.isUnsubscribed()) {
-			mSubscriber.unsubscribe();
+		if (subscriber != null && !subscriber.isUnsubscribed()) {
+			subscriber.unsubscribe();
 		}
-		mSubscriber = null;
+		subscriber = null;
 	}
 
 

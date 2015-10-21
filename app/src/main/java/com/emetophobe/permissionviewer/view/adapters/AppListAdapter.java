@@ -29,7 +29,7 @@ import android.widget.TextView;
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.model.AppDetail;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -38,21 +38,25 @@ import butterknife.ButterKnife;
 
 // Used by the AppListFragment
 public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHolder> {
-	private List<AppDetail> mAppList;
-	private Callback mCallback;
-	private Context mContext;
+	private List<AppDetail> appList;
+	private Callback callback;
+	private Context context;
 
 	public AppListAdapter(Context context) {
-		mContext = context;
-		mAppList = Collections.emptyList();
+		this.context = context;
+		this.appList = new ArrayList<>();
 	}
 
-	public void setAppList(List<AppDetail> appList) {
-		mAppList = appList;
+	public void setAppList(List<AppDetail> data) {
+		appList.clear();
+		if (data != null) {
+			appList.addAll(data);
+		}
+		notifyDataSetChanged();
 	}
 
 	public void setCallback(Callback callback) {
-		mCallback = callback;
+		this.callback = callback;
 	}
 
 	@Override
@@ -61,8 +65,8 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 		final ViewHolder holder = new ViewHolder(itemView);
 
 		holder.contentLayout.setOnClickListener(view -> {
-			if (mCallback != null) {
-				mCallback.onItemClick(holder.appDetail);
+			if (callback != null) {
+				callback.onItemClick(holder.appDetail);
 			}
 		});
 
@@ -71,7 +75,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		AppDetail detail = mAppList.get(position);
+		AppDetail detail = appList.get(position);
 		holder.appDetail = detail;
 
 		// Set the app label
@@ -81,7 +85,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 		// Set the app icon (TODO: Should we load or cache the drawables in a separate thread?)
 		Drawable drawable;
 		try {
-			drawable = mContext.getPackageManager().getApplicationIcon(detail.getPackageName());
+			drawable = context.getPackageManager().getApplicationIcon(detail.getPackageName());
 		} catch (PackageManager.NameNotFoundException e) {
 			drawable = null; // TODO: use a default placeholder icon
 		}
@@ -91,7 +95,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 
 	@Override
 	public int getItemCount() {
-		return mAppList.size();
+		return appList.size();
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {

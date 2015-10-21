@@ -29,10 +29,10 @@ import dagger.Provides;
  */
 @Module
 public class ActivityModule {
-	private final Activity mActivity;
+	private final Activity activity;
 
 	public ActivityModule(Activity activity) {
-		mActivity = activity;
+		this.activity = activity;
 	}
 
 	/**
@@ -41,6 +41,6 @@ public class ActivityModule {
 	@Provides
 	@PerActivity
 	Activity provideActivity() {
-		return mActivity;
+		return activity;
 	}
 }

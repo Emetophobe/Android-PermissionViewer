@@ -36,19 +36,12 @@ import butterknife.ButterKnife;
 public class PermissionDetailActivity extends AppCompatActivity {
 	public static final String EXTRA_PERMISSION_DETAIL = "extra_permission_detail";
 
-	private PermissionDetail mPermissionDetail;
+	@Bind(R.id.permission_name) TextView name;
+	@Bind(R.id.permission_description) TextView description;
+	@Bind(R.id.application_count) TextView appCount;
+	@Bind(R.id.recycler_view) RecyclerView recyclerView;
 
-	@Bind(R.id.permission_name)
-	protected TextView mPermissionName;
-
-	@Bind(R.id.permission_description)
-	protected TextView mPermissionDescription;
-
-	@Bind(R.id.application_count)
-	protected TextView mAppCount;
-
-	@Bind(R.id.recycler_view)
-	protected RecyclerView mRecyclerView;
+	private PermissionDetail permissionDetail;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +49,7 @@ public class PermissionDetailActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_permission_detail);
 		ButterKnife.bind(this);
 
+		// Setup the toolbar
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		if (getSupportActionBar() != null) {
@@ -64,16 +58,19 @@ public class PermissionDetailActivity extends AppCompatActivity {
 		}
 
 		// Get the permission detail from the intent extras.
-		mPermissionDetail = getIntent().getParcelableExtra(EXTRA_PERMISSION_DETAIL);
-		if (mPermissionDetail == null) {
+		permissionDetail = getIntent().getParcelableExtra(EXTRA_PERMISSION_DETAIL);
+		if (permissionDetail == null) {
 			throw new IllegalArgumentException("Must pass a valid PermissionDetail with EXTRA_PERMISSION_DETAIL.");
 		}
 
-		mPermissionName.setText(mPermissionDetail.getName());
-		mPermissionDescription.setText(getDescription());
-		mAppCount.setText(getString(R.string.application_count, mPermissionDetail.getAppList().size()));
+		// Set the permission name, description, and application count
+		name.setText(permissionDetail.getName());
+		description.setText(getDescription());
+		appCount.setText(getString(R.string.application_count, permissionDetail.getAppList().size()));
 
-		setupRecyclerView();
+		// Setup the recycler view
+		recyclerView.setAdapter(new PermissionDetailAdapter(this, permissionDetail.getAppList()));
+		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 	}
 
 	@Override
@@ -86,17 +83,13 @@ public class PermissionDetailActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void setupRecyclerView() {
-		PermissionDetailAdapter adapter = new PermissionDetailAdapter(this, mPermissionDetail.getAppList());
-		mRecyclerView.setAdapter(adapter);
-		mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-	}
-
 	/**
-	 * Get the permission description string.
+	 * Get the permission description.
+	 *
+	 * @return The description string, or "No description" if none was found.
 	 */
 	private String getDescription() {
-		int resId = getResources().getIdentifier("permission_" + mPermissionDetail.getName(), "string", getPackageName());
+		int resId = getResources().getIdentifier("permission_" + permissionDetail.getName(), "string", getPackageName());
 		return resId != 0 ? getString(resId) : getString(R.string.permission_unknown);
 	}
 }

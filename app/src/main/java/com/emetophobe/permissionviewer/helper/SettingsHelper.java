@@ -27,11 +27,11 @@ public class SettingsHelper {
 	public static final String APP_SORT_ORDER = "pref_app_sort_order";
 	public static final String PERMISSION_SORT_ORDER = "pref_perm_sort_order";
 
-	private SharedPreferences mSharedPrefs;
+	private SharedPreferences sharedPrefs;
 
 	@Inject
 	public SettingsHelper(SharedPreferences sharedPrefs) {
-		mSharedPrefs = sharedPrefs;
+		this.sharedPrefs = sharedPrefs;
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class SettingsHelper {
 	 * @return true if system apps should be shown, false if system apps should be hidden.
 	 */
 	public boolean getShowSystemApps() {
-		return mSharedPrefs.getBoolean(SHOW_SYSTEM_APPS, true);
+		return sharedPrefs.getBoolean(SHOW_SYSTEM_APPS, true);
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class SettingsHelper {
 	 * @return true if disabled apps should be shown, false if disabled apps should be hidden.
 	 */
 	public boolean getShowDisabledApps() {
-		return mSharedPrefs.getBoolean(SHOW_DISABLED_APPS, false);
+		return sharedPrefs.getBoolean(SHOW_DISABLED_APPS, false);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class SettingsHelper {
 	 * @return true if apps should be sorted by application name, false if applications should be sorted by permission count.
 	 */
 	public boolean getAppSortOrder() {
-		return mSharedPrefs.getBoolean(APP_SORT_ORDER, false);
+		return sharedPrefs.getBoolean(APP_SORT_ORDER, false);
 	}
 
 	/**
@@ -67,6 +67,6 @@ public class SettingsHelper {
 	 * @return true if permissions should be sorted by permission name, false if permissions should be sorted by application count.
 	 */
 	public boolean getPermissionSortOrder() {
-		return mSharedPrefs.getBoolean(PERMISSION_SORT_ORDER, false);
+		return sharedPrefs.getBoolean(PERMISSION_SORT_ORDER, false);
 	}
 }

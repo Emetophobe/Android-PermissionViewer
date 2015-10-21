@@ -25,7 +25,7 @@ import android.widget.TextView;
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.model.PermissionDetail;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -34,19 +34,23 @@ import butterknife.ButterKnife;
 
 // Used by the PermissionListFragment
 public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAdapter.ViewHolder> {
-	private List<PermissionDetail> mPermissionList;
-	private Callback mCallback;
+	private List<PermissionDetail> permissionList;
+	private Callback callback;
 
 	public PermissionListAdapter() {
-		mPermissionList = Collections.emptyList();
+		permissionList = new ArrayList<>();
 	}
 
-	public void setPermissionList(List<PermissionDetail> permissionList) {
-		mPermissionList = permissionList;
+	public void setPermissionList(List<PermissionDetail> data) {
+		permissionList.clear();
+		if (data != null) {
+			permissionList.addAll(data);
+		}
+		notifyDataSetChanged();
 	}
 
 	public void setCallback(Callback callback) {
-		mCallback = callback;
+		this.callback = callback;
 	}
 
 	@Override
@@ -54,8 +58,8 @@ public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAd
 		final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_permission_list_item, parent, false);
 		final ViewHolder viewHolder = new ViewHolder(itemView);
 		viewHolder.name.setOnClickListener(view -> {
-			if (mCallback != null) {
-				mCallback.onItemClick(viewHolder.permissionDetail);
+			if (callback != null) {
+				callback.onItemClick(viewHolder.permissionDetail);
 			}
 		});
 
@@ -64,7 +68,7 @@ public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAd
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		PermissionDetail detail = mPermissionList.get(position);
+		PermissionDetail detail = permissionList.get(position);
 		holder.permissionDetail = detail;
 
 		// Set the permission name
@@ -75,14 +79,14 @@ public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAd
 
 	@Override
 	public int getItemCount() {
-		return mPermissionList.size();
+		return permissionList.size();
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 		@Bind(R.id.permission_name)
-		public TextView name;
+		TextView name;
 
-		public PermissionDetail permissionDetail;
+		PermissionDetail permissionDetail;
 
 		public ViewHolder(View itemView) {
 			super(itemView);

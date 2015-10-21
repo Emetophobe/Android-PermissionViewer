@@ -24,39 +24,39 @@ import java.util.List;
 
 
 public class AppDetail implements Parcelable {
-	private String mPackageName;
-	private String mAppLabel;
-	private int mSystemFlag;
-	private List<String> mPermissionList;
+	private String packageName;
+	private String appLabel;
+	private int systemFlag;
+	private List<String> permissionList;
 
 	public AppDetail(String packageName, String appLabel, int systemFlag, List<String> permissions) {
-		mPackageName = packageName;
-		mAppLabel = appLabel;
-		mSystemFlag = systemFlag;
-		mPermissionList = new ArrayList<>(permissions);
+		this.packageName = packageName;
+		this.appLabel = appLabel;
+		this.systemFlag = systemFlag;
+		this.permissionList = new ArrayList<>(permissions);
 	}
 
 	public String getPackageName() {
-		return mPackageName;
+		return packageName;
 	}
 
 	public String getAppLabel() {
-		return mAppLabel;
+		return appLabel;
 	}
 
 	public int getSystemFlag() {
-		return mSystemFlag;
+		return systemFlag;
 	}
 
 	public List<String> getPermissionList() {
-		return mPermissionList;
+		return permissionList;
 	}
 
 	protected AppDetail(Parcel in) {
-		mPackageName = in.readString();
-		mAppLabel = in.readString();
-		mSystemFlag = in.readInt();
-		mPermissionList = in.createStringArrayList();
+		packageName = in.readString();
+		appLabel = in.readString();
+		systemFlag = in.readInt();
+		permissionList = in.createStringArrayList();
 
 	}
 
@@ -67,10 +67,10 @@ public class AppDetail implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(mPackageName);
-		dest.writeString(mAppLabel);
-		dest.writeInt(mSystemFlag);
-		dest.writeStringList(mPermissionList);
+		dest.writeString(packageName);
+		dest.writeString(appLabel);
+		dest.writeInt(systemFlag);
+		dest.writeStringList(permissionList);
 	}
 
 	public static final Creator<AppDetail> CREATOR = new Creator<AppDetail>() {

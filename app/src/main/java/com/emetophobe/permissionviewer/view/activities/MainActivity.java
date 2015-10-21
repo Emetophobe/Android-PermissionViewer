@@ -41,7 +41,7 @@ import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements HasComponent<FragmentComponent> {
-	private FragmentComponent mFragmentComponent;
+	private FragmentComponent component;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements HasComponent<Frag
 	}
 
 	private void injectDependencies() {
-		mFragmentComponent = DaggerFragmentComponent.builder()
+		component = DaggerFragmentComponent.builder()
 				.applicationComponent(((PermissionApp) getApplication()).getApplicationComponent())
 				.activityModule(new ActivityModule(this))
 				.build();
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements HasComponent<Frag
 
 	@Override
 	public FragmentComponent getComponent() {
-		return mFragmentComponent;
+		return component;
 	}
 
 	private void setupViewPager() {

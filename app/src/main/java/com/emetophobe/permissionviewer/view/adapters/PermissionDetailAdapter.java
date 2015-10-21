@@ -37,12 +37,12 @@ import butterknife.ButterKnife;
 
 // Used by the PermissionDetailActivity
 public class PermissionDetailAdapter extends RecyclerView.Adapter<PermissionDetailAdapter.ViewHolder> {
-	private List<AppDetail> mAppList;
-	private Context mContext;
+	private List<AppDetail> appList;
+	private Context context;
 
 	public PermissionDetailAdapter(Context context, List<AppDetail> appList) {
-		mContext = context;
-		mAppList = appList;
+		this.context = context;
+		this.appList = appList;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class PermissionDetailAdapter extends RecyclerView.Adapter<PermissionDeta
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		AppDetail detail = mAppList.get(position);
+		AppDetail detail = appList.get(position);
 
 		// Set the app label
 		String appLabel = detail.getAppLabel();
@@ -62,7 +62,7 @@ public class PermissionDetailAdapter extends RecyclerView.Adapter<PermissionDeta
 		// Set the app icon (TODO: Should we load or cache the drawables in a separate thread?)
 		Drawable drawable;
 		try {
-			drawable = mContext.getPackageManager().getApplicationIcon(detail.getPackageName());
+			drawable = context.getPackageManager().getApplicationIcon(detail.getPackageName());
 		} catch (PackageManager.NameNotFoundException e) {
 			drawable = null; // TODO: use a default placeholder icon
 		}
@@ -72,15 +72,15 @@ public class PermissionDetailAdapter extends RecyclerView.Adapter<PermissionDeta
 
 	@Override
 	public int getItemCount() {
-		return mAppList.size();
+		return appList.size();
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 		@Bind(R.id.app_icon)
-		public ImageView icon;
+		ImageView icon;
 
 		@Bind(R.id.app_label)
-		public TextView label;
+		TextView label;
 
 		public ViewHolder(View itemView) {
 			super(itemView);

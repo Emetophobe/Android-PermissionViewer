@@ -36,21 +36,21 @@ import dagger.Provides;
  */
 @Module
 public class ApplicationModule {
-	private final Application mApplication;
+	private final Application application;
 
 	public ApplicationModule(Application application) {
-		mApplication = application;
+		this.application = application;
 	}
 
 	@Provides
 	@Singleton
 	Application provideApplication() {
-		return mApplication;
+		return application;
 	}
 
 	@Provides
 	SharedPreferences provideSharedPreferences() {
-		return PreferenceManager.getDefaultSharedPreferences(mApplication);
+		return PreferenceManager.getDefaultSharedPreferences(application);
 	}
 
 	@Provides
@@ -60,7 +60,7 @@ public class ApplicationModule {
 
 	@Provides
 	AppListHelper provideAppListHelper(SettingsHelper settingsHelper) {
-		return new AppListHelper(mApplication, settingsHelper);
+		return new AppListHelper(application, settingsHelper);
 	}
 
 	@Provides

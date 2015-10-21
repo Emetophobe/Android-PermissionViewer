@@ -23,5 +23,5 @@ import java.util.List;
 
 
 public interface PermissionListView extends MvpLceView<List<PermissionDetail>> {
-	// all method are from MvpLceView
+	// // all method are derived MvpLceView for now
 }

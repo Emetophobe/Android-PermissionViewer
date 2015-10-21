@@ -23,5 +23,5 @@ import java.util.List;
 
 
 public interface AppListView extends MvpLceView<List<AppDetail>> {
-	// all method are from MvpLceView
+	// all method are derived MvpLceView for now
 }

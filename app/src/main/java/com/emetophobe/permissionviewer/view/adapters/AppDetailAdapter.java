@@ -32,10 +32,10 @@ import butterknife.ButterKnife;
 
 // Used by the AppDetailActivity
 public class AppDetailAdapter extends RecyclerView.Adapter<AppDetailAdapter.ViewHolder> {
-	private List<String> mPermissionList;
+	private List<String> permissionList;
 
 	public AppDetailAdapter(List<String> permissionList) {
-		mPermissionList = permissionList;
+		this.permissionList = permissionList;
 	}
 
 	@Override
@@ -46,13 +46,13 @@ public class AppDetailAdapter extends RecyclerView.Adapter<AppDetailAdapter.View
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		String permission = mPermissionList.get(position);
+		String permission = permissionList.get(position);
 		holder.name.setText(permission);
 	}
 
 	@Override
 	public int getItemCount() {
-		return mPermissionList.size();
+		return permissionList.size();
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {

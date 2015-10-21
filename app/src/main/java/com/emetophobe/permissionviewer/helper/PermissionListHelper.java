@@ -32,13 +32,13 @@ import rx.functions.Func1;
 
 
 public class PermissionListHelper {
-	private AppListHelper mAppListHelper;
-	private SettingsHelper mSettingsHelper;
+	private AppListHelper appListHelper;
+	private SettingsHelper settingsHelper;
 
 	@Inject
 	public PermissionListHelper(AppListHelper appListHelper, SettingsHelper settingsHelper) {
-		mAppListHelper = appListHelper;
-		mSettingsHelper = settingsHelper;
+		this.appListHelper = appListHelper;
+		this.settingsHelper = settingsHelper;
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class PermissionListHelper {
 	 */
 	public Observable<List<PermissionDetail>> getPermissionList() {
 		// Use the app list observable to create the permission list observable
-		return mAppListHelper.getAppList()
+		return appListHelper.getAppList()
 				.map(new Func1<List<AppDetail>, List<PermissionDetail>>() {
 					@Override
 					public List<PermissionDetail> call(List<AppDetail> appList) {
@@ -85,7 +85,7 @@ public class PermissionListHelper {
 		}
 
 		// Sort the permission list based on the user preference
-		Collections.sort(permissionList, mSettingsHelper.getPermissionSortOrder() ? mSortByName : mSortByCount);
+		Collections.sort(permissionList, settingsHelper.getPermissionSortOrder() ? sortByName : sortByCount);
 
 		return permissionList;
 	}
@@ -94,7 +94,7 @@ public class PermissionListHelper {
 	/**
 	 * Compare permissions by name in alphabetical order.
 	 */
-	private Comparator<PermissionDetail> mSortByName = new Comparator<PermissionDetail>() {
+	private Comparator<PermissionDetail> sortByName = new Comparator<PermissionDetail>() {
 		@Override
 		public int compare(PermissionDetail left, PermissionDetail right) {
 			return left.getName().toLowerCase().compareTo(right.getName().toLowerCase());
@@ -104,7 +104,7 @@ public class PermissionListHelper {
 	/**
 	 * Compare permissions by app count in descending order.
 	 */
-	private Comparator<PermissionDetail> mSortByCount = new Comparator<PermissionDetail>() {
+	private Comparator<PermissionDetail> sortByCount = new Comparator<PermissionDetail>() {
 		@Override
 		public int compare(PermissionDetail left, PermissionDetail right) {
 			return right.getAppList().size() - left.getAppList().size();

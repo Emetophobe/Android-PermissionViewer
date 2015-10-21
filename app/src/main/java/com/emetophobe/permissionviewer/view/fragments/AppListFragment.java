@@ -34,15 +34,10 @@ import com.emetophobe.permissionviewer.view.adapters.AppListAdapter;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 
 public class AppListFragment extends AbstractListFragment<List<AppDetail>, AppListView, AppListPresenter> implements AppListView {
-	@Inject
-	protected AppListPresenter mPresenter;
-
-	private FragmentComponent mComponent;
-	private AppListAdapter mAdapter;
+	private FragmentComponent component;
+	private AppListAdapter adapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,17 +60,17 @@ public class AppListFragment extends AbstractListFragment<List<AppDetail>, AppLi
 	@NonNull
 	@Override
 	public AppListPresenter createPresenter() {
-		return mComponent.getAppListPresenter();
+		return component.getAppListPresenter();
 	}
 
 	private void injectDependencies() {
-		mComponent = getComponent(FragmentComponent.class);
-		mComponent.inject(this);
+		component = getComponent(FragmentComponent.class);
+		component.inject(this);
 	}
 
 	private void setupRecyclerView() {
-		mAdapter = new AppListAdapter(getContext());
-		mAdapter.setCallback(new AppListAdapter.Callback() {
+		adapter = new AppListAdapter(getContext());
+		adapter.setCallback(new AppListAdapter.Callback() {
 			@Override
 			public void onItemClick(AppDetail appDetail) {
 				Intent intent = new Intent(AppListFragment.this.getContext(), AppDetailActivity.class);
@@ -84,19 +79,19 @@ public class AppListFragment extends AbstractListFragment<List<AppDetail>, AppLi
 			}
 		});
 
-		recyclerView.setAdapter(mAdapter);
+		recyclerView.setAdapter(adapter);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 	}
 
 	@Override
 	public void setData(List<AppDetail> data) {
-		mAdapter.setAppList(data);
-		mAdapter.notifyDataSetChanged();
+		adapter.setAppList(data);
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public void loadData(boolean pullToRefresh) {
-		mPresenter.loadAppList(pullToRefresh);
+		getPresenter().loadAppList(pullToRefresh);
 	}
 
 	@Override

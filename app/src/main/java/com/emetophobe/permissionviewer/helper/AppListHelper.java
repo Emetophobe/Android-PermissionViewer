@@ -40,13 +40,13 @@ public class AppListHelper {
 	private static final String TAG = "AppListHelper";
 	private static final String ANDROID_PERMISSION = "android.permission.";
 
-	private PackageManager mPackageManager;
-	private SettingsHelper mSettingsHelper;
+	private PackageManager packageManager;
+	private SettingsHelper settingsHelper;
 
 	@Inject
 	public AppListHelper(Context context, SettingsHelper settingsHelper) {
-		mPackageManager = context.getPackageManager();
-		mSettingsHelper = settingsHelper;
+		this.packageManager = context.getPackageManager();
+		this.settingsHelper = settingsHelper;
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class AppListHelper {
 		List<AppDetail> appList = new ArrayList<>();
 
 		// Get the list of installed packages and create the AppDetail list
-		List<ApplicationInfo> packages = mPackageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+		List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
 		for (ApplicationInfo appInfo : packages) {
 			AppDetail appDetail = getAppDetail(appInfo.packageName, appInfo);
 			if (appDetail != null) {
@@ -82,7 +82,7 @@ public class AppListHelper {
 		}
 
 		// Sort the app list based on the user preference
-		Collections.sort(appList, mSettingsHelper.getAppSortOrder() ? mSortByName : mSortByCount);
+		Collections.sort(appList, settingsHelper.getAppSortOrder() ? sortByName : sortByCount);
 
 		return appList;
 	}
@@ -97,19 +97,19 @@ public class AppListHelper {
 	private AppDetail getAppDetail(String packageName, ApplicationInfo appInfo) {
 		// Get the system app flag
 		int systemFlag = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM);
-		if (!mSettingsHelper.getShowSystemApps() && systemFlag == 1) {
+		if (!settingsHelper.getShowSystemApps() && systemFlag == 1) {
 			return null;    // ignore system apps if the setting is disabled
 		}
 
 		// Get the app enabled flag
-		if (!mSettingsHelper.getShowDisabledApps() && !appInfo.enabled) {
+		if (!settingsHelper.getShowDisabledApps() && !appInfo.enabled) {
 			return null;    // ignore disabled apps if the setting is disabled
 		}
 
 		// Get the application label
 		String appLabel;
 		try {
-			appLabel = mPackageManager.getApplicationLabel(appInfo).toString();
+			appLabel = packageManager.getApplicationLabel(appInfo).toString();
 		} catch (Resources.NotFoundException e) {
 			// application label not found, just use the package name.
 			appLabel = packageName;
@@ -137,7 +137,7 @@ public class AppListHelper {
 		// Get the package info
 		PackageInfo packageInfo;
 		try {
-			packageInfo = mPackageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
+			packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
 		} catch (PackageManager.NameNotFoundException e) {
 			return null;
 		}
@@ -158,7 +158,7 @@ public class AppListHelper {
 	/**
 	 * Compare apps by name in alphabetical order.
 	 */
-	private Comparator<AppDetail> mSortByName = new Comparator<AppDetail>() {
+	private Comparator<AppDetail> sortByName = new Comparator<AppDetail>() {
 		@Override
 		public int compare(AppDetail left, AppDetail right) {
 			return left.getAppLabel().toLowerCase().compareTo(right.getAppLabel().toLowerCase());
@@ -168,7 +168,7 @@ public class AppListHelper {
 	/**
 	 * Compare apps by permission count in descending order.
 	 */
-	private Comparator<AppDetail> mSortByCount = new Comparator<AppDetail>() {
+	private Comparator<AppDetail> sortByCount = new Comparator<AppDetail>() {
 		@Override
 		public int compare(AppDetail left, AppDetail right) {
 			return right.getPermissionList().size() - left.getPermissionList().size();

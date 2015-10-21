@@ -34,13 +34,8 @@ import com.emetophobe.permissionviewer.view.adapters.PermissionListAdapter;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 
 public class PermissionListFragment extends AbstractListFragment<List<PermissionDetail>, PermissionListView, PermissionListPresenter> implements PermissionListView {
-	@Inject
-	protected PermissionListPresenter mPresenter;
-
 	private FragmentComponent mComponent;
 	private PermissionListAdapter mAdapter;
 
@@ -96,7 +91,7 @@ public class PermissionListFragment extends AbstractListFragment<List<Permission
 
 	@Override
 	public void loadData(boolean pullToRefresh) {
-		mPresenter.loadPermissionList(pullToRefresh);
+		getPresenter().loadPermissionList(pullToRefresh);
 	}
 
 	@Override
