@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.emetophobe.permissionviewer.R;
+import com.emetophobe.permissionviewer.dagger.components.DaggerFragmentComponent;
 import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
 import com.emetophobe.permissionviewer.model.AppDetail;
 import com.emetophobe.permissionviewer.presenter.AppListPresenter;
@@ -64,7 +65,9 @@ public class AppListFragment extends AbstractListFragment<List<AppDetail>, AppLi
 	}
 
 	private void injectDependencies() {
-		component = getComponent(FragmentComponent.class);
+		component = DaggerFragmentComponent.builder()
+				.applicationComponent(getAppComponent())
+				.build();
 		component.inject(this);
 	}
 

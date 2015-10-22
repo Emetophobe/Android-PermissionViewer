@@ -28,21 +28,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.emetophobe.permissionviewer.PermissionApp;
 import com.emetophobe.permissionviewer.R;
-import com.emetophobe.permissionviewer.dagger.HasComponent;
-import com.emetophobe.permissionviewer.dagger.components.DaggerFragmentComponent;
-import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
-import com.emetophobe.permissionviewer.dagger.modules.ActivityModule;
 import com.emetophobe.permissionviewer.view.fragments.AppListFragment;
 import com.emetophobe.permissionviewer.view.fragments.PermissionListFragment;
 
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity implements HasComponent<FragmentComponent> {
-	private FragmentComponent component;
-
+public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,20 +44,7 @@ public class MainActivity extends AppCompatActivity implements HasComponent<Frag
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
-		injectDependencies();
 		setupViewPager();
-	}
-
-	private void injectDependencies() {
-		component = DaggerFragmentComponent.builder()
-				.applicationComponent(((PermissionApp) getApplication()).getApplicationComponent())
-				.activityModule(new ActivityModule(this))
-				.build();
-	}
-
-	@Override
-	public FragmentComponent getComponent() {
-		return component;
 	}
 
 	private void setupViewPager() {

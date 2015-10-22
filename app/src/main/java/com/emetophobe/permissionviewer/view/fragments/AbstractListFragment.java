@@ -24,8 +24,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.emetophobe.permissionviewer.PermissionApp;
 import com.emetophobe.permissionviewer.R;
-import com.emetophobe.permissionviewer.dagger.HasComponent;
+import com.emetophobe.permissionviewer.dagger.components.ApplicationComponent;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby.mvp.lce.LceAnimator;
@@ -123,10 +124,11 @@ public abstract class AbstractListFragment<M, V extends MvpLceView<M>, P extends
 	}
 
 	/**
-	 * Gets a component for dependency injection by its type.
+	 * Get the application component.
+	 *
+	 * @return The component.
 	 */
-	@SuppressWarnings("unchecked")
-	protected <C> C getComponent(Class<C> componentType) {
-		return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
+	protected ApplicationComponent getAppComponent() {
+		return ((PermissionApp) getActivity().getApplication()).getApplicationComponent();
 	}
 }

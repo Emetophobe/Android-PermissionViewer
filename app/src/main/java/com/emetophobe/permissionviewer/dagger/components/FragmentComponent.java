@@ -16,8 +16,7 @@
 
 package com.emetophobe.permissionviewer.dagger.components;
 
-import com.emetophobe.permissionviewer.dagger.PerActivity;
-import com.emetophobe.permissionviewer.dagger.modules.ActivityModule;
+import com.emetophobe.permissionviewer.dagger.FragmentScope;
 import com.emetophobe.permissionviewer.dagger.modules.FragmentModule;
 import com.emetophobe.permissionviewer.presenter.AppListPresenter;
 import com.emetophobe.permissionviewer.presenter.PermissionListPresenter;
@@ -28,12 +27,12 @@ import dagger.Component;
 
 
 /**
- * A scope {@link PerActivity} component.
+ * A scope {@link FragmentScope} component.
  * Injects user specific Fragments.
  */
-@PerActivity
-@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, FragmentModule.class})
-public interface FragmentComponent extends ActivityComponent {
+@FragmentScope
+@Component(dependencies = ApplicationComponent.class, modules = {FragmentModule.class})
+public interface FragmentComponent {
 	void inject(AppListFragment appListFragment);
 	void inject(PermissionListFragment permissionListFragment);
 

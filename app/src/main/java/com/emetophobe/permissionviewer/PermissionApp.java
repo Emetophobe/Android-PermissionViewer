@@ -39,7 +39,7 @@ public class PermissionApp extends Application {
 	}
 
 	// For testing
-	public void setComponent(ApplicationComponent applicationComponent) {
-		appComponent = applicationComponent;
+	public void setComponent(ApplicationComponent component) {
+		appComponent = component;
 	}
 }

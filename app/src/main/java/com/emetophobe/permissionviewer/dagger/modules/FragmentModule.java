@@ -16,7 +16,7 @@
 
 package com.emetophobe.permissionviewer.dagger.modules;
 
-import com.emetophobe.permissionviewer.dagger.PerActivity;
+import com.emetophobe.permissionviewer.dagger.FragmentScope;
 import com.emetophobe.permissionviewer.presenter.AppListPresenter;
 import com.emetophobe.permissionviewer.presenter.AppListPresenterImpl;
 import com.emetophobe.permissionviewer.presenter.PermissionListPresenter;
@@ -33,13 +33,13 @@ public class FragmentModule {
 	public FragmentModule() {}
 
 	@Provides
-	@PerActivity
+	@FragmentScope
 	AppListPresenter provideAppListPresenter(AppListHelper appListHelper) {
 		return new AppListPresenterImpl(appListHelper);
 	}
 
 	@Provides
-	@PerActivity
+	@FragmentScope
 	PermissionListPresenter providePermissionListPresenter(PermissionListHelper permissionHelper) {
 		return new PermissionListPresenterImpl(permissionHelper);
 	}

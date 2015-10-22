@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.emetophobe.permissionviewer.R;
+import com.emetophobe.permissionviewer.dagger.components.DaggerFragmentComponent;
 import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
 import com.emetophobe.permissionviewer.model.PermissionDetail;
 import com.emetophobe.permissionviewer.presenter.PermissionListPresenter;
@@ -36,8 +37,8 @@ import java.util.List;
 
 
 public class PermissionListFragment extends AbstractListFragment<List<PermissionDetail>, PermissionListView, PermissionListPresenter> implements PermissionListView {
-	private FragmentComponent mComponent;
-	private PermissionListAdapter mAdapter;
+	private FragmentComponent component;
+	private PermissionListAdapter adapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,17 +61,19 @@ public class PermissionListFragment extends AbstractListFragment<List<Permission
 	@NonNull
 	@Override
 	public PermissionListPresenter createPresenter() {
-		return mComponent.getPermissionListPresenter();
+		return component.getPermissionListPresenter();
 	}
 
 	private void injectDependencies() {
-		mComponent = getComponent(FragmentComponent.class);
-		mComponent.inject(this);
+		component = DaggerFragmentComponent.builder()
+				.applicationComponent(getAppComponent())
+				.build();
+		component.inject(this);
 	}
 
 	private void setupRecyclerView() {
-		mAdapter = new PermissionListAdapter();
-		mAdapter.setCallback(new PermissionListAdapter.Callback() {
+		adapter = new PermissionListAdapter();
+		adapter.setCallback(new PermissionListAdapter.Callback() {
 			@Override
 			public void onItemClick(PermissionDetail permissionDetail) {
 				Intent intent = new Intent(PermissionListFragment.this.getContext(), PermissionDetailActivity.class);
@@ -79,14 +82,14 @@ public class PermissionListFragment extends AbstractListFragment<List<Permission
 			}
 		});
 
-		recyclerView.setAdapter(mAdapter);
+		recyclerView.setAdapter(adapter);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 	}
 
 	@Override
 	public void setData(List<PermissionDetail> data) {
-		mAdapter.setPermissionList(data);
-		mAdapter.notifyDataSetChanged();
+		adapter.setPermissionList(data);
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override

@@ -16,7 +16,7 @@
 
 package com.emetophobe.permissionviewer.presenter;
 
-import com.emetophobe.permissionviewer.dagger.PerActivity;
+import com.emetophobe.permissionviewer.dagger.FragmentScope;
 import com.emetophobe.permissionviewer.helper.PermissionListHelper;
 import com.emetophobe.permissionviewer.model.PermissionDetail;
 import com.emetophobe.permissionviewer.view.PermissionListView;
@@ -31,7 +31,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-@PerActivity
+@FragmentScope
 public class PermissionListPresenterImpl extends MvpBasePresenter<PermissionListView> implements PermissionListPresenter {
 	private Subscriber<List<PermissionDetail>> subscriber;
 	private PermissionListHelper permissionHelper;
