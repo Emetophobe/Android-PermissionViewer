@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.view;
+package com.emetophobe.permissionviewer.ui.applist;
 
 import com.emetophobe.permissionviewer.model.AppDetail;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;

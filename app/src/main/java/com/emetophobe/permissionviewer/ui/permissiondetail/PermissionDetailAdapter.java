@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.view.adapters;
+package com.emetophobe.permissionviewer.ui.permissiondetail;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

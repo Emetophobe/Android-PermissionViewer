@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.dagger.components;
+package com.emetophobe.permissionviewer.injection.components;
 
-import com.emetophobe.permissionviewer.dagger.FragmentScope;
-import com.emetophobe.permissionviewer.dagger.modules.FragmentModule;
-import com.emetophobe.permissionviewer.presenter.AppListPresenter;
-import com.emetophobe.permissionviewer.presenter.PermissionListPresenter;
-import com.emetophobe.permissionviewer.view.fragments.AppListFragment;
-import com.emetophobe.permissionviewer.view.fragments.PermissionListFragment;
+import com.emetophobe.permissionviewer.injection.FragmentScope;
+import com.emetophobe.permissionviewer.injection.modules.FragmentModule;
+import com.emetophobe.permissionviewer.ui.applist.AppListPresenter;
+import com.emetophobe.permissionviewer.ui.permissionlist.PermissionListPresenter;
+import com.emetophobe.permissionviewer.ui.applist.AppListFragment;
+import com.emetophobe.permissionviewer.ui.permissionlist.PermissionListFragment;
 
 import dagger.Component;
 

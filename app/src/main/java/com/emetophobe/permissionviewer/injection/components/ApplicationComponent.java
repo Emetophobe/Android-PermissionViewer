@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.dagger.components;
+package com.emetophobe.permissionviewer.injection.components;
 
 import android.app.Application;
 
-import com.emetophobe.permissionviewer.dagger.modules.ApplicationModule;
+import com.emetophobe.permissionviewer.injection.modules.ApplicationModule;
 import com.emetophobe.permissionviewer.helper.AppListHelper;
 import com.emetophobe.permissionviewer.helper.PermissionListHelper;
-import com.emetophobe.permissionviewer.view.activities.MainActivity;
+import com.emetophobe.permissionviewer.ui.MainActivity;
 
 import javax.inject.Singleton;
 

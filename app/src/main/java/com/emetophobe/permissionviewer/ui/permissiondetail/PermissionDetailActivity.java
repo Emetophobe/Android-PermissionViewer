@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.view.activities;
+package com.emetophobe.permissionviewer.ui.permissiondetail;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -27,7 +27,6 @@ import android.widget.TextView;
 
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.model.PermissionDetail;
-import com.emetophobe.permissionviewer.view.adapters.PermissionDetailAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

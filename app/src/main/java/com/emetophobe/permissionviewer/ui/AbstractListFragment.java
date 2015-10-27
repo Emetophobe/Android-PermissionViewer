@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.view.fragments;
+package com.emetophobe.permissionviewer.ui;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import com.emetophobe.permissionviewer.PermissionApp;
 import com.emetophobe.permissionviewer.R;
-import com.emetophobe.permissionviewer.dagger.components.ApplicationComponent;
+import com.emetophobe.permissionviewer.injection.components.ApplicationComponent;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby.mvp.lce.LceAnimator;

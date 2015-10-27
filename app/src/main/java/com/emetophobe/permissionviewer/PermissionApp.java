@@ -18,9 +18,9 @@ package com.emetophobe.permissionviewer;
 
 import android.app.Application;
 
-import com.emetophobe.permissionviewer.dagger.components.ApplicationComponent;
-import com.emetophobe.permissionviewer.dagger.components.DaggerApplicationComponent;
-import com.emetophobe.permissionviewer.dagger.modules.ApplicationModule;
+import com.emetophobe.permissionviewer.injection.components.ApplicationComponent;
+import com.emetophobe.permissionviewer.injection.components.DaggerApplicationComponent;
+import com.emetophobe.permissionviewer.injection.modules.ApplicationModule;
 
 
 public class PermissionApp extends Application {

@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.presenter;
+package com.emetophobe.permissionviewer.ui.permissionlist;
 
-import com.emetophobe.permissionviewer.view.AppListView;
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 
 
-public interface AppListPresenter extends MvpPresenter<AppListView> {
-	void loadAppList(boolean pullToRefresh);
+public interface PermissionListPresenter extends MvpPresenter<PermissionListView> {
+	void loadPermissionList(boolean pullToRefresh);
 }

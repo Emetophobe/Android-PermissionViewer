@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.view.adapters;
+package com.emetophobe.permissionviewer.ui.permissionlist;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,31 +23,58 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.emetophobe.permissionviewer.R;
+import com.emetophobe.permissionviewer.model.PermissionDetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-// Used by the AppDetailActivity
-public class AppDetailAdapter extends RecyclerView.Adapter<AppDetailAdapter.ViewHolder> {
-	private List<String> permissionList;
+// Used by the PermissionListFragment
+public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAdapter.ViewHolder> {
+	private List<PermissionDetail> permissionList;
+	private Callback callback;
 
-	public AppDetailAdapter(List<String> permissionList) {
-		this.permissionList = permissionList;
+	public PermissionListAdapter() {
+		permissionList = new ArrayList<>();
+	}
+
+	public void setPermissionList(List<PermissionDetail> data) {
+		permissionList.clear();
+		if (data != null) {
+			permissionList.addAll(data);
+		}
+		notifyDataSetChanged();
+	}
+
+	public void setCallback(Callback callback) {
+		this.callback = callback;
 	}
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_permission_list_item, parent, false);
-		return new ViewHolder(itemView);
+		final ViewHolder viewHolder = new ViewHolder(itemView);
+		viewHolder.name.setOnClickListener(view -> {
+			if (callback != null) {
+				callback.onItemClick(viewHolder.permissionDetail);
+			}
+		});
+
+		return viewHolder;
 	}
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		String permission = permissionList.get(position);
-		holder.name.setText(permission);
+		PermissionDetail detail = permissionList.get(position);
+		holder.permissionDetail = detail;
+
+		// Set the permission name
+		String name = detail.getName() + " (" + detail.getAppList().size() + ")";
+		holder.name.setText(name);
+
 	}
 
 	@Override
@@ -57,11 +84,19 @@ public class AppDetailAdapter extends RecyclerView.Adapter<AppDetailAdapter.View
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 		@Bind(R.id.permission_name)
-		public TextView name;
+		TextView name;
+
+		PermissionDetail permissionDetail;
 
 		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
+			//name = (TextView) itemView.findViewById(R.id.permission_name);
 		}
 	}
+
+	public interface Callback {
+		void onItemClick(PermissionDetail permissionDetail);
+	}
 }
+

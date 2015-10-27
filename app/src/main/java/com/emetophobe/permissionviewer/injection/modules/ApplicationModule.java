@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.dagger.modules;
+package com.emetophobe.permissionviewer.injection.modules;
 
 import android.app.Application;
 import android.content.SharedPreferences;

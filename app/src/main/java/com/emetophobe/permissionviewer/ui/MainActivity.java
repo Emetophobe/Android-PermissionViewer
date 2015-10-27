@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.view.activities;
+package com.emetophobe.permissionviewer.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,8 +29,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.emetophobe.permissionviewer.R;
-import com.emetophobe.permissionviewer.view.fragments.AppListFragment;
-import com.emetophobe.permissionviewer.view.fragments.PermissionListFragment;
+import com.emetophobe.permissionviewer.ui.applist.AppListFragment;
+import com.emetophobe.permissionviewer.ui.permissionlist.PermissionListFragment;
 
 import java.util.Locale;
 

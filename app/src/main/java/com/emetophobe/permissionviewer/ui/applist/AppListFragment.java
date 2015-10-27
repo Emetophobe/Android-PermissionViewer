@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.view.fragments;
+package com.emetophobe.permissionviewer.ui.applist;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,20 +25,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.emetophobe.permissionviewer.R;
-import com.emetophobe.permissionviewer.dagger.components.DaggerFragmentComponent;
-import com.emetophobe.permissionviewer.dagger.components.FragmentComponent;
-import com.emetophobe.permissionviewer.model.PermissionDetail;
-import com.emetophobe.permissionviewer.presenter.PermissionListPresenter;
-import com.emetophobe.permissionviewer.view.PermissionListView;
-import com.emetophobe.permissionviewer.view.activities.PermissionDetailActivity;
-import com.emetophobe.permissionviewer.view.adapters.PermissionListAdapter;
+import com.emetophobe.permissionviewer.injection.components.DaggerFragmentComponent;
+import com.emetophobe.permissionviewer.injection.components.FragmentComponent;
+import com.emetophobe.permissionviewer.model.AppDetail;
+import com.emetophobe.permissionviewer.ui.appdetail.AppDetailActivity;
+import com.emetophobe.permissionviewer.ui.AbstractListFragment;
 
 import java.util.List;
 
 
-public class PermissionListFragment extends AbstractListFragment<List<PermissionDetail>, PermissionListView, PermissionListPresenter> implements PermissionListView {
+public class AppListFragment extends AbstractListFragment<List<AppDetail>, AppListView, AppListPresenter> implements AppListView {
 	private FragmentComponent component;
-	private PermissionListAdapter adapter;
+	private AppListAdapter adapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,8 +58,8 @@ public class PermissionListFragment extends AbstractListFragment<List<Permission
 
 	@NonNull
 	@Override
-	public PermissionListPresenter createPresenter() {
-		return component.getPermissionListPresenter();
+	public AppListPresenter createPresenter() {
+		return component.getAppListPresenter();
 	}
 
 	private void injectDependencies() {
@@ -72,12 +70,12 @@ public class PermissionListFragment extends AbstractListFragment<List<Permission
 	}
 
 	private void setupRecyclerView() {
-		adapter = new PermissionListAdapter();
-		adapter.setCallback(new PermissionListAdapter.Callback() {
+		adapter = new AppListAdapter(getContext());
+		adapter.setCallback(new AppListAdapter.Callback() {
 			@Override
-			public void onItemClick(PermissionDetail permissionDetail) {
-				Intent intent = new Intent(PermissionListFragment.this.getContext(), PermissionDetailActivity.class);
-				intent.putExtra(PermissionDetailActivity.EXTRA_PERMISSION_DETAIL, permissionDetail);
+			public void onItemClick(AppDetail appDetail) {
+				Intent intent = new Intent(AppListFragment.this.getContext(), AppDetailActivity.class);
+				intent.putExtra(AppDetailActivity.EXTRA_APP_DETAIL, appDetail);
 				startActivity(intent);
 			}
 		});
@@ -87,19 +85,18 @@ public class PermissionListFragment extends AbstractListFragment<List<Permission
 	}
 
 	@Override
-	public void setData(List<PermissionDetail> data) {
-		adapter.setPermissionList(data);
+	public void setData(List<AppDetail> data) {
+		adapter.setAppList(data);
 		adapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public void loadData(boolean pullToRefresh) {
-		getPresenter().loadPermissionList(pullToRefresh);
+		getPresenter().loadAppList(pullToRefresh);
 	}
 
 	@Override
 	protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
-		return getString(R.string.error_loading_permission_list, e.toString());
+		return getString(R.string.error_loading_app_list, e.toString());
 	}
-
 }

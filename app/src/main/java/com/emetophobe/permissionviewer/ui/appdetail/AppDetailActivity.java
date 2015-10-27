@@ -15,7 +15,7 @@
  */
 
 
-package com.emetophobe.permissionviewer.view.activities;
+package com.emetophobe.permissionviewer.ui.appdetail;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -36,7 +36,6 @@ import android.widget.Toast;
 
 import com.emetophobe.permissionviewer.R;
 import com.emetophobe.permissionviewer.model.AppDetail;
-import com.emetophobe.permissionviewer.view.adapters.AppDetailAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

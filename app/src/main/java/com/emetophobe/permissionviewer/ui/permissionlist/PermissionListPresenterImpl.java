@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.presenter;
+package com.emetophobe.permissionviewer.ui.permissionlist;
 
-import com.emetophobe.permissionviewer.dagger.FragmentScope;
+import com.emetophobe.permissionviewer.injection.FragmentScope;
 import com.emetophobe.permissionviewer.helper.PermissionListHelper;
 import com.emetophobe.permissionviewer.model.PermissionDetail;
-import com.emetophobe.permissionviewer.view.PermissionListView;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.util.List;

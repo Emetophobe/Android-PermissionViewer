@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package com.emetophobe.permissionviewer.view;
+package com.emetophobe.permissionviewer.injection;
 
-import com.emetophobe.permissionviewer.model.PermissionDetail;
-import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-import java.util.List;
+import javax.inject.Scope;
 
 
-public interface PermissionListView extends MvpLceView<List<PermissionDetail>> {
-	// // all method are derived MvpLceView for now
-}
+/**
+ * A scoping annotation to permit objects whose lifetime should
+ * conform to the life of the activity to be memorized in the
+ * correct component.
+ */
+@Scope
+@Retention(RetentionPolicy.RUNTIME)
+public @interface FragmentScope {}

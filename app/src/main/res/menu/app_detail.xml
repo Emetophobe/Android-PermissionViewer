@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 	  xmlns:tools="http://schemas.android.com/tools"
 	  xmlns:app="http://schemas.android.com/apk/res-auto"
-	  tools:context="com.emetophobe.permissionviewer.view.activities.AppDetailActivity">
+	  tools:context="com.emetophobe.permissionviewer.ui.appdetail.AppDetailActivity">
 
 	<item
 		android:id="@+id/action_app_settings"
