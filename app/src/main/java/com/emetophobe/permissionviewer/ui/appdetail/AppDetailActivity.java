@@ -75,7 +75,7 @@ public class AppDetailActivity extends AppCompatActivity {
 		appIcon.setImageDrawable(getAppIcon());
 		packageName.setText(appDetail.getPackageName());
 		appLabel.setText(appDetail.getAppLabel());
-		permissionCount.setText(getString(R.string.permission_count, appDetail.getPermissionList().size()));
+		permissionCount.setText(getString(R.string.permission_count, appDetail.getPermissions().size()));
 
 		setupRecyclerView();
 	}
@@ -101,7 +101,7 @@ public class AppDetailActivity extends AppCompatActivity {
 	}
 
 	private void setupRecyclerView() {
-		AppDetailAdapter adapter = new AppDetailAdapter(appDetail.getPermissionList());
+		AppDetailAdapter adapter = new AppDetailAdapter(appDetail.getPermissions());
 		recyclerView.setAdapter(adapter);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 	}

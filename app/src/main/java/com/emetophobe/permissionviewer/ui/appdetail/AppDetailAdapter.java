@@ -55,9 +55,9 @@ public class AppDetailAdapter extends RecyclerView.Adapter<AppDetailAdapter.View
 		return permissionList.size();
 	}
 
-	public static class ViewHolder extends RecyclerView.ViewHolder {
+	static class ViewHolder extends RecyclerView.ViewHolder {
 		@Bind(R.id.permission_name)
-		public TextView name;
+		TextView name;
 
 		public ViewHolder(View itemView) {
 			super(itemView);

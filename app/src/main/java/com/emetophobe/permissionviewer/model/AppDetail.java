@@ -27,13 +27,13 @@ public class AppDetail implements Parcelable {
 	private String packageName;
 	private String appLabel;
 	private int systemFlag;
-	private List<String> permissionList;
+	private List<String> permissions;
 
 	public AppDetail(String packageName, String appLabel, int systemFlag, List<String> permissions) {
 		this.packageName = packageName;
 		this.appLabel = appLabel;
 		this.systemFlag = systemFlag;
-		this.permissionList = new ArrayList<>(permissions);
+		this.permissions = new ArrayList<>(permissions);
 	}
 
 	public String getPackageName() {
@@ -48,15 +48,15 @@ public class AppDetail implements Parcelable {
 		return systemFlag;
 	}
 
-	public List<String> getPermissionList() {
-		return permissionList;
+	public List<String> getPermissions() {
+		return permissions;
 	}
 
 	protected AppDetail(Parcel in) {
 		packageName = in.readString();
 		appLabel = in.readString();
 		systemFlag = in.readInt();
-		permissionList = in.createStringArrayList();
+		permissions = in.createStringArrayList();
 
 	}
 
@@ -70,7 +70,7 @@ public class AppDetail implements Parcelable {
 		dest.writeString(packageName);
 		dest.writeString(appLabel);
 		dest.writeInt(systemFlag);
-		dest.writeStringList(permissionList);
+		dest.writeStringList(permissions);
 	}
 
 	public static final Creator<AppDetail> CREATOR = new Creator<AppDetail>() {

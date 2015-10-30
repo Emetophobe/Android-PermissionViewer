@@ -75,7 +75,7 @@ public class PermissionDetailAdapter extends RecyclerView.Adapter<PermissionDeta
 		return appList.size();
 	}
 
-	public static class ViewHolder extends RecyclerView.ViewHolder {
+	static class ViewHolder extends RecyclerView.ViewHolder {
 		@Bind(R.id.app_icon)
 		ImageView icon;
 

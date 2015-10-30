@@ -42,6 +42,10 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 	private Callback callback;
 	private Context context;
 
+	public interface Callback {
+		void onItemClick(AppDetail appDetail);
+	}
+
 	public AppListAdapter(Context context) {
 		this.context = context;
 		this.appList = new ArrayList<>();
@@ -79,7 +83,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 		holder.appDetail = detail;
 
 		// Set the app label
-		String appLabel = detail.getAppLabel() + " (" + detail.getPermissionList().size() + ")";
+		String appLabel = detail.getAppLabel() + " (" + detail.getPermissions().size() + ")";
 		holder.label.setText(appLabel);
 
 		// Set the app icon (TODO: Should we load or cache the drawables in a separate thread?)
@@ -98,7 +102,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 		return appList.size();
 	}
 
-	public static class ViewHolder extends RecyclerView.ViewHolder {
+	static class ViewHolder extends RecyclerView.ViewHolder {
 		@Bind(R.id.layout_content)
 		View contentLayout;
 
@@ -114,10 +118,6 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.ViewHold
 			super(itemView);
 			ButterKnife.bind(this, itemView);
 		}
-	}
-
-	public interface Callback {
-		void onItemClick(AppDetail appDetail);
 	}
 }
 

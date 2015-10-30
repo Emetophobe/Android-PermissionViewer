@@ -37,6 +37,10 @@ public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAd
 	private List<PermissionDetail> permissionList;
 	private Callback callback;
 
+	public interface Callback {
+		void onItemClick(PermissionDetail permissionDetail);
+	}
+
 	public PermissionListAdapter() {
 		permissionList = new ArrayList<>();
 	}
@@ -82,7 +86,7 @@ public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAd
 		return permissionList.size();
 	}
 
-	public static class ViewHolder extends RecyclerView.ViewHolder {
+	static class ViewHolder extends RecyclerView.ViewHolder {
 		@Bind(R.id.permission_name)
 		TextView name;
 
@@ -93,10 +97,6 @@ public class PermissionListAdapter extends RecyclerView.Adapter<PermissionListAd
 			ButterKnife.bind(this, itemView);
 			//name = (TextView) itemView.findViewById(R.id.permission_name);
 		}
-	}
-
-	public interface Callback {
-		void onItemClick(PermissionDetail permissionDetail);
 	}
 }
 

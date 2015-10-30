@@ -69,7 +69,7 @@ public class PermissionListHelper {
 		// Build a temporary permission map
 		HashMap<String, List<AppDetail>> map = new HashMap<>();
 		for (AppDetail appDetail : appList) {
-			for (String permission : appDetail.getPermissionList()) {
+			for (String permission : appDetail.getPermissions()) {
 				List<AppDetail> apps = map.get(permission);
 				if (apps == null) {
 					apps = new ArrayList<>();

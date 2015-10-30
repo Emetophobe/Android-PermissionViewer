@@ -132,8 +132,6 @@ public class AppListHelper {
 	 * @return The list of strings, or null if there was an error.
 	 */
 	private List<String> getPermissions(String packageName) {
-		List<String> permissionList = new ArrayList<>();
-
 		// Get the package info
 		PackageInfo packageInfo;
 		try {
@@ -141,6 +139,8 @@ public class AppListHelper {
 		} catch (PackageManager.NameNotFoundException e) {
 			return null;
 		}
+
+		List<String> permissionList = new ArrayList<>();
 
 		// Get the list of permissions and add them to the permission list
 		if (packageInfo.requestedPermissions != null && packageInfo.requestedPermissions.length > 0) {
@@ -171,7 +171,7 @@ public class AppListHelper {
 	private Comparator<AppDetail> sortByCount = new Comparator<AppDetail>() {
 		@Override
 		public int compare(AppDetail left, AppDetail right) {
-			return right.getPermissionList().size() - left.getPermissionList().size();
+			return right.getPermissions().size() - left.getPermissions().size();
 		}
 	};
 }
