@@ -21,6 +21,7 @@ Third party libraries
 * [Dagger 2][2]
 * [RxJava][3]
 * [Retrolambda][4]
+* [Mosby][5]
 
 
 License
@@ -45,3 +46,4 @@ License
 [2]: http://google.github.io/dagger/
 [3]: https://github.com/ReactiveX/RxJava
 [4]: https://github.com/orfjackal/retrolambda
+[5]: https://github.com/sockeqwe/mosby
